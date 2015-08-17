@@ -19,13 +19,13 @@ end
 group :development, :test do
   gem 'pry'
   gem 'pry-nav'
-  gem 'rspec-rails', '2.99'
+  gem 'rspec-rails'
 end
-
+#, '2.99'
 group :test do
-  gem 'database_cleaner', '1.2.0'
+  gem 'database_cleaner'
 end
-
+#, '1.2.0'
 group :production do
   gem 'rails_12factor'
 end
