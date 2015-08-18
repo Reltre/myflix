@@ -18,10 +18,10 @@ end
 
 group :development, :test do
   gem 'pry'
-  gem 'pry-nav'
-  gem 'rspec-rails'
+  gem 'pry-byebug' #switched from pry-nav
+  gem 'rspec-rails' #, '2.99'
 end
-#, '2.99'
+
 group :test do
   gem 'database_cleaner'
 end
