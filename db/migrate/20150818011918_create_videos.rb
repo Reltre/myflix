@@ -7,8 +7,8 @@ class CreateVideos < ActiveRecord::Migration
       t.text :description
       t.string :small_cover_url
       t.string :large_cover_url
-      
-      t.timstamps null: false
+
+      t.timestamps null: false
     end
   end
 end
