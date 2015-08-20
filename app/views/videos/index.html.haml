@@ -3,7 +3,7 @@
     %h3= link_to "TV Comedies"
   .videos.row
     - 6.times do
-      - video = @videos.sample
+      - video = @categories[0].videos.sample
       .video.col-sm-2
         = link_to video_path(video)  do
           %img(src="#{video.small_cover_url}")
@@ -13,7 +13,7 @@
     %h3= link_to "TV Dramas"
   .videos.row
     - 6.times do
-      - video = @videos.sample
+      - video = @categories[1].videos.sample
       .video.col-sm-2
         = link_to video_path(video)  do
           %img(src="#{video.small_cover_url}")
@@ -23,7 +23,8 @@
     %h3= link_to "Reality TV"
   .videos.row
     - 6.times do
-      - video = @videos.sample
+      - video = @categories[2].videos.sample
       .video.col-sm-2
-        = link_to video_path(video)  do
-          %img(src="#{video.small_cover_url}")
+        - unless video.nil?
+          = link_to video_path(video)  do
+            %img(src="#{video.small_cover_url}")
