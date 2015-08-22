@@ -1,6 +1,6 @@
 %article.video_category
   %header
-    %h3= link_to "TV Comedies"
+    %h3= link_to @categories[0].name, category_path(@categories[0])
   .videos.row
     - 6.times do
       - video = @categories[0].videos.sample
@@ -10,7 +10,7 @@
 
 %article.video_category
   %header
-    %h3= link_to "TV Dramas"
+    %h3= link_to @categories[1].name, category_path(@categories[1])
   .videos.row
     - 6.times do
       - video = @categories[1].videos.sample
@@ -20,7 +20,7 @@
 
 %article.video_category
   %header
-    %h3= link_to "Reality TV"
+    %h3= link_to @categories[2].name, category_path(@categories[2])
   .videos.row
     - 6.times do
       - video = @categories[2].videos.sample

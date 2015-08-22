@@ -1,0 +1,16 @@
+%section.genre
+  %header.clearfix
+    %h1= @category.name
+    .genre_sorting
+      Sort by:
+      %select(name="")
+        %option(value="a-z") Title: A - Z
+        %option(value="z-a") Title: Z - A
+        %option(value="rating") Rating
+  %article.row#category_videos
+    - 30.times do
+      - video = @category.videos.sample
+      .video.col-md-2
+        - unless video.nil?
+          = link_to "#{video.title}" do
+            %img(src="/tmp/#{format_name(video.title)}.jpg")
