@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'rails_helper'
 
 RSpec.describe Video do
@@ -9,6 +8,6 @@ RSpec.describe Video do
      large_cover_url: "http://dummyimage.com/665x375/000000/00a2ff")
      futurama.save
 
-    expect(Video.first.title).to eq("Futurama")
+    expect(Video.first).to eq(futurama)
   end
 end
