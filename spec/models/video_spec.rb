@@ -19,12 +19,12 @@ RSpec.describe Video, type: :model do
     expect(futurama.category).to eq(drama)
   end
 
-  it "has a title" do
+  it "is not a valid video without title" do
     south_park = Video.new(description: "funny video")
     expect{south_park.save!}.to raise_error(ActiveRecord::RecordInvalid)
   end
 
-  it "has a description" do
+  it "is not valid video without a description" do
     south_park = Video.new(title: "South Park")
     expect{south_park.save!}.to raise_error(ActiveRecord::RecordInvalid)
   end

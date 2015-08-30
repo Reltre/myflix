@@ -18,7 +18,7 @@ RSpec.describe Category, type: :model do
     expect(drama.videos).to eq( [futurama,south_park] )
   end
 
-  it "has a name" do
+  it "is not a valid category without a name" do
     expect{Category.create!}.to raise_error(ActiveRecord::RecordInvalid)
   end
 end
