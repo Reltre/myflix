@@ -17,4 +17,8 @@ RSpec.describe Category, type: :model do
     [futurama,south_park].each { |video| video.save!(validate: false) }
     expect(drama.videos).to eq( [futurama,south_park] )
   end
+
+  it "has a name" do
+    expect{Category.create!}.to raise_error(ActiveRecord::RecordInvalid)
+  end
 end
