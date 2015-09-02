@@ -29,5 +29,10 @@ describe Video, type: :model do
       family_guy.save and family_ties.save
       expect(Video.search_by_title "Family").to eq([family_ties, family_guy])
     end
+
+    it "return an empty array if an empty string is the search parameter" do
+      Video.create(title: "South Park", description: "colorado small town.")
+      expect(Video.search_by_title "").to eq([])
+    end
   end
 end
