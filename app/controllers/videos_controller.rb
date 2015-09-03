@@ -9,6 +9,5 @@ class VideosController < ApplicationController
 
   def search
     @videos = Video.search_by_title params[:q]
-    binding.pry
   end
 end
