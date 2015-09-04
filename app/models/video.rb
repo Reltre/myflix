@@ -7,5 +7,4 @@ class Video < ActiveRecord::Base
     Video.where('title LIKE ?', "%#{title}%").order(created_at: :desc)
   end
 
-
 end

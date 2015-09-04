@@ -1,9 +1,9 @@
 class Category < ActiveRecord::Base
-  has_many :videos, -> { order("title") }
+  has_many :videos, -> { order("created_at DESC") }
   validates :name, presence: true
 
   #should grab the most recent 6 videos
   def recent_videos
-    Video.where(category_id: self.id).order(created_at: :desc).limit(6)
+    videos.limit(6)
   end
 end
