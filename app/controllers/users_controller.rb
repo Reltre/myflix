@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def new
-    render text: "This is a placeholder for registering"
+    @user = User.new
   end
 
   def create

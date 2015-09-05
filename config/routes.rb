@@ -10,8 +10,10 @@ Myflix::Application.routes.draw do
   end
 
   resources :categories, only: [:create, :show]
-  resources :users, only: [:create, :new]
-  resources :sessions, only: [:create, :new]
+  resources :users, only: [:create]
+  resources :sessions, only: [:create]
+  get '/login', to: 'sessionss#new'
+  get '/register', to: 'users#new'
 
   root 'sessions#front'
 end
