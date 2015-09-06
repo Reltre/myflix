@@ -14,7 +14,7 @@ Myflix::Application.routes.draw do
 
   get '/log_in', to: 'sessions#new'
   post '/log_in', to: 'sessions#create'
-  post '/log_out', to: 'sessions#destroy'
+  delete '/log_out', to: 'sessions#destroy'
   get '/register', to: 'users#new'
 
   root 'pages#front'
