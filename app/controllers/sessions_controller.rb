@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by_email(params[:email])
     if user && user.authenticate(params[:password])
-      set_user(user)
+      set_current_user(user)
       flash[:info] = 'You are signed in, enjoy!'
       redirect_to home_path, info: 'You are signed in, enjoy!'
     else
@@ -19,12 +19,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-  #  respond_to do |format|
-  #    format.html { redirect_to :root }
-  #    format.js do
-  #      render js: "window.location.href(#{root_path});"
-  #    end
-    set_user
+    set_current_user
     flash[:info] = 'You are signed out.'
     redirect_to :root
   end

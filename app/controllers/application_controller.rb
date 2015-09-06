@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :require_login
   helper_method :logged_in?, :current_user
 
-  def set_user(user = nil)
+  def set_current_user(user = nil)
     if user
       session[:user_id] = user.id
     else
