@@ -5,7 +5,18 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Video.create(title:'Family Guy',small_cover_url: '/public/family_guy.jpg')
-Video.create(title:'Monk', small_cover_url: '/public/monk.jpg')
-Video.create(title:'South Park', small_cover_url: '/public/south_park.jpg')
-Video.create(title:'Futurama', small_cover_url: '/public/futurama.jpg')
+comedy = Category.create!(name:'TV Comedies')
+drama = Category.create!(name:'TV Dramas')
+Category.create!(name:'Reality TV')
+
+Video.create!(title:'South Park',description: "going down to...", small_cover_url: '/tmp/south_park.jpg', category: comedy)
+Video.create!(title:'Family Guy',description: "family fun", small_cover_url: '/tmp/family_guy.jpg', category: comedy)
+Video.create!(title:'Monk',description: "detective", small_cover_url: '/tmp/monk.jpg', category: drama)
+Video.create!(title:'South Park',description: "going down to...", small_cover_url: '/tmp/south_park.jpg', category: comedy)
+Video.create!(title:'Futurama',description: "year 3000", small_cover_url: '/tmp/futurama.jpg', category: comedy)
+
+
+Video.create!(title:'Monk',description: "detective", small_cover_url: '/tmp/monk.jpg', category: drama)
+Video.create!(title:'Futurama',description: "year 3000", small_cover_url: '/tmp/futurama.jpg', category: comedy)
+Video.create!(title:'South Park',description: "going down to...", small_cover_url: '/tmp/south_park.jpg', category: comedy)
+Video.create!(title:'Family Guy',description: "family fun",small_cover_url: '/tmp/family_guy.jpg', category: comedy)

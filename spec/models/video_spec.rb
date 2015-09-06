@@ -5,7 +5,7 @@ describe Video, type: :model do
   it {should validate_presence_of(:title) }
   it {should validate_presence_of(:description) }
 
-  describe "#search_by_title" do
+  describe ".search_by_title" do
     it "returns an empty array is there is no match" do
       Video.create(title: "Monk", description: "detective work")
       expect(Video.search_by_title "Doctor Who").to eq([])
