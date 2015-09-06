@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :logged_in?
+
+  before_action :require_login
+  helper_method :logged_in?, :current_user
 
   def set_user(user = nil)
     if user
@@ -16,5 +18,12 @@ class ApplicationController < ActionController::Base
 
   def logged_in?
     !!current_user
+  end
+
+  def require_login
+    unless logged_in?
+      flash[:info] = "You must be logged in to access that page."
+      redirect_to log_in_path
+    end
   end
 end

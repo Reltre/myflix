@@ -2,23 +2,22 @@
   %h1.col-md-2
     = link_to "MyFLiX", root_path
   - if logged_in?
-    %ul.col-md-4.clearfix
+    %ul.col-md-4.clearfix.list-unstyled.list-inline#my_options
       %li= link_to "Videos"
       %li= link_to "My Queue"
       %li= link_to "People"
-      %form.col-md-5.navbar-form(action="/videos/search" method="get")
+    %form.col-md-5.navbar-form(action="/videos/search" method="get")
       .form-group
         %input.form-control(type="text" name="q" placeholder="Search for videos here")
-        %button.btn.btn-default(type="submit") Search
-        #user_links.pull-right
-        %ul
+      %button.btn.btn-default(type="submit") Search
+    #user_links.pull-right
+      %ul
         %li.dropdown
           %a(href="#" id="dlabel" role="button" data-toggle="dropdown" class="dropdown-toggle" data-target="#")
-            Welcome, Philip J. Fry
+            = "#{current_user.full_name}"
             %b.caret
-            %ul.dropdown-menu(role="menu" aria-labelledby="dlabel")
+          %ul.dropdown-menu(role="menu" aria-labelledby="dlabel")
             %li
               %a(href="#") Account
               %a(href="#") Plan and Billing
               = link_to "Sign Out", sign_out_path, method: 'post'
-            -#, remote: true, method: 'post'
