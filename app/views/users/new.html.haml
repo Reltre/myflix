@@ -1,10 +1,10 @@
 %section.register.container
   .row
     .col-sm-10.col-sm-offset-1
-      = bootstrap_form_for @user, layout: :horizontal, label_col: 'col-sm-2', control_col: 'col-sm-10' do |f|
-        %header
-          %h1 Register
-        = f.email_field :username, label: "Email Address"
-        = f.password_field :password, label: "Password"
-        = f.form_group do
-          = f.submit "Sign Up"
+    = bootstrap_form_for @user, layout: :horizontal, label_col: 'col-sm-2', control_col: 'col-sm-10' do |f|
+      %header
+        %h1 Register
+      = f.email_field :username, label: "Email Address"
+      = f.password_field :password, label: "Password"
+      = f.form_group do
+        = f.submit "Sign Up"
