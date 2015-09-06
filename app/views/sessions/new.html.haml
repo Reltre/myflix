@@ -1,10 +1,10 @@
 %section.sign_in.container
   .row
     .col-sm-10.col-sm-offset-1
-      = bootstrap_form_tag layout: :horizontal, url: login_path, label_col: 'col-sm-2', control_col: 'col-sm-10' do |f|
+      = bootstrap_form_tag layout: :horizontal, url: log_in_path, label_col: 'col-sm-2', control_col: 'col-sm-10' do |f|
         %header
           %h1 Sign in
-        = f.email_field :username, label: "Email Address"
+        = f.email_field :email, label: "Email Address"
         = f.password_field :password, label: "Password"
         = f.form_group do
           = f.submit "Sign Up"
