@@ -3,7 +3,7 @@ require 'rails_helper'
 describe UsersController do
 
   describe "GET new" do
-    it "assigns a new User to @user" do
+    it "assigns @user" do
       get :new
       expect(assigns(:user)).to be_a_new(User)
     end
@@ -13,29 +13,30 @@ describe UsersController do
   describe "POST create" do
     it { should permit(:email, :password, :full_name).for(:create) }
 
-    it "assigns @user" do
-      user = Fabricate.build(:user)
-      post :create, user: { email: user.email,
-                           password: user.password ,
-                           full_name: user.full_name }
-      expect(assigns(:user)).to have_attributes(email: user.email,
-                                                password: user.password ,
-                                                full_name: user.full_name)
+    it "sets user" do
+      post :create, user: Fabricate.attributes_for(:user)
+      expect(assigns(:user)).to be_instance_of(User)
     end
 
-    it "redirects when @user saves" do
-      user = Fabricate.build(:user)
-      post :create, user: { email: user.email,
-                           password: user.password ,
-                           full_name: user.full_name }
-      expect(response).to redirect_to log_in_path
+    context "with valid input" do
+      before { post :create, user: Fabricate.attributes_for(:user) }
+
+      it { expect(User.count).to eq(1) }
+
+      it { expect(response).to redirect_to log_in_path }
     end
 
-    it "renders new template when @user does not save" do
-      user = Fabricate.build(:user)
-      post :create, user: { email: user.email,
-                           full_name: user.full_name }
-      expect(response).to render_template :new
+    context "with invalid input" do
+      let(:user) { Fabricate.build(:user) }
+
+      before do
+        post :create, user: { email: user.email, full_name: user.full_name }
+      end
+
+      it { expect(User.count).to eq(0) }
+
+      it { expect(response).to render_template :new }
+
     end
   end
 end

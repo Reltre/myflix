@@ -23,26 +23,39 @@ describe SessionsController do
       expect(assigns(:user)).to eq(user)
     end
 
-    it "redirects to home upon successful authentication" do
-      user = Fabricate.build(:user)
-      password = user.password
-      user.save!
-      post :create, email: user.email, password: password
-      expect(response).to redirect_to home_path
+
+    context "with valid credentials" do
+      before do
+        user = Fabricate.attributes_for(:user)
+        User.create(user)
+        post :create, email: user[:email], password: user[:password]
+      end
+
+      it { should set_session[:user_id] }
+      it { should set_flash[:info] }
+      it { expect(response).to redirect_to home_path }
     end
 
-    it "redirects to log in page upon failed authentication" do
-      user = Fabricate(:user)
-      post :create, email: user.email, password: "failure imminent"
-      expect(response).to redirect_to log_in_path
+    context "with invalid credentials" do
+      before do
+        Fabricate(:user)
+        post :create
+      end
+
+      it { should_not set_session[:user_id] }
+      it { should set_flash[:danger] }
+      it { expect(response).to redirect_to log_in_path }
     end
   end
 
-  describe "DELETE destroy" do
-    it "redirects to front page upon log out" do
+  describe "GET destroy" do
+    before do
       log_in
-      delete :destroy
-      expect(response).to redirect_to root_path
+      get :destroy
     end
+
+    it { should set_flash[:info] }
+    it { should set_session[:user_id].to nil }
+    it { expect(response).to redirect_to root_path }
   end
 end
