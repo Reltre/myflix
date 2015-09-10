@@ -6,5 +6,4 @@ class Video < ActiveRecord::Base
     return [] if title.blank?
     Video.where('title ILIKE ?', "%#{title}%").order(created_at: :desc)
   end
-
 end
