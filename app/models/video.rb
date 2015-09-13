@@ -9,7 +9,11 @@ class Video < ActiveRecord::Base
   end
 
   def calculate_rating
-    return 0 if reviews.empty?
-    reviews.reduce(0) { |sum, review| sum + review.rating } / reviews.size.to_f
+    return 0.0 if reviews.empty?
+    rating =
+    reviews.reduce(0) do |sum, review|
+      sum + review.rating
+    end
+    ( rating / reviews.size.to_f ).round(1)
   end
 end

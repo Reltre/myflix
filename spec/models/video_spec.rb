@@ -41,12 +41,11 @@ describe Video, type: :model do
     let(:video) { Fabricate(:video) }
 
     it "returns 0 if there are no reviews" do
-      expect(video.calculate_rating).to eq(0)
+      expect(video.calculate_rating).to eq(0.0)
     end
 
     it "returns a single integer value if there is one review" do
-      review = Fabricate(:review)
-      video.reviews << review
+      review = Fabricate(:review, video: video)
       expect(video.calculate_rating).to eq(review.rating)
     end
 
@@ -55,7 +54,7 @@ describe Video, type: :model do
       review2 = Fabricate(:review, video: video)
       review3 = Fabricate(:review, video: video)
       average = (review1.rating + review2.rating + review3.rating) / 3.0
-      expect(average).to eq(video.calculate_rating)
+      expect(average.round(1)).to eq(video.calculate_rating)
     end
   end
 end

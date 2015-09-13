@@ -7,6 +7,10 @@ Myflix::Application.routes.draw do
     collection do
       get 'search', to: 'videos#search'
     end
+
+    member do
+      post 'add_review', to: 'videos#add_review'
+    end
   end
 
   resources :categories, only: [:create, :show]
@@ -16,6 +20,5 @@ Myflix::Application.routes.draw do
   get '/log_out', to: 'sessions#destroy'
   get '/register', to: 'users#new'
   post '/log_in', to: 'sessions#create'
-  
   root 'pages#front'
 end

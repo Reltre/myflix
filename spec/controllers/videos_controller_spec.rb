@@ -29,4 +29,25 @@ describe VideosController do
       expect(response).to redirect_to log_in_path
     end
   end
+
+  describe "POST add_review" do
+    before do
+      log_in
+      review = Fabricate.build(:review, video_id: video.id)
+      post :add_review, id: video.id, rating: review.rating, description: review.description
+    end
+
+
+    it "sets review" do
+      expect(assigns(:review)).to be_instance_of(Review)
+    end
+
+    it "saves a review" do
+      expect(Review.count).to eq(1)
+    end
+
+    it "renders the page if input is valid" do
+      expect(response).to render_template :show
+    end
+  end
 end
