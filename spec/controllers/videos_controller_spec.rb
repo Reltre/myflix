@@ -46,8 +46,8 @@ describe VideosController do
       expect(Review.count).to eq(1)
     end
 
-    it "renders the page if input is valid" do
-      expect(response).to render_template :show
+    it "redirects back to show page" do
+      expect(response).to redirect_to video_path
     end
   end
 end
