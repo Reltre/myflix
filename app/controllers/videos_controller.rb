@@ -1,5 +1,6 @@
 class VideosController < ApplicationController
   before_action :require_login
+  before_action :set_video, only: [:show, :add_review]
 
   def index
     @categories = Category.all
@@ -14,8 +15,17 @@ class VideosController < ApplicationController
   end
 
   def add_review
-    @review = Review.new( rating: params[:rating],description: params[:description] )
+    @review = Review.new( rating: params[:rating],
+                          description: params[:description],
+                          video: @video,
+                          user: current_user)
     @review.save!
-    render :show
+    redirect_to video_path(@video)
+  end
+
+  private
+
+  def set_video
+    @video = Video.find(params[:id])
   end
 end

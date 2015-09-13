@@ -19,7 +19,7 @@
 %section.reviews.container
   .row
     .col-sm-10.col-sm-offset-1
-      = form_tag add_review_video_path(@video) do
+      = form_tag add_review_video_path(@video), method: "post" do
         %fieldset
           .form-group
             = label_tag "Rate this video"
@@ -41,13 +41,13 @@
           = submit_tag "Submit", class: "btn"
           %a(href="") Cancel
       %header
-        %h3 User Reviews (253)
+        %h3= "User Reviews (#{@video.reviews.size})"
       %ul
-        - 8.times do
+        - @video.reviews.each do |review|
           %article.review
             %li.row
               .col-sm-2
-                %span Rating: 5 / 5
-                %p by <a href="">John A. Zoidberg</a>
+                %span= "Rating: #{review.rating}"
+                %p= "by #{link_to review.user.full_name, ''}".html_safe
               .col-sm-8
-                %p In my opinion, this is one of the best shows ever made. It's not only funny, but despite being so frequently silly, it's very smart as well. Math, science, history, all get referenced. The best parts of the show are the subtle things, those little things in the background or just on screen for a couple of seconds that just make you laugh out loud if you were paying attention. The writers even appear to have been thinking ahead, because if you play close attention to the first episode, you can see a literal shadow of an event revealed seasons later.
+                %p= review.description
