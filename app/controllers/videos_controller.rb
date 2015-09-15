@@ -19,7 +19,9 @@ class VideosController < ApplicationController
                           description: params[:description],
                           video: @video,
                           user: current_user)
-    @review.save!
+    unless @review.save
+      flash[:danger] = "Please enter content for your review."
+    end
     redirect_to video_path(@video)
   end
 
