@@ -9,7 +9,7 @@ Myflix::Application.routes.draw do
     end
 
     member do
-      post 'add_review', to: 'videos#add_review'
+      resources :reviews, only: [:create]
     end
   end
 
