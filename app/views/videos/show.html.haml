@@ -19,7 +19,7 @@
 %section.reviews.container
   .row
     .col-sm-10.col-sm-offset-1
-      = form_for [@video,Review.new] do |f|
+      = form_for [@video, Review.new] do |f|
         %fieldset
           .form-group
             = f.label "Rate this video"
@@ -33,7 +33,7 @@
             = f.label "Write Review"
             .row
               .col-sm-8
-                = f.text_area(:description, rows: 6, class: "span6")
+                = f.text_area :description, rows: 6, class: "col-sm-10"
         %fieldset.form-group.actions.clearfix
           = f.submit "Submit", class: "btn"
           = link_to "Cancel", video_path(@video)

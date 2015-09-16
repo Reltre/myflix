@@ -8,9 +8,7 @@
         %option(value="z-a") Title: Z - A
         %option(value="rating") Rating
   %article.row#category_videos
-    - 30.times do
-      - video = @category.videos.sample
+    - @category.videos.each do |video|
       .video.col-md-2
-        - unless video.nil?
-          = link_to "#{video.title}" do
-            %img(src="/tmp/#{format_name(video.title)}.jpg")
+        = link_to "#{video.title}" do
+          %img(src="/tmp/#{format_name(video.title)}.jpg")

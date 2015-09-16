@@ -7,7 +7,6 @@ class ReviewsController < ApplicationController
     if review.save
       redirect_to video_path(@video)
     else
-      flash.now[:danger] = "Please enter content for your review."
       @reviews = @video.reviews.reload
       render "videos/show"
     end
