@@ -2,12 +2,16 @@ class ReviewsController < ApplicationController
   before_action :require_login
 
   def create
-    video = Video.find(params[:video_id])
-    @review = Review.new(review_params.merge(video: video, user: current_user))
-    unless @review.save
-      flash[:danger] = "Please enter content for your review."
+    @video = Video.find(params[:video_id])
+    review = @video.reviews.build(review_params.merge!(user: current_user))
+    if review.save
+      redirect_to video_path(@video)
+    else
+      flash.now[:danger] = "Please enter content for your review."
+      @reviews = @video.reviews.reload
+      render "videos/show"
     end
-    redirect_to video_path(video)
+
   end
 
   private
