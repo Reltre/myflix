@@ -8,12 +8,12 @@ class Video < ActiveRecord::Base
     Video.where('title ILIKE ?', "%#{title}%").order(created_at: :desc)
   end
 
-  def calculate_rating
+  def video_rating
     return 0.0 if reviews.empty?
     rating =
-    reviews.reduce(0) do |sum, review|
-      sum + review.rating
-    end
+      reviews.reduce(0) do |sum, review|
+        sum + review.rating
+      end
     ( rating / reviews.size.to_f ).round(1)
   end
 end

@@ -5,7 +5,7 @@ describe ReviewsController do
     context "with authenticated user" do
       let(:video) { Fabricate(:video) }
       let(:user) { Fabricate(:user) }
-      let(:log_in) { session[:user_id] = Fabricate(:user).id }
+      let(:log_in) { session[:user_id] = user.id }
 
       before do
         log_in
