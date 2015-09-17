@@ -4,7 +4,7 @@
       .video_info.col-large-2.col-large-offset-3
         %header
           %h3= @video.title.titleize
-          %span= "Rating: #{@video.video_rating}/5.0"
+          %span= "Rating: #{@video.calculate_rating}/5.0"
         %p= @video.description
     %br
     .row
