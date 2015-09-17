@@ -7,4 +7,10 @@ class UiController < ApplicationController
 
   def index
   end
+
+  def user
+  end
+
+  def video
+  end
 end

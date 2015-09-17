@@ -5,7 +5,7 @@ describe Category do
   it { should validate_presence_of(:name) }
 
   describe "#recent_videos" do
-    let(:test_category) { $count = Category.create(name: "drama") }
+    let(:test_category) { Category.create(name: "drama") }
 
     it "returns an empty array if no videos are in the database" do
       expect(test_category.recent_videos).to eq([])
