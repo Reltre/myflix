@@ -14,7 +14,8 @@
         %br
         .actions
           %a.btn.btn-primary(href="") Watch Now
-          %a.btn.btn-default(href="") + My Queue
+          = link_to add_queue_item_path(video_id: @video.id), method: 'post', class: 'btn btn-default' do
+            + My Queue
 
 %section.reviews.container
   .row

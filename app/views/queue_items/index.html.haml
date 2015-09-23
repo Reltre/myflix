@@ -14,25 +14,27 @@
               %th(width="15%") Genre
               %th(width="15%") Remove
           %tbody
-            - @queues.each_with_index do |queue, index|
+            - @items.each_with_index do |queue, index|
               %tr
                 %td
-                  %input.form-control(type="text" value="#{index + 1}")
+                  %input.form-control(type="text" value="#{queue.list_order}")
                 %td
-                  = link_to queue.video
+                  = link_to queue.video_title
                 %td
                   = button_to "Play", nil, class: "btn btn-default"
+                %td= queue.rating
                 %td
-                  %select.form-group(name="")
-                    %option(value="5") 5 Stars
-                    %option(value="4") 4 Stars
-                    %option(value="3") 3 Stars
-                    %option(value="2") 2 Stars
-                    %option(value="1") 1 Star
-                %td
-                  = link_to queue.video.category
+                  = link_to queue.category_name, queue.category
                 %td
                   = link_to "", method: :post do
                     %i.glyphicon.glyphicon-remove
 
         = button_to "Update Instant Queue", nil, class: "btn btn-default"
+
+
+      -# %select.form-group(name="")
+      -#   %option(value="5") 5 Stars
+      -#   %option(value="4") 4 Stars
+      -#   %option(value="3") 3 Stars
+      -#   %option(value="2") 2 Stars
+      -#   %option(value="1") 1 Star
