@@ -4,7 +4,6 @@ describe QueueItemsController do
   let(:current_user) { Fabricate(:user) }
   describe "GET my_queue" do
 
-
     it "sets queue items to the queue items of the logged in user" do
       session[:user_id] = current_user.id
       video = Fabricate(:video)
@@ -33,12 +32,6 @@ describe QueueItemsController do
       session[:user_id] = current_user.id
       post :create, video_id: video.id
       expect(response).to redirect_to my_queue_path
-    end
-
-    it "sets flash message upon creation" do
-      session[:user_id] = current_user.id
-      post :create, video_id: video.id
-      should set_flash[:info].to('This video has been added to your queue')
     end
 
     it "create the queue item that is associated with the video" do

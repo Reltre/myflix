@@ -19,7 +19,7 @@
                 %td
                   %input.form-control(type="text" value="#{queue.list_order}")
                 %td
-                  = link_to queue.video_title
+                  = link_to queue.video_title, video_path(queue.video)
                 %td
                   = button_to "Play", nil, class: "btn btn-default"
                 %td= queue.rating
