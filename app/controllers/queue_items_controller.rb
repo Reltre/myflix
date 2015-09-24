@@ -18,8 +18,11 @@ class QueueItemsController < ApplicationController
   end
 
   def destroy
-    QueueItem.destroy(params[:queue_id]) if params[:queue_id]
-    update_positions
+    item = QueueItem.find(params[:id])
+    if current_user.queue_items.include? item
+      item.destroy
+      update_positions
+    end
     redirect_to my_queue_path
   end
 

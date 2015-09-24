@@ -76,18 +76,29 @@ describe QueueItemsController do
   end
 
   describe "DELETE destroy" do
+    it "redirects to my queue" do
+      monk = Fabricate(:video, title: "monk")
+      item = Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+      session[:user_id] = current_user.id
+      delete :destroy, id: item.id
+      expect(response).to redirect_to my_queue_path
+    end
+
     it "deletes a queue items" do
       monk = Fabricate(:video, title: "monk")
       item = Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
       session[:user_id] = current_user.id
-      delete :destroy, queue_id: item.id
+      delete :destroy, id: item.id
       expect(QueueItem.count).to eq(0)
     end
 
-    it "redirects to my queue" do
+    it "does not delete the queue item if the queue item is not in the current user's queue" do
+      another_user = Fabricate(:user)
+      monk = Fabricate(:video, title: "monk")
+      item = Fabricate(:queue_item, video: monk, user: another_user)
       session[:user_id] = current_user.id
-      delete :destroy
-      expect(response).to redirect_to my_queue_path
+      delete :destroy, id: item.id
+      expect(QueueItem.count).to eq(1)
     end
 
     it "updates the list order of the other queue items" do
@@ -98,10 +109,14 @@ describe QueueItemsController do
       Fabricate(:queue_item, video: futurama, user: current_user, list_order: 2)
       Fabricate(:queue_item, video: south_park, user: current_user, list_order: 3)
       session[:user_id] = current_user.id
-      delete :destroy, queue_id: item_m.id
+      delete :destroy, id: item_m.id
       item_positions = QueueItem.where(user: current_user).map(&:list_order)
       expect(item_positions).to eq([1,2])
     end
-    it "redirects to sign in page for unauthenticated users"
+
+    it "redirects to sign in page for unauthenticated users" do
+      delete :destroy, id: 3
+      expect(response).to redirect_to log_in_path
+    end
   end
  end
