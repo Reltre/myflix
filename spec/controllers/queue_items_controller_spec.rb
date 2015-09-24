@@ -23,29 +23,85 @@ describe QueueItemsController do
   describe "POST create" do
     let(:video) { Fabricate(:video) }
 
-    context "with authenticated user" do
-      before do
-        session[:user_id] = current_user.id
-        post :create, video_id: video.id
-      end
-    
-      it { expect(QueueItem.count).to eq(1) }
-      it { expect(response).to redirect_to my_queue_path }
-      it { should set_flash[:info].to('This video has been added to your queue') }
-      it "create the queue item that is associated with the video"
-      it "creates the queue item that is associated with the user"
-      it "is the last video in the queue items list"
-      it "does not add the same video twice" do
-        post :create, video_id: video.id
-        expect(current_user.queue_items.size).to eq(1)
-      end
+    it "create a queue item" do
+      session[:user_id] = current_user.id
+      post :create, video_id: video.id
+      expect(QueueItem.count).to eq(1)
     end
 
-    context "with unauthenticated user" do
-      it "redirects to log in page" do
-        post :create, video_id: video.id
-        expect(response).to redirect_to log_in_path
-      end
+    it "redirects to my queue" do
+      session[:user_id] = current_user.id
+      post :create, video_id: video.id
+      expect(response).to redirect_to my_queue_path
+    end
+
+    it "sets flash message upon creation" do
+      session[:user_id] = current_user.id
+      post :create, video_id: video.id
+      should set_flash[:info].to('This video has been added to your queue')
+    end
+
+    it "create the queue item that is associated with the video" do
+      session[:user_id] = current_user.id
+      post :create, video_id: video.id
+      expect(QueueItem.first.video).to eq(video)
+    end
+
+    it "creates the queue item that is associated with the user" do
+      session[:user_id] = current_user.id
+      post :create, video_id: video.id
+      expect(QueueItem.first.user).to eq(current_user)
+    end
+
+    it "is the last video in the queue items list" do
+      monk = Fabricate(:video, title: "monk")
+      Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+      session[:user_id] = current_user.id
+      post :create, video_id: video.id
+      last_video = QueueItem.where(user: current_user, video_id: video.id).first
+      expect(last_video.list_order).to eq(2)
+    end
+
+    it "does not add the same video twice" do
+      session[:user_id] = current_user.id
+      Fabricate(:queue_item, video_id: video.id, user: current_user)
+      post :create, video_id: video.id
+      expect(current_user.queue_items.size).to eq(1)
+    end
+
+    it "redirects to log in page with unauthenticated user" do
+      post :create, video_id: video.id
+      expect(response).to redirect_to log_in_path
     end
   end
-end
+
+  describe "DELETE destroy" do
+    it "deletes a queue items" do
+      monk = Fabricate(:video, title: "monk")
+      item = Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+      session[:user_id] = current_user.id
+      delete :destroy, queue_id: item.id
+      expect(QueueItem.count).to eq(0)
+    end
+
+    it "redirects to my queue" do
+      session[:user_id] = current_user.id
+      delete :destroy
+      expect(response).to redirect_to my_queue_path
+    end
+
+    it "updates the list order of the other queue items" do
+      monk = Fabricate(:video, title: "monk")
+      futurama = Fabricate(:video, title: "futurama")
+      south_park = Fabricate(:video, title: "south_park")
+      item_m = Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+      Fabricate(:queue_item, video: futurama, user: current_user, list_order: 2)
+      Fabricate(:queue_item, video: south_park, user: current_user, list_order: 3)
+      session[:user_id] = current_user.id
+      delete :destroy, queue_id: item_m.id
+      item_positions = QueueItem.where(user: current_user).map(&:list_order)
+      expect(item_positions).to eq([1,2])
+    end
+    it "redirects to sign in page for unauthenticated users"
+  end
+ end

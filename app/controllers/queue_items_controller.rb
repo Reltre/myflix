@@ -9,19 +9,37 @@ class QueueItemsController < ApplicationController
   end
 
   def create
-    video_id = params[:video_id]
-    position = current_user.queue_items.size + 1
-    item = current_user.queue_items.new(list_order: position, video_id: video_id)
-    if not_in_queue? && item.save
+    video = Video.find(params[:video_id])
+    unless not_in_queue?(video)
+      queue_video(video)
       flash[:info] = "This video has been added to your queue"
     end
-
     redirect_to my_queue_path
   end
-end
 
-private
+  def destroy
+    QueueItem.destroy(params[:queue_id]) if params[:queue_id]
+    update_positions
+    redirect_to my_queue_path
+  end
 
-def not_in_queue?
-  current_user.queue_items.count(video_id: params[:video_id]).zero?
+  private
+
+  def update_positions
+    current_user.queue_items.each_with_index do |item, index|
+      item.update_attribute(:list_order, index + 1)
+    end
+  end
+
+  def queue_video(video)
+    QueueItem.create(list_order: get_position, video: video, user: current_user)
+  end
+
+  def get_position
+    current_user.queue_items.size + 1
+  end
+
+  def not_in_queue?(video)
+    current_user.queue_items.map(&:video).include? video
+  end
 end

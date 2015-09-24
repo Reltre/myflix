@@ -14,7 +14,7 @@
               %th(width="15%") Genre
               %th(width="15%") Remove
           %tbody
-            - @items.each_with_index do |queue, index|
+            - @items.each do |queue|
               %tr
                 %td
                   %input.form-control(type="text" value="#{queue.list_order}")
@@ -26,7 +26,7 @@
                 %td
                   = link_to queue.category_name, queue.category
                 %td
-                  = link_to "", method: :post do
+                  = link_to remove_queue_item_path(queue_id: queue.id), method: :delete do
                     %i.glyphicon.glyphicon-remove
 
         = button_to "Update Instant Queue", nil, class: "btn btn-default"
