@@ -10,7 +10,7 @@ class QueueItemsController < ApplicationController
 
   def create
     video = Video.find(params[:video_id])
-    queue_video(video) unless not_in_queue?(video)
+    queue_video(video) unless current_user.has_already_queued?(video)
     redirect_to my_queue_path
   end
 
@@ -37,9 +37,5 @@ class QueueItemsController < ApplicationController
 
   def get_list_order
     current_user.queue_items.size + 1
-  end
-
-  def not_in_queue?(video)
-    current_user.queue_items.map(&:video).include? video
   end
 end

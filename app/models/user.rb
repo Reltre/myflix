@@ -5,4 +5,9 @@ class User < ActiveRecord::Base
 
   validates_presence_of :email, :password, :full_name
   validates_uniqueness_of :email
+
+
+  def has_already_queued?(video)
+    queue_items.map(&:video).include? video
+  end
 end
