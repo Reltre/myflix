@@ -29,4 +29,6 @@
                   = link_to queue_item_path(queue), method: :delete do
                     %i.glyphicon.glyphicon-remove
 
-        = button_to "Update Instant Queue", nil, class: "btn btn-default"
+        = button_to "Update Instant Queue",
+                    update_my_queue_path(queue_item_ids: item_ids(@items)),
+                    class: "btn btn-default"

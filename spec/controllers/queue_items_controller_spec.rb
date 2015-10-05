@@ -57,7 +57,7 @@ describe QueueItemsController do
 
     it "does not add the same video twice" do
       session[:user_id] = current_user.id
-      Fabricate(:queue_item, video_id: video.id, user: current_user)
+      Fabricate(:queue_item, video_id: video.id, user: current_user, list_order: 1)
       post :create, video_id: video.id
       expect(current_user.queue_items.size).to eq(1)
     end
@@ -88,7 +88,7 @@ describe QueueItemsController do
     it "does not delete the queue item if the queue item is not in the current user's queue" do
       another_user = Fabricate(:user)
       monk = Fabricate(:video, title: "monk")
-      item = Fabricate(:queue_item, video: monk, user: another_user)
+      item = Fabricate(:queue_item, video: monk, user: another_user, list_order: 1)
       session[:user_id] = current_user.id
       delete :destroy, id: item.id
       expect(QueueItem.count).to eq(1)
@@ -109,6 +109,41 @@ describe QueueItemsController do
 
     it "redirects to sign in page for unauthenticated users" do
       delete :destroy, id: 3
+      expect(response).to redirect_to log_in_path
+    end
+  end
+
+  describe "POST update" do
+    it "updates list order of queue items" do
+      session[:user_id] = current_user.id
+      monk = Fabricate(:video)
+      item_1 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+      item_2 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
+      item_3 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
+      post :update, queue_item_ids: [3, 2, 1]
+      items = item_1, item_2, item_3
+      list_orders = items.map(&:reload).map(&:list_order)
+      expect(list_orders).to eq([3, 2, 1])
+    end
+
+    it "does not save queue items if one item cannot be saved" do
+      session[:user_id] = current_user.id
+      monk = Fabricate(:video)
+      Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+      Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
+      Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
+      post :update, queue_item_ids: [3, 1, false]
+      expect(QueueItem.all.map {|item| item.list_order}).to eq([1, 2, 3])
+    end
+
+    it "redirects to the my queue page if authenticated" do
+      session[:user_id] = current_user.id
+      post :update
+      expect(response).to redirect_to my_queue_path
+    end
+
+    it "redirects to log in page if not authenticated" do
+      post :update
       expect(response).to redirect_to log_in_path
     end
   end
