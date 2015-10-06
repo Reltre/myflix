@@ -15,7 +15,7 @@ Myflix::Application.routes.draw do
 
   get 'my_queue', to: 'queue_items#index'
   post 'add_queue_item', to: 'queue_items#create'
-  post 'update_my_queue', to: 'queue_items#update'
+  post 'update_queue', to: 'queue_items#update'
   resources :queue_items,only: [:destroy]
 
   get 'log_in', to: 'sessions#new'

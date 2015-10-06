@@ -1,9 +1,10 @@
 class QueueItemsController < ApplicationController
   before_action :require_login
-  helper_method :item_ids
+  before_action :set_items, only: [:index, :update]
+  helper_method :list_orders
 
   def index
-    @items = current_user.queue_items
+    # @items = set_items
     unless logged_in?
       redirect_to log_in_path
     end
@@ -25,15 +26,16 @@ class QueueItemsController < ApplicationController
   end
 
   def update
+    binding.pry
     begin
       QueueItem.transaction do
         QueueItem.all.each_with_index do |item, index|
-          item.update!( list_order: params[:queue_item_ids][index] )
+          item.update!( list_order: params["list_order_#{index}"] )
         end
       end
+      @items = @items.reload
       redirect_to my_queue_path
     rescue ActiveRecord::RecordInvalid
-      binding.pry
       flash[:danger] = "One or more of your queue items did not update."
       render :index
     end
@@ -41,8 +43,8 @@ class QueueItemsController < ApplicationController
 
   private
 
-  def item_ids(queue_items)
-    queue_items.map(&:id)
+  def set_items
+    @items = current_user.queue_items
   end
 
   def update_list_orders
