@@ -2,7 +2,7 @@ class QueueItem < ActiveRecord::Base
   belongs_to :video
   belongs_to :user
   validates_presence_of :video, :user
-  validates_numericality_of :list_order, greater_than: 0
+  validates_numericality_of :list_order, greater_than: 0, only_integer: true
 
   delegate :category, to: :video
   delegate :title, to: :video, prefix: :video

@@ -114,37 +114,74 @@ describe QueueItemsController do
   end
 
   describe "POST update" do
-    it "updates list order of queue items" do
-      session[:user_id] = current_user.id
-      monk = Fabricate(:video)
-      item_1 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
-      item_2 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
-      item_3 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
-      post :update, queue_item_ids: [3, 2, 1]
-      items = item_1, item_2, item_3
-      list_orders = items.map(&:reload).map(&:list_order)
-      expect(list_orders).to eq([3, 2, 1])
+    context "with valid inputs" do
+      it "redirects to the my queue page if authenticated" do
+        session[:user_id] = current_user.id
+        post :update_queue
+        expect(response).to redirect_to my_queue_path
+      end
+
+      it "reorders the queue items" do
+        session[:user_id] = current_user.id
+        monk = Fabricate(:video)
+        item_1 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+        item_2 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
+        item_3 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
+        post :update_queue, list_orders: [3, 2, 1]
+        items = current_user.queue_items
+        expect(items).to eq([item_3, item_2, item_1])
+      end
+
+      it "normalizes the list order numbers" do
+        session[:user_id] = current_user.id
+        monk = Fabricate(:video)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
+        post :update_queue, list_orders: [9, 7, 5]
+        list_orders = current_user.queue_items.map(&:list_order)
+        expect(list_orders).to eq([1, 2, 3])
+      end
     end
 
-    it "does not save queue items if one item cannot be saved" do
-      session[:user_id] = current_user.id
-      monk = Fabricate(:video)
-      Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
-      Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
-      Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
-      post :update, queue_item_ids: [3, 1, false]
-      expect(QueueItem.all.map {|item| item.list_order}).to eq([1, 2, 3])
+    context "with invalid inputs" do
+      it "redirects to the my_queue page" do
+        session[:user_id] = current_user.id
+        monk = Fabricate(:video)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
+        post :update_queue, list_orders: [3, 1, false]
+        expect(response).to redirect_to my_queue_path
+      end
+
+      it do
+        session[:user_id] = current_user.id
+        monk = Fabricate(:video)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
+        post :update_queue, list_orders: [3, 1, false]
+        should set_flash[:danger].to("One or more of your queue items did not update.")
+      end
+
+      it "does not change the queue items" do
+        session[:user_id] = current_user.id
+        monk = Fabricate(:video)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
+        post :update_queue, list_orders: [3, 1, false]
+        expect( current_user.queue_items.map(&:list_order) ).to eq([1, 2, 3])
+      end
     end
 
-    it "redirects to the my queue page if authenticated" do
-      session[:user_id] = current_user.id
-      post :update
-      expect(response).to redirect_to my_queue_path
+    context "with unauthenticated users" do
+      it "redirects to log in page if not authenticated" do
+        post :update_queue
+        expect(response).to redirect_to log_in_path
+      end
     end
 
-    it "redirects to log in page if not authenticated" do
-      post :update
-      expect(response).to redirect_to log_in_path
-    end
   end
  end

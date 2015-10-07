@@ -18,8 +18,8 @@
               - @items.each_with_index do |queue, index|
                 %tr
                   %td
-                    = text_field_tag "list_order_#{index}",
-                                     "#{queue.list_order}",
+                    = text_field_tag "list_orders[]",
+                                     queue.list_order,
                                      class: "form-control"
                   %td
                     = link_to queue.video_title, video_path(queue.video)

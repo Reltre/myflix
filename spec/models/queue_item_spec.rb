@@ -6,24 +6,28 @@ describe QueueItem do
 
   it { should validate_presence_of :video }
   it { should validate_presence_of :user }
-
+  it do
+    should validate_numericality_of(:list_order)
+      .is_greater_than(0)
+      .only_integer
+  end
   it { should delegate_method(:category).to(:video) }
   it { should delegate_method(:title).to(:video).with_prefix :video }
   it { should delegate_method(:name).to(:category).with_prefix :category }
 
   let(:user) { Fabricate(:user) }
-  
+
   describe '#rating' do
     it "returns the rating from the review when the review is present" do
       video = Fabricate(:video)
       Fabricate(:review, rating: 5, user: user, video: video)
-      item = Fabricate(:queue_item, video: video, user: user)
+      item = Fabricate(:queue_item, video: video, user: user, list_order: 1 )
       expect(item.rating).to eq(5)
     end
 
     it "returns nil if no review is presnet" do
       video = Fabricate(:video)
-      item = Fabricate(:queue_item, video: video, user: user)
+      item = Fabricate(:queue_item, video: video, user: user, list_order: 1 )
       expect(item.rating).to be_nil
     end
   end
