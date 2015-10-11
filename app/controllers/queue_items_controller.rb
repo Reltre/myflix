@@ -4,7 +4,6 @@ class QueueItemsController < ApplicationController
   helper_method :list_orders
 
   def index
-    # @items = set_items
     unless logged_in?
       redirect_to log_in_path
     end
@@ -20,7 +19,7 @@ class QueueItemsController < ApplicationController
     item = QueueItem.find(params[:id])
     if current_user.queue_items.include? item
       item.destroy
-      normalize_list_orders
+      current_user.normalize_list_order_of_queue_items
     end
     redirect_to my_queue_path
   end
@@ -28,7 +27,7 @@ class QueueItemsController < ApplicationController
   def update_queue
     begin
       update_queue_items
-      normalize_list_orders
+      current_user.normalize_list_order_of_queue_items
     rescue ActiveRecord::RecordInvalid
       flash[:danger] = "One or more of your queue items did not update."
     end
@@ -48,12 +47,6 @@ class QueueItemsController < ApplicationController
 
   def set_items
     @items = current_user.queue_items
-  end
-
-  def normalize_list_orders
-    current_user.queue_items.reload.each_with_index do |item, index|
-      item.update_attribute(:list_order, index + 1)
-    end
   end
 
   def queue_video(video)

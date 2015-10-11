@@ -10,4 +10,10 @@ class User < ActiveRecord::Base
   def has_already_queued?(video)
     queue_items.map(&:video).include? video
   end
+
+  def normalize_list_order_of_queue_items
+    queue_items.reload.each_with_index do |item, index|
+      item.update_attribute(:list_order, index + 1)
+    end
+  end
 end
