@@ -3,7 +3,6 @@ require 'rails_helper'
 describe QueueItemsController do
   let(:current_user) { Fabricate(:user) }
   describe "GET my_queue" do
-
     it "sets queue items to the queue items of the logged in user" do
       session[:user_id] = current_user.id
       video = Fabricate(:video)
@@ -115,63 +114,68 @@ describe QueueItemsController do
 
   describe "POST update" do
     context "with valid inputs" do
-      it "redirects to the my queue page if authenticated" do
+      let(:monk) { Fabricate(:video) }
+      let(:item_1) do
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
+      end
+      let(:item_2) do
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
+      end
+      let(:item_3) do
+        Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
+      end
+
+      before do
         session[:user_id] = current_user.id
-        post :update_queue
+        item_1
+        item_2
+        item_3
+      end
+
+      it "redirects to the my queue page if authenticated" do
+        post :update_queue,
+             queue_items_data: {:list_orders => [], :ratings => []}
         expect(response).to redirect_to my_queue_path
       end
 
       it "reorders the queue items" do
-        session[:user_id] = current_user.id
-        monk = Fabricate(:video)
-        item_1 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
-        item_2 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
-        item_3 = Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
-        post :update_queue, list_orders: [3, 2, 1]
-        items = current_user.queue_items
-        expect(items).to eq([item_3, item_2, item_1])
+        post :update_queue,
+             queue_items_data: { :list_orders => [3, 2, 1], :ratings => [] }
+        expect(current_user.queue_items).to eq([item_3, item_2, item_1])
       end
 
       it "normalizes the list order numbers" do
-        session[:user_id] = current_user.id
-        monk = Fabricate(:video)
-        Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
-        Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
-        Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
-        post :update_queue, list_orders: [9, 7, 5]
+        post :update_queue,
+             queue_items_data: { :list_orders => [9, 7, 5], :ratings => [] }
         list_orders = current_user.queue_items.map(&:list_order)
         expect(list_orders).to eq([1, 2, 3])
       end
     end
 
     context "with invalid inputs" do
-      it "redirects to the my_queue page" do
+      before do
         session[:user_id] = current_user.id
         monk = Fabricate(:video)
         Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
         Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
         Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
-        post :update_queue, list_orders: [3, 1, false]
+      end
+
+      it "redirects to the my_queue page" do
+        post :update_queue,
+             queue_items_data: { :list_orders => [3, 1, false], :ratings => [] }
         expect(response).to redirect_to my_queue_path
       end
 
-      it do
-        session[:user_id] = current_user.id
-        monk = Fabricate(:video)
-        Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
-        Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
-        Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
-        post :update_queue, list_orders: [3, 1, false]
+      it "sets the flash when there is invalid data" do
+        post :update_queue,
+             queue_items_data: { :list_orders => [3, 1, false], :ratings => [] }
         should set_flash[:danger].to("One or more of your queue items did not update.")
       end
 
       it "does not change the queue items" do
-        session[:user_id] = current_user.id
-        monk = Fabricate(:video)
-        Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
-        Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
-        Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
-        post :update_queue, list_orders: [3, 1, false]
+        post :update_queue,
+             queue_items_data: { :list_orders => [3, 1, false], :ratings => [] }
         expect( current_user.queue_items.map(&:list_order) ).to eq([1, 2, 3])
       end
     end
@@ -182,6 +186,5 @@ describe QueueItemsController do
         expect(response).to redirect_to log_in_path
       end
     end
-
   end
- end
+end

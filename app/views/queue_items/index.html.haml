@@ -15,21 +15,24 @@
                 %th(width="15%") Genre
                 %th(width="15%") Remove
             %tbody
-              - @items.each_with_index do |queue, index|
+              - @items.each_with_index do |queue_item, index|
                 %tr
                   %td
-                    = text_field_tag "list_orders[]",
-                                     queue.list_order,
+                    = text_field_tag "queue_items_data[list_orders][]",
+                                     queue_item.list_order,
                                      class: "form-control"
                   %td
-                    = link_to queue.video_title, video_path(queue.video)
+                    = link_to queue_item.video_title, video_path(queue_item.video)
                   %td
                     = button_to "Play", "#", class: "btn btn-default"
-                  %td= queue.rating
+                  %td= select_tag "queue_items_data[ratings][]",
+                    options_for_video_reviews(queue_item.rating),
+                    include_blank: true,
+                    class: 'form-control'
                   %td
-                    = link_to queue.category_name, queue.category
+                    = link_to queue_item.category_name, queue_item.category
                   %td
-                    = link_to queue_item_path(queue), method: :delete do
+                    = link_to queue_item_path(queue_item), method: :delete do
                       %i.glyphicon.glyphicon-remove
 
           = submit_tag "Update Instant Queue", class: "btn btn-default"

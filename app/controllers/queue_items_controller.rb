@@ -38,9 +38,11 @@ class QueueItemsController < ApplicationController
   private
 
   def update_queue_items
+    list_orders = params[:queue_items_data][:list_orders]
+    ratings = params[:queue_items_data][:ratings]
     QueueItem.transaction do
       current_user.queue_items.each_with_index do |item, index|
-        item.update_attributes!( list_order: params[:list_orders][index] )
+        item.update!( list_order: list_orders[index], rating: ratings[index] )
       end
     end
   end
