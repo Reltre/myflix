@@ -1,8 +1,9 @@
 class QueueItemsController < ApplicationController
   before_action :require_login
+  before_action :set_items, only: [:index, :update_queue]
+  helper_method :list_orders
 
   def index
-    @items = current_user.queue_items
     unless logged_in?
       redirect_to log_in_path
     end
@@ -18,17 +19,36 @@ class QueueItemsController < ApplicationController
     item = QueueItem.find(params[:id])
     if current_user.queue_items.include? item
       item.destroy
-      update_list_orders
+      current_user.normalize_list_order_of_queue_items
     end
+    redirect_to my_queue_path
+  end
+
+  def update_queue
+    begin
+      update_queue_items
+      current_user.normalize_list_order_of_queue_items
+    rescue ActiveRecord::RecordInvalid
+      flash[:danger] = "One or more of your queue items did not update."
+    end
+
     redirect_to my_queue_path
   end
 
   private
 
-  def update_list_orders
-    current_user.queue_items.each_with_index do |item, index|
-      item.update_attribute(:list_order, index + 1)
+  def update_queue_items
+    list_orders = params[:queue_items_data][:list_orders]
+    ratings = params[:queue_items_data][:ratings]
+    QueueItem.transaction do
+      current_user.queue_items.each_with_index do |item, index|
+        item.update!( list_order: list_orders[index], rating: ratings[index] )
+      end
     end
+  end
+
+  def set_items
+    @items = current_user.queue_items
   end
 
   def queue_video(video)
