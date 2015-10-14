@@ -1,7 +1,6 @@
 class QueueItemsController < ApplicationController
   before_action :require_login
-  before_action :set_items, only: [:index, :update_queue]
-  helper_method :list_orders
+  before_action :set_items, only: [:index, :update_queue, :destroy]
 
   def index
     unless logged_in?
@@ -17,7 +16,7 @@ class QueueItemsController < ApplicationController
 
   def destroy
     item = QueueItem.find(params[:id])
-    if current_user.queue_items.include? item
+    if @items.include? item
       item.destroy
       current_user.normalize_list_order_of_queue_items
     end
@@ -41,7 +40,7 @@ class QueueItemsController < ApplicationController
     list_orders = params[:queue_items_data][:list_orders]
     ratings = params[:queue_items_data][:ratings]
     QueueItem.transaction do
-      current_user.queue_items.each_with_index do |item, index|
+      @items.each_with_index do |item, index|
         item.update!( list_order: list_orders[index], rating: ratings[index] )
       end
     end

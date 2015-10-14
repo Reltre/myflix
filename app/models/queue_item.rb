@@ -13,10 +13,8 @@ class QueueItem < ActiveRecord::Base
   end
 
   def rating=(value)
-    # review.delete if value.blank?
-    # unless value.blank?
     if review
-      review.update_attribute('rating', value)
+      review.update_attribute(:rating, value)
     else
       review = Review.new(video: video, user: user, rating: value)
       review.save validate: false

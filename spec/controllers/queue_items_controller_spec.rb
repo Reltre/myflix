@@ -115,21 +115,18 @@ describe QueueItemsController do
   describe "POST update" do
     context "with valid inputs" do
       let(:monk) { Fabricate(:video) }
-      let(:item_1) do
+      let!(:item_1) do
         Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
       end
-      let(:item_2) do
+      let!(:item_2) do
         Fabricate(:queue_item, video: monk, user: current_user, list_order: 2)
       end
-      let(:item_3) do
+      let!(:item_3) do
         Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
       end
 
       before do
         session[:user_id] = current_user.id
-        item_1
-        item_2
-        item_3
       end
 
       it "redirects to the my queue page if authenticated" do
@@ -163,19 +160,19 @@ describe QueueItemsController do
 
       it "redirects to the my_queue page" do
         post :update_queue,
-             queue_items_data: { :list_orders => [3, 1, false], :ratings => [] }
+             queue_items_data: { list_orders: [3, 1, false], ratings: [] }
         expect(response).to redirect_to my_queue_path
       end
 
       it "sets the flash when there is invalid data" do
         post :update_queue,
-             queue_items_data: { :list_orders => [3, 1, false], :ratings => [] }
+             queue_items_data: { list_orders:[3, 1, false], ratings: [] }
         should set_flash[:danger].to("One or more of your queue items did not update.")
       end
 
       it "does not change the queue items" do
         post :update_queue,
-             queue_items_data: { :list_orders => [3, 1, false], :ratings => [] }
+             queue_items_data: { list_orders: [3, 1, false], ratings: [] }
         expect( current_user.queue_items.map(&:list_order) ).to eq([1, 2, 3])
       end
     end
