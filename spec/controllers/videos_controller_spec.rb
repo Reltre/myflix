@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe VideosController do
-  let(:log_in) { session[:user_id] = Fabricate(:user).id }
+  before { clear_current_user }
   let(:video) { Fabricate(:video) }
 
 
@@ -31,9 +31,8 @@ describe VideosController do
       expect(assigns(:reviews)).to eq(video.reviews)
     end
 
-    it "redirects to the sign in page with unauthenticated users" do
-      get :show, id: video.id
-      expect(response).to redirect_to log_in_path
+    it_behaves_like "require_log_in" do
+      let(:action) { get :show, id: video.id }
     end
   end
 

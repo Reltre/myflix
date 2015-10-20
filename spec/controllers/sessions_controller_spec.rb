@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe SessionsController do
-  let(:log_in) { session[:user_id] = Fabricate(:user).id }
+  before { set_current_user }
 
   describe "GET new" do
     it "redirects to home if user is authenticated" do

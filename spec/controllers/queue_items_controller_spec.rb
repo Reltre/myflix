@@ -1,10 +1,13 @@
 require 'rails_helper'
 
 describe QueueItemsController do
-  let(:current_user) { Fabricate(:user) }
+  # let(:current_user) { Fabricate(:user) }
+
+  before { set_current_user }
+
   describe "GET my_queue" do
     it "sets queue items to the queue items of the logged in user" do
-      session[:user_id] = current_user.id
+      # session[:user_id] = current_user.id
       video = Fabricate(:video)
       queue_1 = Fabricate(:queue_item,user: current_user, video: video, list_order: 1)
       queue_2 = Fabricate(:queue_item,user: current_user, video: video, list_order: 2)
@@ -12,9 +15,8 @@ describe QueueItemsController do
       expect(assigns(:items)).to match_array([queue_1, queue_2])
     end
 
-    it "redirects to log in page for unauthenticated users" do
-      get :index
-      expect(response).to redirect_to log_in_path
+    it_behaves_like "require_log_in" do
+      let(:action) { get :index }
     end
   end
 
@@ -22,19 +24,19 @@ describe QueueItemsController do
     let(:video) { Fabricate(:video) }
 
     it "create a queue item" do
-      session[:user_id] = current_user.id
+      # session[:user_id] = current_user.id
       post :create, video_id: video.id
       expect(QueueItem.count).to eq(1)
     end
 
     it "redirects to my queue" do
-      session[:user_id] = current_user.id
+      # session[:user_id] = current_user.id
       post :create, video_id: video.id
       expect(response).to redirect_to my_queue_path
     end
 
     it "create the queue item that is associated with the video" do
-      session[:user_id] = current_user.id
+      # session[:user_id] = current_user.id
       post :create, video_id: video.id
       expect(QueueItem.first.video).to eq(video)
     end
@@ -61,9 +63,8 @@ describe QueueItemsController do
       expect(current_user.queue_items.size).to eq(1)
     end
 
-    it "redirects to log in page with unauthenticated user" do
-      post :create, video_id: video.id
-      expect(response).to redirect_to log_in_path
+    it_behaves_like "require_log_in" do
+      let(:action) { post :create, video_id: video.id }
     end
   end
 
@@ -107,8 +108,13 @@ describe QueueItemsController do
     end
 
     it "redirects to sign in page for unauthenticated users" do
+      clear_current_user
       delete :destroy, id: 3
       expect(response).to redirect_to log_in_path
+    end
+
+    it_behaves_like "require_log_in" do
+      let(:action) { delete :destroy, id: 3 }
     end
   end
 
@@ -123,10 +129,6 @@ describe QueueItemsController do
       end
       let!(:item_3) do
         Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
-      end
-
-      before do
-        session[:user_id] = current_user.id
       end
 
       it "redirects to the my queue page if authenticated" do
@@ -177,11 +179,8 @@ describe QueueItemsController do
       end
     end
 
-    context "with unauthenticated users" do
-      it "redirects to log in page if not authenticated" do
-        post :update_queue
-        expect(response).to redirect_to log_in_path
-      end
+    it_behaves_like "require_log_in" do
+      let(:action) { post :update_queue }
     end
   end
 end
