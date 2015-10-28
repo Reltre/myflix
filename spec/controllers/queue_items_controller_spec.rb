@@ -7,7 +7,6 @@ describe QueueItemsController do
 
   describe "GET my_queue" do
     it "sets queue items to the queue items of the logged in user" do
-      # session[:user_id] = current_user.id
       video = Fabricate(:video)
       queue_1 = Fabricate(:queue_item,user: current_user, video: video, list_order: 1)
       queue_2 = Fabricate(:queue_item,user: current_user, video: video, list_order: 2)

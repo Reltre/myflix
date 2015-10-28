@@ -11,8 +11,7 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem 'pg'
 gem 'bcrypt'
-gem 'fabrication'
-gem 'faker'
+
 
 group :development do
   gem 'thin'
@@ -22,15 +21,18 @@ end
 
 group :development, :test do
   gem 'pry'
-  gem 'pry-byebug' #switched from pry-nav
-  gem 'rspec-rails' #, '2.99'
+  gem 'pry-byebug'
+  gem 'rspec-rails'
 end
 
 group :test do
+  gem 'fabrication'
+  gem 'faker'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
+  gem 'capybara'
 end
-#, '1.2.0'
+
 group :production do
   gem 'rails_12factor'
 end
