@@ -20,7 +20,8 @@
                   %td
                     = text_field_tag "queue_items_data[list_orders][]",
                                      queue_item.list_order,
-                                     class: "form-control"
+                                     class: "form-control",
+                                     id: "list_order_#{index + 1}"
                   %td
                     = link_to queue_item.video_title, queue_item.video
                   %td
