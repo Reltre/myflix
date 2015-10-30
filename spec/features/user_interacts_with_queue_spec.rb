@@ -5,7 +5,7 @@ feature "User interacts with the queue" do
   given!(:futurama) { Fabricate(:video, category: category, title: 'Futurama') }
   given!(:family_guy) { Fabricate(:video, category: category, title: 'Family Guy') }
   given!(:south_park) { Fabricate(:video, category: category, title: 'South Park') }
-  
+
   scenario "user adds and reorders videos in the queue" do
     log_in
 
