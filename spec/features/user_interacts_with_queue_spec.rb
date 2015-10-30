@@ -1,55 +1,63 @@
 require 'rails_helper'
 
 feature "User interacts with the queue" do
-  given(:category) do
-    Fabricate(:category, name: "TV Comedies")
-  end
-  given!(:futurama) do
-    Fabricate(:video, category: category, title: 'Futurama', description: 'Year 3000' )
-  end
-  given!(:south_park) do
-    Fabricate(:video, category: category, title: 'Family Guy', description: 'Peuterschmidt' )
-  end
-  given!(:family_guy) do
-    Fabricate(:video, category: category, title: 'South Park', description: 'Colorado' )
-  end
-
+  given(:category) { Fabricate(:category, name: "TV Comedies") }
+  given!(:futurama) { Fabricate(:video, category: category, title: 'Futurama') }
+  given!(:family_guy) { Fabricate(:video, category: category, title: 'Family Guy') }
+  given!(:south_park) { Fabricate(:video, category: category, title: 'South Park') }
+  
   scenario "user adds and reorders videos in the queue" do
-    #log in
     log_in
-    # expect(current_path).to eq(home_path)
-    #click the first video on home page
-    click_link("Futurama")
-    expect(page).to have_text("Futurama")
-    #Add the video to my queue
-    click_link('+ My Queue')
 
-    expect(page).to have_text("Futurama")
-    #Click link to futurama show page
-    visit video_path(futurama) #consider change this to visit
-    #Check that add to queue button is not rendered
-    expect(page).to have_text("Futurama")
-    expect(page).not_to have_text("+ My Queue")
-    #Add South Park to My Queue
-    visit home_path
-    click_link("South Park")
-    click_link('+ My Queue')
-    #Add Family Guy to My Queue
-    visit home_path
-    click_link("Family Guy")
-    click_link('+ My Queue')
-    #reorder queue
-    # %w(5 4 3).each_with_index do |list_order, index|
-    #   fill_in "list_order_#{index + 1}" , with: list_order
-    # end
-    fill_in "video_#{futurama.id}" , with: 5
-    fill_in "video_#{south_park.id}" , with: 4
-    fill_in "video_#{family_guy.id}" , with: 3
+    add_video_to_queue(futurama)
+    expect_video_to_be_in_queue(futurama)
 
+    visit video_path(futurama)
+    expect_link_not_to_be_seen("+ My Queue")
+
+    add_video_to_queue(south_park)
+    add_video_to_queue(family_guy)
+
+    set_video_list_order(family_guy,1)
+    set_video_list_order(south_park,2)
+    set_video_list_order(futurama,3)
+
+    update_queue
+
+    expect_video_list_order(family_guy, 1)
+    expect_video_list_order(south_park, 2)
+    expect_video_list_order(futurama, 3)
+  end
+
+  def update_queue
     click_button("Update Instant Queue")
-    #verify that the order has change
-    expect(find("#video_#{family_guy.id}").value).to eq('1')
-    expect(find("#video_#{south_park.id}").value).to eq('2')
-    expect(find("#video_#{futurama.id}").value).to eq('3')
+  end
+
+  def expect_video_to_be_in_queue(video)
+    expect(page).to have_text(video.title)
+  end
+
+  def expect_link_not_to_be_seen(link_text)
+    expect(page).not_to have_text(link_text)
+  end
+
+  def add_video_to_queue(video)
+    visit home_path
+    click_link(video.title)
+    click_link('+ My Queue')
+  end
+
+  def set_video_list_order(video, list_order)
+    within(:xpath, "//tr[contains(.,'#{video.title}')]") do
+      fill_in "queue_items_data_list_orders_", with: list_order
+    end
+  end
+
+  def expect_video_list_order(video, list_order)
+    expect(
+            find(:xpath,
+                 "//tr[contains(.,'#{video.title}')]//input[@type='text']"
+                ).value
+          ).to eq(list_order.to_s)
   end
 end
