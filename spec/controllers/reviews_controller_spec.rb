@@ -56,12 +56,12 @@ describe ReviewsController do
         end
       end
     end
-    
+
     it_behaves_like "require_log_in" do
       let(:action) do
         post :create,
-        video_id: Fabricate(:video),
-        review: Fabricate.attributes_for(:review)
+             video_id: Fabricate(:video),
+             review: Fabricate.attributes_for(:review)
       end
     end
   end

@@ -13,10 +13,10 @@
         %br
         %br
         .actions
+          %a.btn.btn-primary(href="") Watch Now
           - unless current_user.has_already_queued?(@video)
-            %a.btn.btn-primary(href="") Watch Now
             = link_to "+ My Queue",
-              add_queue_item_path(video_id: @video.id),
+              queue_items_path(video_id: @video.id),
               method: 'post', class: 'btn btn-default'
 %section.reviews.container
   .row

@@ -11,7 +11,7 @@ class QueueItemsController < ApplicationController
   def create
     video = Video.find(params[:video_id])
     queue_video(video) unless current_user.has_already_queued?(video)
-    redirect_to my_queue_path
+    redirect_to queue_items_path
   end
 
   def destroy
@@ -20,7 +20,7 @@ class QueueItemsController < ApplicationController
       item.destroy
       current_user.normalize_list_order_of_queue_items
     end
-    redirect_to my_queue_path
+    redirect_to queue_items_path
   end
 
   def update_queue
@@ -31,7 +31,7 @@ class QueueItemsController < ApplicationController
       flash[:danger] = "One or more of your queue items did not update."
     end
 
-    redirect_to my_queue_path
+    redirect_to queue_items_path
   end
 
   private

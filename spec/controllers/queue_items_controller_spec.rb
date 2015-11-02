@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 describe QueueItemsController do
-  # let(:current_user) { Fabricate(:user) }
-
   before { set_current_user }
 
-  describe "GET my_queue" do
+  describe "GET " do
     it "sets queue items to the queue items of the logged in user" do
       video = Fabricate(:video)
       queue_1 = Fabricate(:queue_item,user: current_user, video: video, list_order: 1)
@@ -28,13 +26,11 @@ describe QueueItemsController do
     end
 
     it "redirects to my queue" do
-      # session[:user_id] = current_user.id
       post :create, video_id: video.id
-      expect(response).to redirect_to my_queue_path
+      expect(response).to redirect_to queue_items_path
     end
 
     it "create the queue item that is associated with the video" do
-      # session[:user_id] = current_user.id
       post :create, video_id: video.id
       expect(QueueItem.first.video).to eq(video)
     end
@@ -68,7 +64,7 @@ describe QueueItemsController do
       monk = Fabricate(:video, title: "monk")
       item = Fabricate(:queue_item, video: monk, user: current_user, list_order: 1)
       delete :destroy, id: item.id
-      expect(response).to redirect_to my_queue_path
+      expect(response).to redirect_to queue_items_path
     end
 
     it "deletes a queue items" do
@@ -125,7 +121,7 @@ describe QueueItemsController do
       it "redirects to the my queue page if authenticated" do
         post :update_queue,
              queue_items_data: {:list_orders => [], :ratings => []}
-        expect(response).to redirect_to my_queue_path
+        expect(response).to redirect_to queue_items_path
       end
 
       it "reorders the queue items" do
@@ -150,10 +146,10 @@ describe QueueItemsController do
         Fabricate(:queue_item, video: monk, user: current_user, list_order: 3)
       end
 
-      it "redirects to the my_queue page" do
+      it "redirects to the  page" do
         post :update_queue,
              queue_items_data: { list_orders: [3, 1, false], ratings: [] }
-        expect(response).to redirect_to my_queue_path
+        expect(response).to redirect_to queue_items_path
       end
 
       it "sets the flash when there is invalid data" do
