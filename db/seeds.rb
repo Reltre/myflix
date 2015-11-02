@@ -12,14 +12,14 @@ Category.create!(name:'Reality TV')
 Video.create!(title:'South Park',description: "going down to...", small_cover_url: '/tmp/south_park.jpg', category: comedy)
 Video.create!(title:'Family Guy',description: "family fun", small_cover_url: '/tmp/family_guy.jpg', category: comedy)
 Video.create!(title:'Monk',description: "detective", small_cover_url: '/tmp/monk.jpg', category: drama)
-Video.create!(title:'South Park',description: "going down to...", small_cover_url: '/tmp/south_park.jpg', category: comedy)
-Video.create!(title:'Futurama',description: "year 3000", small_cover_url: '/tmp/futurama.jpg', category: comedy)
-
-
-Video.create!(title:'Monk',description: "detective", small_cover_url: '/tmp/monk.jpg', category: drama)
-Video.create!(title:'South Park',description: "going down to...", small_cover_url: '/tmp/south_park.jpg', category: comedy)
-Video.create!(title:'Family Guy',description: "family fun",small_cover_url: '/tmp/family_guy.jpg', category: comedy)
+# Video.create!(title:'South Park',description: "going down to...", small_cover_url: '/tmp/south_park.jpg', category: comedy)
 futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover_url: '/tmp/futurama.jpg', category: comedy)
+
+
+# Video.create!(title:'Monk',description: "detective", small_cover_url: '/tmp/monk.jpg', category: drama)
+# Video.create!(title:'South Park',description: "going down to...", small_cover_url: '/tmp/south_park.jpg', category: comedy)
+# Video.create!(title:'Family Guy',description: "family fun",small_cover_url: '/tmp/family_guy.jpg', category: comedy)
+# futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover_url: '/tmp/futurama.jpg', category: comedy)
 
 User.create!(email: "dave_bellevue@example.com" , password: "pw", full_name: "Dave Bellevue")
 cat = User.create!(email: "bojangles@gmail.com", password: "pw", full_name: "Mr. Bigglesworth")

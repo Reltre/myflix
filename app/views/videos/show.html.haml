@@ -13,10 +13,11 @@
         %br
         %br
         .actions
-          %a.btn.btn-primary(href="") Watch Now
-          = link_to add_queue_item_path(video_id: @video.id), method: 'post', class: 'btn btn-default' do
-            + My Queue
-
+          - unless current_user.has_already_queued?(@video)
+            %a.btn.btn-primary(href="") Watch Now
+            = link_to "+ My Queue",
+              add_queue_item_path(video_id: @video.id),
+              method: 'post', class: 'btn btn-default'
 %section.reviews.container
   .row
     .col-sm-10.col-sm-offset-1
@@ -26,7 +27,7 @@
             = f.label "Rate this video"
             .row
               .col-sm-3
-                = f.select :rating, options_for_video_reviews  
+                = f.select :rating, options_for_video_reviews
           .form-group
             = f.label "Write Review"
             .row

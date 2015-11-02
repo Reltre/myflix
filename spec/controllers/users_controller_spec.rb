@@ -7,7 +7,6 @@ describe UsersController do
       get :new
       expect(assigns(:user)).to be_a_new(User)
     end
-
   end
 
   describe "POST create" do

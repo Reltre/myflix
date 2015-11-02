@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 describe SessionsController do
-  let(:log_in) { session[:user_id] = Fabricate(:user).id }
-
   describe "GET new" do
     it "redirects to home if user is authenticated" do
-      log_in
+      set_current_user
       get :new
       expect(response).to redirect_to home_path
     end
@@ -50,7 +48,7 @@ describe SessionsController do
 
   describe "GET destroy" do
     before do
-      log_in
+      set_current_user
       get :destroy
     end
 
