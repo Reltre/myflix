@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Category do
-  it { should have_many(:videos) }
-  it { should validate_presence_of(:name) }
+  it { is_expected.to have_many(:videos) }
+  it { is_expected.to validate_presence_of(:name) }
 
   describe "#recent_videos" do
     let(:test_category) { Category.create(name: "drama") }

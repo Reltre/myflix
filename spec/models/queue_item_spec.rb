@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 describe QueueItem do
-  it { should belong_to :video }
-  it { should belong_to :user }
+  it { is_expected.to belong_to :video }
+  it { is_expected.to belong_to :user }
 
-  it { should validate_presence_of :video }
-  it { should validate_presence_of :user }
-  it { should validate_numericality_of(:list_order).is_greater_than(0).only_integer }
-  it { should delegate_method(:category).to(:video) }
-  it { should delegate_method(:title).to(:video).with_prefix :video }
-  it { should delegate_method(:name).to(:category).with_prefix :category }
+  it { is_expected.to validate_presence_of :video }
+  it { is_expected.to validate_presence_of :user }
+  it { is_expected.to validate_numericality_of(:list_order).is_greater_than(0).only_integer }
+  it { is_expected.to delegate_method(:category).to(:video) }
+  it { is_expected.to delegate_method(:title).to(:video).with_prefix :video }
+  it { is_expected.to delegate_method(:name).to(:category).with_prefix :category }
 
   let(:user) { Fabricate(:user) }
 
@@ -30,7 +30,7 @@ describe QueueItem do
 
   describe '#rating=' do
     let(:video) { Fabricate(:video) }
-    
+
     it "updates a rating if it exists" do
       Fabricate(:review, rating: 5, video: video, user: user)
       Fabricate(:queue_item, video: video, list_order: 1, user: user, rating: 3)
