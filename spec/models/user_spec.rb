@@ -7,6 +7,10 @@ describe User do
   it { is_expected.to validate_uniqueness_of(:email) }
   it { is_expected.to have_many(:queue_items).order(:list_order) }
   it { is_expected.to have_many(:reviews).order('created_at DESC') }
+  it do
+    is_expected.to have_many(:follows)
+      .class_name('User').with_foreign_key('follow_id')
+  end
 
   describe '#has_already_queued' do
     it "returns true if the video is in the queue" do
