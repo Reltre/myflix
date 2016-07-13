@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   has_secure_password validations: false
   has_many :reviews, -> { order("created_at DESC") }
   has_many :queue_items, -> { order(:list_order) }
+  has_many :follows, class_name: 'User', foreign_key: 'follow_id'
+
 
   validates_presence_of :email, :password, :full_name
   validates_uniqueness_of :email
