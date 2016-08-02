@@ -9,7 +9,11 @@ describe User do
   it { is_expected.to have_many(:reviews).order('created_at DESC') }
   it do
     is_expected.to have_many(:follows)
-      .class_name('User').with_foreign_key('follow_id')
+      .class_name('User').with_foreign_key('follower_id')
+  end
+  it do
+    is_expected.to belong_to(:follower)
+      .class_name('User')
   end
 
   describe '#has_already_queued' do
