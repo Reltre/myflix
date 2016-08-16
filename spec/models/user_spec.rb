@@ -16,6 +16,21 @@ describe User do
       .class_name('User')
   end
 
+  describe '#followers' do
+    it "returns 0 if a user has no followers" do
+      user = Fabricate(:user)
+      expect(user.followers.count).to eq(0)
+    end
+
+    it "returns the correct number of followers" do
+      joe = Fabricate(:user)
+      elaine = Fabricate(:user)
+      sally = Fabricate(:user, full_name: "Sally Andal", follower_id: joe.id)
+      Fabricate(:user,full_name: "Sally Andal", follower_id: elaine.id )
+      expect(sally.followers.count).to eq(2)
+    end
+  end
+
   describe '#has_already_queued' do
     it "returns true if the video is in the queue" do
       user = Fabricate(:user)

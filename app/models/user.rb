@@ -18,4 +18,8 @@ class User < ActiveRecord::Base
       item.update_attribute(:list_order, index + 1)
     end
   end
+
+  def followers
+    User.where("full_name = '#{self.full_name}' AND follower_id IS NOT NULL")
+  end
 end
