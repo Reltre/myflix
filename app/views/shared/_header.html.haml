@@ -5,7 +5,7 @@
     %ul.col-md-4.clearfix.list-unstyled.list-inline#my_options
       %li= link_to "Videos", home_path
       %li= link_to "My Queue", queue_items_path
-      %li= link_to "People"
+      %li= link_to "People", people_path
     %form.col-md-5.navbar-form(action="#{search_videos_path}" method="get")
       .form-group
         %input.form-control(type="text" name="q" placeholder="Search for videos here")

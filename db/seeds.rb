@@ -21,8 +21,12 @@ futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover_
 # Video.create!(title:'Family Guy',description: "family fun",small_cover_url: '/tmp/family_guy.jpg', category: comedy)
 # futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover_url: '/tmp/futurama.jpg', category: comedy)
 
-User.create!(email: "dave_bellevue@example.com" , password: "pw", full_name: "Dave Bellevue")
-cat = User.create!(email: "bojangles@gmail.com", password: "pw", full_name: "Mr. Bigglesworth")
+dave = User.create!(email: "dave_bellevue@example.com" , password: "pw", full_name: "Dave Bellevue")
+cat = User.create!(email: "bojangles@gmail.com", password: "pw", full_name: "Mr. Bigglesworth", follower_id: dave.id)
+10.times do |i|
+  inserted_char = (i + 97).chr
+  User.create!(email: "#{inserted_char}_wave@gmail.com", password: "pw", full_name: "Test Follow", follower_id: cat.id)
+end
 pikachu = User.create!(email: "pokemonOK@example.com", password: "pw", full_name: "Pokémon!")
 
 Review.create!(rating: 5,
