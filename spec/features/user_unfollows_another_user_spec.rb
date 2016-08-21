@@ -1,12 +1,9 @@
 require 'rails_helper'
 
 feature "User navigates to the people page" do
-  given!(:meredith) { Fabricate(:user, full_name: "Meredith Simmons") }
-  given!(:sam) { Fabricate(:user, full_name: "Sam Allen") }
-  given!(:user) { Fabricate(:user, follower_id: meredith.id) }
-  given!(:user2) do
-    Fabricate(:user, full_name: user.full_name, follower_id: sam.id)
-  end
+  given!(:meredith) { Fabricate(:user, full_name: "Meredith Simmons", follower_id: user.id) }
+  given!(:sam) { Fabricate(:user, full_name: "Sam Allen", follower_id: user.id) }
+  given!(:user) { Fabricate(:user) }
 
   scenario "user unfollows another user" do
     log_in(user)
@@ -22,8 +19,7 @@ feature "User navigates to the people page" do
 
   def unfollow(a_user)
     within("//table/tbody") do
-      binding.pry
-      find(:xpath, ".//tr[contains(a[@href='/users/#{a_user.id}'])]").click
+      page.find(:xpath, ".//tr/td/a[@href='/follows/#{a_user.id}']").click
     end
   end
 

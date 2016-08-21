@@ -8,7 +8,6 @@ class FollowsController < ApplicationController
 
   def destroy
     follow = User.where(id: params[:id], follower_id: current_user.id).first
-    binding.pry
     follow.update_attribute :follower_id, nil
     redirect_to people_path
   end
