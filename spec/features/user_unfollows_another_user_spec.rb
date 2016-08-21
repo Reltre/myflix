@@ -12,7 +12,7 @@ feature "User navigates to the people page" do
     log_in(user)
     visit people_path
     expect_page_title_to_be_seen
-    # unfollow(sam)
+    unfollow(sam)
     expect_page_to_now_show(sam)
   end
 
@@ -21,7 +21,10 @@ feature "User navigates to the people page" do
   end
 
   def unfollow(a_user)
-    a_user.follower_id = nil
+    within("//table/tbody") do
+      binding.pry
+      find(:xpath, ".//tr[contains(a[@href='/users/#{a_user.id}'])]").click
+    end
   end
 
   def expect_page_to_now_show(a_user)
