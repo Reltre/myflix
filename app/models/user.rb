@@ -2,8 +2,8 @@ class User < ActiveRecord::Base
   has_secure_password validations: false
   has_many :reviews, -> { order("created_at DESC") }
   has_many :queue_items, -> { order(:list_order) }
-  has_many :follows, class_name: 'User', foreign_key: 'follower_id'
-  belongs_to :follower, class_name: 'User'
+  has_many :following_relationships, class_name: 'Relationship', foreign_key: :follower_id
+  has_many :leading_relationships, class_name: 'Relationship', foreign_key: :leader_id
 
   validates_presence_of :email, :password, :full_name
   validates_uniqueness_of :email
@@ -17,9 +17,5 @@ class User < ActiveRecord::Base
     queue_items.reload.each_with_index do |item, index|
       item.update_attribute(:list_order, index + 1)
     end
-  end
-
-  def followers
-    User.where("full_name = '#{self.full_name}' AND follower_id IS NOT NULL")
   end
 end

@@ -22,12 +22,11 @@ futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover_
 # futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover_url: '/tmp/futurama.jpg', category: comedy)
 
 dave = User.create!(email: "dave_bellevue@example.com" , password: "pw", full_name: "Dave Bellevue")
-cat = User.create!(email: "bojangles@gmail.com", password: "pw", full_name: "Mr. Bigglesworth", follower_id: dave.id)
-10.times do |i|
-  inserted_char = (i + 97).chr
-  User.create!(email: "#{inserted_char}_wave@gmail.com", password: "pw", full_name: "Test Follow", follower_id: cat.id)
-end
+cat = User.create!(email: "bojangles@gmail.com", password: "pw", full_name: "Mr. Bigglesworth")
 pikachu = User.create!(email: "pokemonOK@example.com", password: "pw", full_name: "Pokémon!")
+
+Relationship.create!(leader: dave, follower: cat)
+Relationship.create!(leader: pikachu, follower: cat)
 
 Review.create!(rating: 5,
                description: "so good, one of the best cartoon comedies",
