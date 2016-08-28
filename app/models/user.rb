@@ -8,6 +8,13 @@ class User < ActiveRecord::Base
   validates_presence_of :email, :password, :full_name
   validates_uniqueness_of :email
 
+  def can_follow?(another_user)
+    self != another_user && !follows?(another_user)
+  end
+
+  def follows?(another_user)
+    following_relationships.map(&:leader).include?(another_user)
+  end
 
   def has_already_queued?(video)
     queue_items.map(&:video).include? video

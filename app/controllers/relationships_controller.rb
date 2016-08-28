@@ -1,16 +1,16 @@
 class RelationshipsController < ApplicationController
+  before_action :require_login
+
   def index
     @following_relationships = current_user.following_relationships
   end
 
   def create
-    user = User.find(params[:user])
-
-    relationship = Relationship.new(follower: current_user, leader: user)
-    unless relationship.save
-      flash[:info] = "You're already following this user."
+    user = User.find(params[:leader_id])
+    if current_user.can_follow?(user)
+      Relationship.create(follower: current_user, leader: user)
     end
-    redirect_to user_path(user.id)
+    redirect_to people_path
   end
 
   def destroy

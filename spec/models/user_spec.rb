@@ -16,6 +16,47 @@ describe User do
       .class_name('Relationship').with_foreign_key('leader_id')
   end
 
+  describe "#follows?" do
+    it "returns true if the user has a following relationship with another user." do
+      user = Fabricate(:user)
+      another_user = Fabricate(:user)
+      Fabricate(:relationship, leader: another_user, follower: user)
+      expect(user.follows? another_user).to be
+    end
+
+    it "returns false if the user does not have a following relationship with another user." do
+      user = Fabricate(:user)
+      another_user = Fabricate(:user)
+      expect(user.follows? another_user).to_not be
+    end
+  end
+
+  describe '#can_follow?' do
+    it "returns false if the current user is equal to the user" do
+      current_user = Fabricate(:user)
+      expect(current_user.can_follow? current_user).to_not be
+    end
+
+    it "returns false if the current user already follows user" do
+      user = Fabricate(:user)
+      current_user = Fabricate(:user)
+      Relationship.create(leader: user, follower: current_user)
+      expect(current_user.can_follow? user).to_not be
+    end
+
+    it "return true if the current user is not equal to the user" do
+      user = Fabricate(:user)
+      current_user = Fabricate(:user)
+      expect(current_user.can_follow? user).to be
+    end
+
+    it "returns true if the current user does not already follows user" do
+      user = Fabricate(:user)
+      current_user = Fabricate(:user)
+      expect(current_user.can_follow? user).to be
+    end
+  end
+
   describe '#has_already_queued' do
     it "returns true if the video is in the queue" do
       user = Fabricate(:user)

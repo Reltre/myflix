@@ -10,7 +10,17 @@ describe UsersController do
   end
 
   describe "POST create" do
-    it { should permit(:email, :password, :full_name).for(:create) }
+    it do
+      post :create, params: {
+           user: {
+             first_name: 'John',
+             last_name: 'Doe',
+             email: 'johndoe@example.com',
+             password: 'password'
+           }
+         }
+      should permit(:email, :password, :full_name).for(:create).on(:user)
+    end
 
     it "sets user" do
       post :create, user: Fabricate.attributes_for(:user)

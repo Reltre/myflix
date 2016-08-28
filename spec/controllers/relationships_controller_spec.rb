@@ -2,41 +2,52 @@ require 'rails_helper'
 
 describe RelationshipsController do
   describe "GET index" do
-    before { set_current_user }
-
     it_behaves_like "require_log_in" do
       let(:action) { get :index }
     end
 
     it "should set @relationships" do
+      set_current_user
       joe = Fabricate(:user, full_name: "Joe Macintosh")
       sally = Fabricate(:user, full_name: "Sally Anders")
       relationship_1 = Fabricate(:relationship, leader: joe, follower: current_user)
       relationship_2 = Fabricate(:relationship, leader: sally, follower: current_user)
       get :index
-      expect(assigns(:relationships))
+      expect(assigns(:following_relationships))
         .to match_array([relationship_1, relationship_2])
     end
   end
 
   describe "POST create" do
-    before { set_current_user }
+    it_behaves_like "require_log_in" do
+      let(:action) { post :create, params: { leader_id: 5 } }
+    end
 
     it "should redirect to the user page" do
+      set_current_user
       user = Fabricate(:user)
-      post :create, params: { user: user.id }
-      expect(response).to redirect_to user_path(user)
+      post :create, params: { leader_id: user.id }
+      expect(response).to redirect_to people_path
     end
 
     it "should create a relationship between the current user and the user they want to follow." do
+      set_current_user
       user = Fabricate(:user)
-      post :create, params: { user: user.id }
+      post :create, params: { leader_id: user.id }
       expect(current_user.following_relationships.first.leader).to eq(user)
+    end
+
+    it "should not allow the current user to follow themselves" do
+      set_current_user
+      post :create, params: { leader_id: current_user.id }
+      expect(current_user.following_relationships.count).to eq(0)
     end
   end
 
   describe "DELETE destroy" do
-    it_behaves_like "require_log_in"
+    it_behaves_like "require_log_in" do
+      let(:action) { delete :destroy, params: { id: 2 } }
+    end
 
     it "should unfollow a user for the current user" do
       set_current_user

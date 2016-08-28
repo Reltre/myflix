@@ -120,7 +120,7 @@ describe QueueItemsController do
 
       it "redirects to the my queue page if authenticated" do
         post :update_queue,
-             queue_items_data: {:list_orders => [], :ratings => []}
+             params: { queue_items_data: { list_orders: [], ratings: [] } }
         expect(response).to redirect_to queue_items_path
       end
 

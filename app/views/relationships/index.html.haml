@@ -12,8 +12,9 @@
       - @following_relationships.each do |relationship|
         %tr
           %td
-            %img(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(relationship.leader.email.downcase)}?s=40")
-            = link_to relationship.leader.full_name, user_path(relationship.leader)
+            %img.pull-left(src="http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(relationship.leader.email.downcase)}?s=40")
+            .col-sm-4
+              = link_to relationship.leader.full_name, user_path(relationship.leader)
           %td.extra-padding= relationship.leader.queue_items.count
           %td.extra-padding= relationship.leader.leading_relationships.count
           %td.extra-padding
