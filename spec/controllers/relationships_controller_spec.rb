@@ -19,6 +19,22 @@ describe RelationshipsController do
     end
   end
 
+  describe "POST create" do
+    before { set_current_user }
+
+    it "should redirect to the user page" do
+      user = Fabricate(:user)
+      post :create, params: { user: user.id }
+      expect(response).to redirect_to user_path(user)
+    end
+
+    it "should create a relationship between the current user and the user they want to follow." do
+      user = Fabricate(:user)
+      post :create, params: { user: user.id }
+      expect(current_user.following_relationships.first.leader).to eq(user)
+    end
+  end
+
   describe "DELETE destroy" do
     it_behaves_like "require_log_in"
 

@@ -4,6 +4,13 @@ class RelationshipsController < ApplicationController
   end
 
   def create
+    user = User.find(params[:user])
+
+    relationship = Relationship.new(follower: current_user, leader: user)
+    unless relationship.save
+      flash[:info] = "You're already following this user."
+    end
+    redirect_to user_path(user.id)
   end
 
   def destroy
