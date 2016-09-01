@@ -105,7 +105,7 @@ describe QueueItemsController do
     end
   end
 
-  describe "POST update" do
+  describe "POST update_queue" do
     context "with valid inputs" do
       let(:monk) { Fabricate(:video) }
       let!(:item_1) do
@@ -119,8 +119,7 @@ describe QueueItemsController do
       end
 
       it "redirects to the my queue page if authenticated" do
-        post :update_queue,
-             params: { queue_items_data: { list_orders: [], ratings: [] } }
+        post :update_queue, params: { queue_items_data: { list_orders: [], ratings: [] } }
         expect(response).to redirect_to queue_items_path
       end
 
