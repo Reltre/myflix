@@ -29,10 +29,10 @@ Relationship.create!(leader: dave, follower: cat)
 Relationship.create!(leader: pikachu, follower: cat)
 
 Review.create!(rating: 5,
-               description: "so good, one of the best cartoon comedies",
+               content: "so good, one of the best cartoon comedies",
                video: futurama,
                user: pikachu)
 Review.create!(rating: 3,
-               description: "It's ok I guess",
+               content: "It's ok I guess",
                video: futurama,
                user: cat)
