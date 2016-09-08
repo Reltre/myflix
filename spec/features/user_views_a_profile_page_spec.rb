@@ -24,16 +24,16 @@ feature "user views a profile page" do
     given_reviews(user)
     visit user_path(user)
     given_reviews(user)
-    expect_review_with_text_and_rating("Futurama", 3)
-    expect_review_with_text_and_rating("Family Guy", 5)
+    expect_review("Futurama", 3)
+    expect_review("Family Guy", 5)
   end
 
   def given_reviews(user)
     Fabricate(:review, video: futurama, user: user,
-                description: "Futurama is great!", rating: 3)
+                content: "Futurama is great!", rating: 3)
 
     Fabricate(:review, video: family_guy, user: user,
-              description: "Family is the best.", rating: 5)
+              content: "Family is the best.", rating: 5)
   end
 
   def given_videos_in_queue(user)

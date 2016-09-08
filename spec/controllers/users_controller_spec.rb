@@ -11,15 +11,16 @@ describe UsersController do
 
   describe "POST create" do
     it do
-      post :create, params: {
-           user: {
-             first_name: 'John',
-             last_name: 'Doe',
-             email: 'johndoe@example.com',
-             password: 'password'
-           }
-         }
-      should permit(:email, :password, :full_name).for(:create).on(:user)
+      params = {
+        user: {
+          email: 'johndoe@example.com',
+          password: 'password',
+          full_name: 'John Doe'
+        }
+      }
+      post :create, params: params
+      is_expected.to permit(:email, :password, :full_name)
+        .for(:create, params: params).on(:user)
     end
 
     it "sets user" do
@@ -28,7 +29,7 @@ describe UsersController do
     end
 
     context "with valid input" do
-      before { post :create, user: Fabricate.attributes_for(:user) }
+      before { post :create, params: { user: Fabricate.attributes_for(:user) } }
 
       it { expect(User.count).to eq(1) }
 
@@ -39,7 +40,8 @@ describe UsersController do
       let(:user) { Fabricate.build(:user) }
 
       before do
-        post :create, user: { email: user.email, full_name: user.full_name }
+        post :create, params:
+          { user: { email: user.email, full_name: user.full_name } }
       end
 
       it { expect(User.count).to eq(0) }
