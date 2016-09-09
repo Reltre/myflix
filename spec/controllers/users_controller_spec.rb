@@ -24,7 +24,7 @@ describe UsersController do
     end
 
     it "sets user" do
-      post :create, user: Fabricate.attributes_for(:user)
+      post :create, params: { user: Fabricate.attributes_for(:user) }
       expect(assigns(:user)).to be_instance_of(User)
     end
 
@@ -53,13 +53,13 @@ describe UsersController do
 
   describe "GET show" do
     it_behaves_like "require_log_in" do
-      let(:action) { get :show, id: 3 }
+      let(:action) { get :show, params: { id: 3 } }
     end
 
     it "shoud set @user" do
       set_current_user
       user = Fabricate(:user)
-      get :show, id: user.id
+      get :show, params: { id: user.id }
       expect(assigns(:user)).to eq(user)
     end
   end

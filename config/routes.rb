@@ -1,5 +1,9 @@
 Myflix::Application.routes.draw do
-  get 'ui(/:action)', controller: 'ui'
+  Dir.new('app/views/ui').each do |action|
+    next if %w(. ..).include? action
+    action = action[/\w+(?=\.html\.haml)/]
+    get "ui/#{action}", action: action.to_sym, controller: 'ui'
+  end
 
   get 'home', to: 'videos#index'
 

@@ -10,7 +10,8 @@ describe ReviewsController do
 
       context "with valid inputs" do
         before do
-          post :create, video_id: video.id, review: Fabricate.attributes_for(:review)
+          post :create, params:
+            { video_id: video.id, review: Fabricate.attributes_for(:review) }
         end
 
         it "creats a review" do
@@ -33,25 +34,29 @@ describe ReviewsController do
       context "with invalid input" do
         it "sets video" do
           review = Fabricate.build(:review)
-          post :create, video_id: video.id, review: {rating: review.rating}
+          post :create, params:
+            { video_id: video.id, review: {rating: review.rating} }
           expect(assigns(:video)).to eq(video)
         end
 
         it "sets reviews" do
           review = Fabricate(:review, video: video)
-          post :create, video_id: video.id, review: {rating: review.rating}
+          post :create, params:
+            { video_id: video.id, review: { rating: review.rating } }
           expect(assigns(:reviews)).to match_array([review])
         end
 
         it "does not create a review" do
           review = Fabricate.build(:review)
-          post :create, video_id: video.id, review: {rating: review.rating}
+          post :create,
+               params: { video_id: video.id, review: { rating: review.rating } }
           expect(Review.count).to eq(0)
         end
 
         it "renders the video/show template" do
           review = Fabricate.build(:review)
-          post :create, video_id: video.id, review: {rating: review.rating}
+          post :create, params:
+            { video_id: video.id, review: {rating: review.rating} }
           expect(response).to render_template("videos/show")
         end
       end
@@ -60,8 +65,10 @@ describe ReviewsController do
     it_behaves_like "require_log_in" do
       let(:action) do
         post :create,
-             video_id: Fabricate(:video),
-             review: Fabricate.attributes_for(:review)
+             params: {
+               video_id: Fabricate(:video),
+               review: Fabricate.attributes_for(:review)
+             }
       end
     end
   end
