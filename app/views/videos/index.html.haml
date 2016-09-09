@@ -5,6 +5,5 @@
     .videos.row
       - category.recent_videos.each do |video|
         .video.col-sm-2
-          -# - binding.pry
           = link_to video do
             = image_tag video.small_cover_url, alt: video.title
