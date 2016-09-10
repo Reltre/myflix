@@ -22,6 +22,4 @@ class SessionsController < ApplicationController
     flash[:info] = 'You are signed out.'
     redirect_to :root
   end
-
-
 end

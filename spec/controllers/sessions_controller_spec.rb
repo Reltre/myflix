@@ -17,7 +17,7 @@ describe SessionsController do
   describe "POST create" do
     it "assigns variable user" do
       user = Fabricate(:user)
-      post :create, email: user.email
+      post :create, params: { email: user.email }
       expect(assigns(:user)).to eq(user)
     end
 
@@ -26,7 +26,7 @@ describe SessionsController do
       before do
         user = Fabricate.attributes_for(:user)
         User.create(user)
-        post :create, email: user[:email], password: user[:password]
+        post :create, params: { email: user[:email], password: user[:password] }
       end
 
       it { should set_session[:user_id] }

@@ -21,15 +21,18 @@ futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover_
 # Video.create!(title:'Family Guy',description: "family fun",small_cover_url: '/tmp/family_guy.jpg', category: comedy)
 # futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover_url: '/tmp/futurama.jpg', category: comedy)
 
-User.create!(email: "dave_bellevue@example.com" , password: "pw", full_name: "Dave Bellevue")
+dave = User.create!(email: "dave_bellevue@example.com" , password: "pw", full_name: "Dave Bellevue")
 cat = User.create!(email: "bojangles@gmail.com", password: "pw", full_name: "Mr. Bigglesworth")
 pikachu = User.create!(email: "pokemonOK@example.com", password: "pw", full_name: "Pokémon!")
 
+Relationship.create!(leader: dave, follower: cat)
+Relationship.create!(leader: pikachu, follower: cat)
+
 Review.create!(rating: 5,
-               description: "so good, one of the best cartoon comedies",
+               content: "so good, one of the best cartoon comedies",
                video: futurama,
                user: pikachu)
 Review.create!(rating: 3,
-               description: "It's ok I guess",
+               content: "It's ok I guess",
                video: futurama,
                user: cat)

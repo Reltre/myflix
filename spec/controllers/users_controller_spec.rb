@@ -10,15 +10,26 @@ describe UsersController do
   end
 
   describe "POST create" do
-    it { should permit(:email, :password, :full_name).for(:create) }
+    it do
+      params = {
+        user: {
+          email: 'johndoe@example.com',
+          password: 'password',
+          full_name: 'John Doe'
+        }
+      }
+      post :create, params: params
+      is_expected.to permit(:email, :password, :full_name)
+        .for(:create, params: params).on(:user)
+    end
 
     it "sets user" do
-      post :create, user: Fabricate.attributes_for(:user)
+      post :create, params: { user: Fabricate.attributes_for(:user) }
       expect(assigns(:user)).to be_instance_of(User)
     end
 
     context "with valid input" do
-      before { post :create, user: Fabricate.attributes_for(:user) }
+      before { post :create, params: { user: Fabricate.attributes_for(:user) } }
 
       it { expect(User.count).to eq(1) }
 
@@ -29,13 +40,27 @@ describe UsersController do
       let(:user) { Fabricate.build(:user) }
 
       before do
-        post :create, user: { email: user.email, full_name: user.full_name }
+        post :create, params:
+          { user: { email: user.email, full_name: user.full_name } }
       end
 
       it { expect(User.count).to eq(0) }
 
       it { expect(response).to render_template :new }
 
+    end
+  end
+
+  describe "GET show" do
+    it_behaves_like "require_log_in" do
+      let(:action) { get :show, params: { id: 3 } }
+    end
+
+    it "shoud set @user" do
+      set_current_user
+      user = Fabricate(:user)
+      get :show, params: { id: user.id }
+      expect(assigns(:user)).to eq(user)
     end
   end
 end

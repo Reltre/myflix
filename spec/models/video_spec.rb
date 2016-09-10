@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe Video do
-  it { should belong_to(:category) }
-  it { should have_many(:reviews).order("created_at DESC") }
-  it {should validate_presence_of(:title) }
-  it {should validate_presence_of(:description) }
+  it { is_expected.to belong_to(:category) }
+  it { is_expected.to have_many(:reviews).order("created_at DESC") }
+  it { is_expected.to validate_presence_of(:title) }
+  it { is_expected.to validate_presence_of(:description) }
 
   describe ".search_by_title" do
     it "returns an empty array is there is no match" do
