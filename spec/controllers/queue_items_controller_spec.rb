@@ -126,13 +126,13 @@ describe QueueItemsController do
 
       it "reorders the queue items" do
         post :update_queue, params:
-          { queue_items_data: { list_orders: [3, 2, 1], ratings: [nil] } }
+          { queue_items_data: { list_orders: [3, 2, 1], ratings: [3, 3, 3] } }
         expect(current_user.queue_items).to eq([item_3, item_2, item_1])
       end
 
       it "normalizes the list order numbers" do
         post :update_queue, params:
-          { queue_items_data: { list_orders: [9, 7, 5], ratings: [nil] } }
+          { queue_items_data: { list_orders: [9, 7, 5], ratings: [3, 3, 3] } }
         list_orders = current_user.queue_items.map(&:list_order)
         expect(list_orders).to eq([1, 2, 3])
       end
@@ -148,19 +148,27 @@ describe QueueItemsController do
 
       it "redirects to the page" do
         post :update_queue, params:
-            { queue_items_data: { list_orders: [3, 1, false], ratings: [nil] } }
+            {
+              queue_items_data:
+                { list_orders: [3, 1, false], ratings: [3, 3, 3] }
+            }
         expect(response).to redirect_to queue_items_path
       end
 
       it "sets the flash when there is invalid data" do
         post :update_queue, params:
-          { queue_items_data: { list_orders:[3, 1, false], ratings: [nil] } }
+          {
+            queue_items_data: { list_orders: [3, 1, false], ratings: [3, 3, 3] }
+          }
         should set_flash[:danger].to("One or more of your queue items did not update.")
       end
 
       it "does not change the queue items" do
         post :update_queue, params:
-            { queue_items_data: { list_orders: [3, 1, false], ratings: [nil] } }
+            {
+              queue_items_data:
+                { list_orders: [3, 1, false], ratings: [3, 3, 3] }
+            }
         expect(current_user.queue_items.map(&:list_order)).to eq([1, 2, 3])
       end
     end

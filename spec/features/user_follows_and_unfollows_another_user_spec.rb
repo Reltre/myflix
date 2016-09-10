@@ -36,6 +36,6 @@ feature "User navigates to the people page" do
   end
 
   def expect_page_to_now_show(text)
-    expect(page).to_not have_text text
+    expect(page).to have_no_text text
   end
 end
