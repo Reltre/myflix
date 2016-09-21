@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(users_params)
     if @user.save
+      AppMailer.notify_on_registration(current_user).deliver
       redirect_to log_in_path
     else
       render :new
