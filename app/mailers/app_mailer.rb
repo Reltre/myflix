@@ -1,5 +1,6 @@
 class AppMailer < ActionMailer::Base
-  def notify_on_registration(user)
+  def send_welcome_email(user)
+    @user = user
     mail from: ENV['GMAIL_USERNAME'], to: user.email, subject: "Thanks for Registering With MyFlix!"
   end
 end
