@@ -12,3 +12,4 @@
         = f.password_field :password, label: "Password"
         = f.form_group do
           = f.submit "Log In"
+          = link_to "Forgot Password?", password_reset_path, id: 'forgot_password'

@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'pry'
 
 describe UsersController do
 
@@ -36,6 +37,38 @@ describe UsersController do
       it { expect(response).to redirect_to log_in_path }
     end
 
+    context "sending an email" do
+      after { ActionMailer::Base.deliveries.clear }
+
+      it "sends the email" do
+        post :create, params: { user: Fabricate.attributes_for(:user) }
+        expect(ActionMailer::Base.deliveries.size).to_not eq(0)
+      end
+
+      it "has the correct message subject" do
+        user_params = Fabricate.attributes_for(:user)
+        post :create, params: { user: user_params }
+        message = ActionMailer::Base.deliveries.last
+        name = user_params[:full_name]
+        expect(message.body.raw_source)
+          .to include(name)
+      end
+
+      it "sends the email to the correct recipient" do
+        email = "may@example.com"
+        user_params = Fabricate.attributes_for(:user, email: email)
+        post :create, params: { user: user_params }
+        message = ActionMailer::Base.deliveries.last
+        expect(message.to).to eq([email])
+      end
+
+      it "does not send email to user with invalid input" do
+        user_params = { email: "test12@email.com" }
+        post :create, params: { user: user_params }
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
+
     context "with invalid input" do
       let(:user) { Fabricate.build(:user) }
 
@@ -63,4 +96,9 @@ describe UsersController do
       expect(assigns(:user)).to eq(user)
     end
   end
+
+  # describe "GET password_reset" do
+  #   it "should "
+  # end
+
 end
