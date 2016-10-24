@@ -29,5 +29,8 @@ Myflix::Application.routes.draw do
   get 'register', to: 'users#new'
   post 'log_in', to: 'sessions#create'
   root 'pages#front'
-  get '/password_reset', to: 'users#password_reset'
+  get '/forgot_password', to: 'users#forgot_password'
+  get '/confirm_password_reset', to: 'users#confirm_password_reset'
+  get '/reset_password/:token', to: 'users#reset_password'
+  post '/password_reset', to: 'users#password_reset'
 end

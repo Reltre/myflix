@@ -1,5 +1,11 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: :show
+  before_action :require_login,
+                only: [:show,
+                       :password_reset,
+                       :confirm_password_reset,
+                       :forgot_password,
+                       :confirm_password_reset
+                      ]
 
   def new
     @user = User.new
@@ -19,8 +25,19 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def forgot_password
+    render :password_page
+  end
+
+  def confirm_password_reset
+    render :confirm_password_reset
+  end
+
   def password_reset
-    render :password_reset
+    flash[:success] = "Your email was sent."
+    current_user.generate_token
+    AppMailer::Base.send_password_email(current_user.token)
+    redirect_to confirm_password_reset_path
   end
 
   private

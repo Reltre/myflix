@@ -50,8 +50,7 @@ describe UsersController do
         post :create, params: { user: user_params }
         message = ActionMailer::Base.deliveries.last
         name = user_params[:full_name]
-        expect(message.body.raw_source)
-          .to include(name)
+        expect(message.body.raw_source).to include(name)
       end
 
       it "sends the email to the correct recipient" do
@@ -97,8 +96,40 @@ describe UsersController do
     end
   end
 
-  # describe "GET password_reset" do
-  #   it "should "
-  # end
+  describe "GET password_reset" do
+    it_behaves_like "require_log_in" do
+      let(:action) { get :password_page }
+    end
+  end
 
+  describe "GET confirm_password_reset" do
+    it_behaves_like "require_log_in" do
+      let(:action) { get :confirm_password_reset }
+    end
+  end
+
+  describe "POST password_reset" do
+    it_behaves_like "require_log_in" do
+      let(:action) { post :password_reset }
+    end
+
+    it "should send an email with the correct content" do
+      user = Fabricate(:user)
+      set_current_user(user)
+      post :password_reset
+      email = ActionMailer::Base.deliveries.last
+      expect(email.body.raw_source).to
+        include("Follow this #{link_to "link", password_reset_path(current_user.token)} to reset your password")
+    end
+
+    it "should redirect to confirm password page" do
+      post :password_reset
+      expect(response).to redirect_to confirm_password_reset_path
+    end
+
+    it "should show a message, notifying the user if the email was sent" do
+      post :password_reset
+      is_expected.to set_flash[:success].to("Your email was sent.")
+    end
+  end
 end
