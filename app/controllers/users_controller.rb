@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   end
 
   def forgot_password
-    render :password_page
+    render :forgot_password
   end
 
   def confirm_password_reset
@@ -34,10 +34,16 @@ class UsersController < ApplicationController
   end
 
   def password_reset
-    flash[:success] = "Your email was sent."
     current_user.generate_token
-    AppMailer::Base.send_password_email(current_user.token)
+    AppMailer.send_password_reset_email(current_user).deliver
     redirect_to confirm_password_reset_path
+  end
+
+  def new_password
+    render :new_password
+  end
+
+  def set_password
   end
 
   private

@@ -71,4 +71,20 @@ describe User do
       expect(user.has_already_queued?(video)).to_not be
     end
   end
+
+  describe '#generate_token' do
+    it "updates the user's token field" do
+      user = Fabricate(:user)
+      expect(user.token).to_not be
+      user.generate_token
+      expect(user.token).to be
+    end
+
+    it "creates a valid URL safe UUID" do
+      uuid_regex = /[a-zA-Z0-9\-\_]/
+      user = Fabricate(:user)
+      user.generate_token
+      expect(user.token).to match(uuid_regex)
+    end
+  end
 end

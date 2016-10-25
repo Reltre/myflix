@@ -98,7 +98,7 @@ describe UsersController do
 
   describe "GET password_reset" do
     it_behaves_like "require_log_in" do
-      let(:action) { get :password_page }
+      let(:action) { get :forgot_password }
     end
   end
 
@@ -113,23 +113,18 @@ describe UsersController do
       let(:action) { post :password_reset }
     end
 
-    it "should send an email with the correct content" do
+    it "should send an email with the correct token" do
       user = Fabricate(:user)
       set_current_user(user)
       post :password_reset
       email = ActionMailer::Base.deliveries.last
-      expect(email.body.raw_source).to
-        include("Follow this #{link_to "link", password_reset_path(current_user.token)} to reset your password")
+      expect(email.body.raw_source).to include(current_user.token)
     end
 
     it "should redirect to confirm password page" do
+      set_current_user
       post :password_reset
       expect(response).to redirect_to confirm_password_reset_path
-    end
-
-    it "should show a message, notifying the user if the email was sent" do
-      post :password_reset
-      is_expected.to set_flash[:success].to("Your email was sent.")
     end
   end
 end
