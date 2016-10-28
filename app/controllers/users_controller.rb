@@ -30,6 +30,7 @@ class UsersController < ApplicationController
   end
 
   def confirm_password_reset
+    session[:user_id] = nil
     render :confirm_password_reset
   end
 
@@ -40,10 +41,14 @@ class UsersController < ApplicationController
   end
 
   def new_password
+    @token = params[:token]
     render :new_password
   end
 
   def set_password
+    user = User.find_by(token: params[:token])
+    user.update_attributes(password: params[:password], token: nil)
+    redirect_to log_in_path
   end
 
   private

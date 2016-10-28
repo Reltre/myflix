@@ -31,6 +31,7 @@ Myflix::Application.routes.draw do
   root 'pages#front'
   get '/forgot_password', to: 'users#forgot_password'
   get '/confirm_password_reset', to: 'users#confirm_password_reset'
-  get '/reset_password/:token', to: 'users#reset_password'
+  get '/new_password/:token', to: 'users#new_password'
   post '/password_reset', to: 'users#password_reset'
+  post '/set_password', to: 'users#set_password'
 end
