@@ -1,28 +1,25 @@
 class ForgotPasswordsController < ApplicationController
-  before_action :require_login,
-                only: [:password_reset,
-                       :confirm_password_reset,
-                       :forgot_password,
-                       :confirm_password_reset
-                      ]
-
   def forgot_password
     render :forgot_password
   end
 
   def confirm_password_reset
-    session[:user_id] = nil
     render :confirm_password_reset
   end
 
   def password_reset
-    user = User.find_by(email: params[:email])
+    email = params[:email]
+    user = User.find_by(email: email)
     if user
-      user.generate_token
+      user.generate_token!
       AppMailer.send_password_reset_email(user).deliver
       redirect_to confirm_password_reset_path
     else
-      flash[:danger] = "There is no user registered with that email."
+      if email.empty?
+        flash[:danger] = "You must supply an email address." 
+      else
+        flash[:danger] = "There is no user registered with that email."
+      end
       render :forgot_password
     end
   end
