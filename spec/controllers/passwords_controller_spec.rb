@@ -20,7 +20,7 @@ describe PasswordsController do
     context "with blank email address" do
       it "should set a flash message" do
         post :email, params: { email: "" }
-        is_expected.to set_flash[:danger].to "You must supply an email address."
+        is_expected.to set_flash[:danger]
       end
 
       it "should redirect to forgot password page" do
@@ -33,7 +33,7 @@ describe PasswordsController do
       before { post :email, params: { email: 'example@example.com' } }
 
       it "should set a flash message" do
-        is_expected.to set_flash[:danger].to "There is no user registered with that email."
+        is_expected.to set_flash[:danger]
       end
 
       it "should redirect to forgot password page" do
@@ -92,7 +92,7 @@ describe PasswordsController do
         user.generate_token!
         token = user.token
         post :update, params: { password: new_password, token: token }
-        is_expected.to set_flash[:success].to "Your password has been changed. Please log in."
+        is_expected.to set_flash[:success]
       end
     end
 

@@ -1,11 +1,7 @@
 class PasswordsController < ApplicationController
-  def forgot
-    render :forgot_password
-  end
+  def forgot; end
 
-  def confirm
-    render :confirm_password_reset
-  end
+  def confirm_reset; end
 
   def email
     email = params[:email]
@@ -28,7 +24,7 @@ class PasswordsController < ApplicationController
     user = User.find_by(token: params[:token])
     if user
       @token = params[:token]
-      render :new_password
+      render :show_reset
     else
       redirect_to :expired_token
     end

@@ -49,8 +49,7 @@ describe UsersController do
         user_params = Fabricate.attributes_for(:user)
         post :create, params: { user: user_params }
         message = ActionMailer::Base.deliveries.last
-        name = user_params[:full_name]
-        expect(message.body.raw_source).to include(name)
+        expect(message.subject).to eq("Thanks for Registering With MyFlix!")
       end
 
       it "sends the email to the correct recipient" do
