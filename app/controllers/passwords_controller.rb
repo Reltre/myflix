@@ -15,7 +15,7 @@ class PasswordsController < ApplicationController
       AppMailer.send_password_reset_email(user).deliver
       redirect_to confirm_password_reset_path
     else
-      if email.empty?
+      if email.blank?
         flash[:danger] = "You must supply an email address."
       else
         flash[:danger] = "There is no user registered with that email."
@@ -25,9 +25,9 @@ class PasswordsController < ApplicationController
   end
 
   def show_reset
-    @token = params[:token]
     user = User.find_by(token: params[:token])
     if user
+      @token = params[:token]
       render :new_password
     else
       redirect_to :expired_token
@@ -36,7 +36,12 @@ class PasswordsController < ApplicationController
 
   def update
     user = User.find_by(token: params[:token])
-    user.update_attributes(password: params[:password], token: nil)
-    redirect_to log_in_path
+    if user
+      flash[:success] = "Your password has been changed. Please log in."
+      user.update_attributes(password: params[:password], token: nil)
+      redirect_to log_in_path
+    else
+      redirect_to :expired_token
+    end
   end
 end
