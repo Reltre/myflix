@@ -5,6 +5,4 @@ class MakeReviewsPolymorphic < ActiveRecord::Migration
     add_column :reviews, :reviewable_id, :integer
     add_index :reviews, :reviewable_id
   end
-
-
 end

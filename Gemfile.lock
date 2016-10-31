@@ -107,6 +107,8 @@ GEM
     json (2.0.2)
     launchy (2.4.3)
       addressable (~> 2.3)
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -238,6 +240,7 @@ DEPENDENCIES
   haml-rails
   jquery-rails
   launchy
+  letter_opener
   pg
   pry
   pry-byebug

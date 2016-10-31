@@ -25,4 +25,8 @@ class User < ActiveRecord::Base
       item.update_attribute(:list_order, index + 1)
     end
   end
+
+  def generate_token!
+    update_attribute(:token, SecureRandom.urlsafe_base64)
+  end
 end

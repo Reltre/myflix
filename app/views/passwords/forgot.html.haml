@@ -1,0 +1,17 @@
+%section.forgot_password.container
+  .row
+    .col-sm-10
+      = form_tag password_reset_email_path, class: 'form-horizontal' do
+        .row
+          %header
+            %h2= "Forgot Your Password?"
+            %br
+            %p We will send you an email with a link so that you can reset your password.
+        .row
+          .form-group
+            .small-offset.col-md-2
+              = label_tag 'Email Address', nil, class: 'control-label'
+            .col-sm-5
+              = text_field_tag 'email',nil, class: 'form-control'
+            .col-sm-2
+              = submit_tag 'Send Email', class: 'btn btn-default'
