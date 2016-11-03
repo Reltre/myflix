@@ -6,6 +6,7 @@ class PasswordsController < ApplicationController
   def email
     email = params[:email]
     user = User.find_by(email: email)
+    # binding.pry
     if user
       user.generate_token!
       AppMailer.send_password_reset_email(user).deliver
