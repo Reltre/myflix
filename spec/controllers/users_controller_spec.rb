@@ -94,4 +94,46 @@ describe UsersController do
       expect(assigns(:user)).to eq(user)
     end
   end
+
+  describe "GET invite" do
+    it_behaves_like "require_log_in" do
+      let(:action) { get :invite }
+    end
+  end
+
+  describe "POST send_invite" do
+    it_behaves_like "require_log_in" do
+      let(:action) { get :invite }
+    end
+
+    after { ActionMailer::Base.deliveries.clear }
+
+    context "with valid email address" do
+      it "redirects to back to invite page" do
+        post :send_invite
+        expect(response).to redirect_to invite_path
+      end
+
+      it "shows a flash message about the success of the email" do
+        post :send_invite
+        is_expected.to set_flash[:success]
+      end
+
+      it "sends an email with the correct message" do
+        user = Fabricate(:user)
+        friend = Fabricate(:user)
+        message = "This app is awesome! You should really try it out."
+        set_current_user(user)
+        post :send_invite, params:
+          { name: friend.full_name, email: friend.email, message: message }
+        email = AppMailer.deliveries.last
+        expect(email.body.raw_source).to include message
+      end
+    end
+
+    context "with blank email address" do
+    end
+
+
+  end
 end

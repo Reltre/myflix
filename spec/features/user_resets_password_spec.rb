@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 feature "User resets their password" do
-  scenario "receives reset email and logs in" do
+  scenario "user successfully resets their password" do
     clear_emails
-    Fabricate(:user, email: "example@example.com")
+    user = Fabricate(:user, email: "example@example.com", password: '54321')
 
-    visit forgot_password_path
+    visit log_in_path
+    click_link "Forgot Password?"
     fill_in "Email", with: "example@example.com"
     click_button "Send Email"
 
@@ -20,6 +21,6 @@ feature "User resets their password" do
     fill_in "Email Address", with: 'example@example.com'
     fill_in "Password", with: '12345'
     click_button "Log In"
-    expect(page).to have_text "My Queue"
+    expect(page).to have_text "Welcome, #{user.full_name}"
   end
 end

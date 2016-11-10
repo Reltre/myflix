@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: :show
+  before_action :require_login, only: [:show, :invite]
 
   def new
     @user = User.new
@@ -17,6 +17,14 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+  end
+
+  def send_invite
+    name = params[:name]
+    email = params[:email]
+    AppMailer.send_invite_email(name, email, current_user).deliver
+    flash[:success] = "You successfully sent your invite!"
+    redirect_to invite_path
   end
 
   private
