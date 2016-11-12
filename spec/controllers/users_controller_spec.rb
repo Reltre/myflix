@@ -106,14 +106,14 @@ describe UsersController do
       let(:action) { get :invite }
     end
 
+    it "redirects to back to invite page" do
+      post :send_invite
+      expect(response).to redirect_to invite_path
+    end
+
     after { ActionMailer::Base.deliveries.clear }
 
     context "with valid email address" do
-      it "redirects to back to invite page" do
-        post :send_invite
-        expect(response).to redirect_to invite_path
-      end
-
       it "shows a flash message about the success of the email" do
         post :send_invite
         is_expected.to set_flash[:success]
@@ -132,8 +132,15 @@ describe UsersController do
     end
 
     context "with blank email address" do
+      it "shows a flash message about how the email cannot be blank" do
+        user = Fabricate(:user)
+        friend = Fabricate(:user)
+        message = "This app is awesome! You should really try it out."
+        set_current_user(user)
+        post :send_invite, params:
+          { name: friend.full_name, email: "", message: message }
+        is_expected.to set_flash[:danger]
+      end
     end
-
-
   end
 end

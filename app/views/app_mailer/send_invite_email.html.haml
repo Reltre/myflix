@@ -2,4 +2,7 @@
 
 %html
   %body
-    %p= "Hi #{@friend_name}, you've been invited to join MyFlix!"
+    %p
+      = @message
+      Follow the link below to register with us!
+      = link_to "", register_url(email: @email, token: @token)
