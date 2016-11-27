@@ -8,6 +8,16 @@ class UsersController < ApplicationController
   def create
     @user = User.new(users_params)
     if @user.save
+      token = params[:token]
+
+      if token
+        existing_user = User.find_by(token: token)
+        @user.following_relationships <<
+          Relationship.new(leader: existing_user, follower: @user)
+        @user.leading_relationships <<
+          Relationship.new(leader: @user, follower: existing_user)
+      end
+
       AppMailer.send_welcome_email(@user).deliver
       redirect_to log_in_path
     else
@@ -17,6 +27,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+  end
+
+  def invite
+    @email = params[:email]
+    @token = params[:token]
   end
 
   def send_invite

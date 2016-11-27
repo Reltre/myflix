@@ -14,7 +14,7 @@
             = label_tag 'email', "Friend's Email Address"
             .row
               .col-sm-4
-                = email_field_tag 'email', nil , class: 'form-control'
+                = email_field_tag 'email', @email , class: 'form-control'
           .form-group
             = label_tag 'message', 'Invitation Message'
             .row
