@@ -16,6 +16,8 @@ class UsersController < ApplicationController
           Relationship.new(leader: existing_user, follower: @user)
         @user.leading_relationships <<
           Relationship.new(leader: @user, follower: existing_user)
+        existing_user.update_attribute(:token, nil)
+        flash[:success] = "You are now following #{existing_user.full_name}."
       end
 
       AppMailer.send_welcome_email(@user).deliver

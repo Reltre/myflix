@@ -68,25 +68,30 @@ describe UsersController do
     end
 
     context "recommended by existing user" do
-      it "sets new user to as a follower of the existing user" do
-        existing_user = Fabricate(:user)
+      let(:existing_user) { Fabricate(:user) }
+      let(:new_user) { User.second }
+
+      before do
         existing_user.generate_token!
         user_params = Fabricate.attributes_for(:user)
         post :create, params: { user: user_params, token: existing_user.token }
-        new_user = User.second
+      end
+
+      it "sets new user to as a follower of the existing user" do
         expect(new_user.following_relationships.first.leader).to eq existing_user
       end
 
       it "sets existing user as a follower of the new user" do
-        existing_user = Fabricate(:user)
-        existing_user.generate_token!
-        user_params = Fabricate.attributes_for(:user)
-        post :create, params: { user: user_params, token: existing_user.token }
-        new_user = User.second
         expect(new_user.leading_relationships.first.follower).to eq existing_user
       end
-      it "deletes token from existing user"
-      it "sets a flash message notifying the newly registered user that they are following their friend"
+
+      it "deletes token from existing user" do
+        expect(existing_user.reload.token).to be_nil
+      end
+
+      it "sets a flash message notifying the newly registered user that they are following their friend" do
+        is_expected.to set_flash[:success]
+      end
     end
 
     context "with invalid input" do
@@ -143,6 +148,10 @@ describe UsersController do
     end
 
     it "redirects to back to invite page" do
+      user = Fabricate(:user)
+      friend = Fabricate(:user)
+      message = "This app is awesome! You should really try it out."
+      set_current_user(user)
       post :send_invite, params:
         { name: friend.full_name, email: friend.email, message: message }
       expect(response).to redirect_to invite_path
@@ -152,6 +161,10 @@ describe UsersController do
 
     context "with valid email address" do
       it "shows a flash message about the success of the email" do
+        user = Fabricate(:user)
+        friend = Fabricate(:user)
+        message = "This app is awesome! You should really try it out."
+        set_current_user(user)
         post :send_invite, params:
           { name: friend.full_name, email: friend.email, message: message }
         is_expected.to set_flash[:success]
