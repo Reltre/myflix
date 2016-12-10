@@ -8,7 +8,7 @@
                            control_col: 'col-sm-10' do |f|
         %header
           %h1 Sign in
-        = f.email_field :email, label: "Email Address"
+        = f.email_field :email, value: @email, label: "Email Address"
         = f.password_field :password, label: "Password"
         = f.form_group do
           = f.submit "Log In"

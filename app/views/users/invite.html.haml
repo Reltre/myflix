@@ -19,7 +19,7 @@
             = label_tag 'message', 'Invitation Message'
             .row
               .col-sm-6
-                = text_area_tag 'message', 'Please join this really cool site!',
-                  rows: 6, class: 'form-control'
+                = text_area_tag 'message',nil,
+                  rows: 6, placeholder: 'Write your message here.', class: 'form-control'
         %fieldset.form-group.action
           = submit_tag "Send Invitation", class:"btn btn-default"

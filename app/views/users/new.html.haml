@@ -8,8 +8,9 @@
         %header
           %h1 Register
         %fieldset
-          = f.hidden_field :token, @token
-          = f.email_field :email, label: "Email Address"
+          - if @token
+            = f.hidden_field :token, value: @token
+          = f.email_field :email, value: @email, label: "Email Address"
           = f.password_field :password
           = f.text_field :full_name,label: "Full Name"
           = f.form_group do

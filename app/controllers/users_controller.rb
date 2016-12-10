@@ -2,6 +2,8 @@ class UsersController < ApplicationController
   before_action :require_login, only: [:show, :invite]
 
   def new
+    @email = params[:email]
+    @token = params[:token]
     @user = User.new
   end
 

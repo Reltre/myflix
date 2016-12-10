@@ -14,7 +14,8 @@ class AppMailer < ActionMailer::Base
   end
 
   def send_invite_email(email, message, referer, name)
-    @token = referer.generate_token!
+    referer.generate_token!
+    @token = referer.token
     @email = email
     @message = message
     mail from: ENV['GMAIL_USERNAME'],
