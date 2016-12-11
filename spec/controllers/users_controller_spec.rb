@@ -8,6 +8,11 @@ describe UsersController do
       get :new
       expect(assigns(:user)).to be_a_new(User)
     end
+
+    it "redirects to the front page when there is an invalid token" do
+      get :new
+      expect(response).to redirect_to root_path
+    end
   end
 
   describe "POST create" do
@@ -134,7 +139,7 @@ describe UsersController do
       expect(assigns(:email)).to eq "example@example.com"
     end
 
-    it "assigns email" do
+    it "assigns token" do
       user = Fabricate(:user, email: "example@example.com" )
       set_current_user(user)
       get :invite, params: { email: current_user.email, token: "test12" }

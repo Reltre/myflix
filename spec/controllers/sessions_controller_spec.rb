@@ -12,6 +12,11 @@ describe SessionsController do
       get :new
       expect(response).to render_template :new
     end
+
+    it "assigns email if valid token" do
+      get :new, params: { email: 'example@example.com' }
+      expect(assigns(:email)).to be
+    end
   end
 
   describe "POST create" do

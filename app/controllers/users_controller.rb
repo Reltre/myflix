@@ -2,8 +2,9 @@ class UsersController < ApplicationController
   before_action :require_login, only: [:show, :invite]
 
   def new
-    @email = params[:email]
     @token = params[:token]
+    redirect_to root_path unless User.find_by(token: @token)
+    @email = params[:email]
     @user = User.new
   end
 
