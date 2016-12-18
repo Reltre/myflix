@@ -2,7 +2,6 @@ require 'rails_helper'
 
 feature 'User sends invite to friend' do
   scenario "friend signs up for myflix" do
-    clear_emails
     user = Fabricate(:user, email: "example@example.com", password: '54321')
     log_in(user)
     click_link "Invite a Friend!"
@@ -20,5 +19,6 @@ feature 'User sends invite to friend' do
     fill_in "Password", with: "12345"
     click_button "Log In"
     expect(page).to have_content "Welcome, Jenny Anders"
+    clear_emails
   end
 end

@@ -13,9 +13,9 @@ class AppMailer < ActionMailer::Base
          subject: "MyFlix - Password Reset"
   end
 
-  def send_invite_email(email, message, referer, name)
-    referer.generate_token!
-    @token = referer.token
+  def send_invite_email(email, message, invitation, name)
+    invitation.generate_token!
+    @token = invitation.token
     @email = email
     @message = message
     mail from: ENV['GMAIL_USERNAME'],

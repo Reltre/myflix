@@ -39,4 +39,5 @@ Myflix::Application.routes.draw do
 
   get '/invite', to: 'users#invite'
   post '/invite', to: 'users#send_invite'
+  resources :invitations, only: [:new, :create]
 end

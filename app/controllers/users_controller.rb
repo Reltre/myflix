@@ -34,24 +34,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  def invite
-    @email = params[:email]
-    @token = params[:token]
-  end
-
-  def send_invite
-    name = params[:name]
-    email = params[:email]
-    message = params[:message]
-    unless email.empty?
-      AppMailer.send_invite_email(email, message, current_user, name).deliver
-      flash[:success] = "You successfully sent your invite!"
-    else
-      flash[:danger] = "You must provide a valid email address"
-    end
-    redirect_to invite_path
-  end
-
   private
 
   def users_params

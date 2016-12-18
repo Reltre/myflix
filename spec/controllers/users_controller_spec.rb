@@ -83,11 +83,11 @@ describe UsersController do
       end
 
       it "sets new user to as a follower of the existing user" do
-        expect(new_user.following_relationships.first.leader).to eq existing_user
+        expect(new_user.follows? existing_user).to be
       end
 
       it "sets existing user as a follower of the new user" do
-        expect(new_user.leading_relationships.first.follower).to eq existing_user
+        expect(existing_user.follows? new_user).to be
       end
 
       it "deletes token from existing user" do
@@ -124,79 +124,6 @@ describe UsersController do
       user = Fabricate(:user)
       get :show, params: { id: user.id }
       expect(assigns(:user)).to eq(user)
-    end
-  end
-
-  describe "GET invite" do
-    it_behaves_like "require_log_in" do
-      let(:action) { get :invite }
-    end
-
-    it "assigns email" do
-      user = Fabricate(:user, email: "example@example.com" )
-      set_current_user(user)
-      get :invite, params: { email: current_user.email, token: "test12" }
-      expect(assigns(:email)).to eq "example@example.com"
-    end
-
-    it "assigns token" do
-      user = Fabricate(:user, email: "example@example.com" )
-      set_current_user(user)
-      get :invite, params: { email: current_user.email, token: "test12" }
-      expect(assigns(:token)).to eq "test12"
-    end
-  end
-
-  describe "POST send_invite" do
-    it_behaves_like "require_log_in" do
-      let(:action) { get :invite }
-    end
-
-    it "redirects to back to invite page" do
-      user = Fabricate(:user)
-      friend = Fabricate(:user)
-      message = "This app is awesome! You should really try it out."
-      set_current_user(user)
-      post :send_invite, params:
-        { name: friend.full_name, email: friend.email, message: message }
-      expect(response).to redirect_to invite_path
-    end
-
-    after { ActionMailer::Base.deliveries.clear }
-
-    context "with valid email address" do
-      it "shows a flash message about the success of the email" do
-        user = Fabricate(:user)
-        friend = Fabricate(:user)
-        message = "This app is awesome! You should really try it out."
-        set_current_user(user)
-        post :send_invite, params:
-          { name: friend.full_name, email: friend.email, message: message }
-        is_expected.to set_flash[:success]
-      end
-
-      it "sends an email with the correct message" do
-        user = Fabricate(:user)
-        friend = Fabricate(:user)
-        message = "This app is awesome! You should really try it out."
-        set_current_user(user)
-        post :send_invite, params:
-          { name: friend.full_name, email: friend.email, message: message }
-        email = AppMailer.deliveries.last
-        expect(email.body.raw_source).to include message
-      end
-    end
-
-    context "with blank email address" do
-      it "shows a flash message about how the email cannot be blank" do
-        user = Fabricate(:user)
-        friend = Fabricate(:user)
-        message = "This app is awesome! You should really try it out."
-        set_current_user(user)
-        post :send_invite, params:
-          { name: friend.full_name, email: "", message: message }
-        is_expected.to set_flash[:danger]
-      end
     end
   end
 end
