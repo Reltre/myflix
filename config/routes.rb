@@ -37,7 +37,5 @@ Myflix::Application.routes.draw do
   post '/password_reset_email', to: 'passwords#email'
   post '/update_password', to: 'passwords#update', as: 'update_password'
 
-  get '/invite', to: 'users#invite'
-  post '/invite', to: 'users#send_invite'
   resources :invitations, only: [:new, :create]
 end

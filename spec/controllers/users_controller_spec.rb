@@ -9,9 +9,11 @@ describe UsersController do
       expect(assigns(:user)).to be_a_new(User)
     end
 
-    it "redirects to the front page when there is an invalid token" do
-      get :new
-      expect(response).to redirect_to root_path
+    context "new user registers through myflix invitation" do
+      it "redirects to the front page when there is an invalid token" do
+        get :new
+        expect(response).to redirect_to root_path
+      end
     end
   end
 

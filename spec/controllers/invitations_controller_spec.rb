@@ -19,7 +19,7 @@ describe InvitationsController do
       set_current_user(user)
       post :create, params:
         { name: friend.full_name, email: friend.email, message: message }
-      expect(response).to redirect_to invite_path
+      expect(response).to redirect_to new_invitation_path
     end
 
     after { ActionMailer::Base.deliveries.clear }

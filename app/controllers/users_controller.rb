@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def new
     @token = params[:token]
-    redirect_to root_path unless User.find_by(token: @token)
+    redirect_to root_path unless Invitation.find_by(token: @token)
     @email = params[:email]
     @user = User.new
   end
@@ -14,12 +14,12 @@ class UsersController < ApplicationController
       token = params[:token]
 
       if token
-        existing_user = User.find_by(token: token)
+        invitation = Invitation.find_by(token: token)
         @user.following_relationships <<
-          Relationship.new(leader: existing_user, follower: @user)
+          Relationship.new(leader: invitation.inviter, follower: @user)
         @user.leading_relationships <<
-          Relationship.new(leader: @user, follower: existing_user)
-        existing_user.update_attribute(:token, nil)
+          Relationship.new(leader: @user, follower: invitation.inviter)
+        invitation.inviter.update_attribute(:token, nil)
         flash[:success] = "You are now following #{existing_user.full_name}."
       end
 

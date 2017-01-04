@@ -11,7 +11,7 @@ class InvitationsController < ApplicationController
     message = params[:message]
     invitation = Invitation.new(email: email, message: message, inviter: current_user)
     unless email.empty?
-      AppMailer.send_invite_email(email, message, current_user, name).deliver
+      AppMailer.send_invite_email(invitation, name).deliver
       invitation.save
       flash[:success] = "You successfully sent your invite!"
     else
