@@ -9,22 +9,24 @@ class UsersController < ApplicationController
   end
 
   def create
+    invitation = Invitation.find_by(token: params[:token])
+
     @user = User.new(users_params)
     if @user.save
-      token = params[:token]
-
-      if token
-        invitation = Invitation.find_by(token: token)
+      if invitation
         @user.following_relationships <<
           Relationship.new(leader: invitation.inviter, follower: @user)
         @user.leading_relationships <<
           Relationship.new(leader: @user, follower: invitation.inviter)
-        invitation.inviter.update_attribute(:token, nil)
-        flash[:success] = "You are now following #{existing_user.full_name}."
+        invitation.update_attribute(:token, nil)
+        flash[:success] = "You are now following #{invitation.inviter.full_name}."
       end
-
       AppMailer.send_welcome_email(@user).deliver
-      redirect_to log_in_path
+      if params[:token] && !invitation
+        redirect_to expired_token_path
+      else
+        redirect_to log_in_path
+      end
     else
       render :new
     end

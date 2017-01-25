@@ -48,7 +48,7 @@ describe UsersController do
       after { ActionMailer::Base.deliveries.clear }
 
       it "sends the email" do
-        post :create, params: { user: Fabricate.attributes_for(:user) }
+        post :create, params: { user: Fabricate.attributes_for(:user), token: "token" }
         expect(ActionMailer::Base.deliveries.size).to_not eq(0)
       end
 
@@ -76,28 +76,37 @@ describe UsersController do
 
     context "recommended by existing user" do
       let(:existing_user) { Fabricate(:user) }
+      let(:user_params) { Fabricate.attributes_for(:user) }
       let(:new_user) { User.second }
+      let(:invitation) { Fabricate(:invitation, inviter: existing_user, token: "token") }
 
       before do
         existing_user.generate_token!
-        user_params = Fabricate.attributes_for(:user)
-        post :create, params: { user: user_params, token: existing_user.token }
       end
 
       it "sets new user to as a follower of the existing user" do
+        post :create, params: { user: user_params, token: invitation.token }
         expect(new_user.follows? existing_user).to be
       end
 
       it "sets existing user as a follower of the new user" do
+        post :create, params: { user: user_params, token: invitation.token }
         expect(existing_user.follows? new_user).to be
       end
 
       it "deletes token from existing user" do
+        post :create, params: { user: user_params, token: invitation.token }
         expect(existing_user.reload.token).to be_nil
       end
 
       it "sets a flash message notifying the newly registered user that they are following their friend" do
+        post :create, params: { user: user_params, token: invitation.token }
         is_expected.to set_flash[:success]
+      end
+
+      it "redirects to expired token page with invalid token" do
+        post :create, params: { user: user_params, token: "bad_token" }
+        expect(response).to redirect_to expired_token_path
       end
     end
 
