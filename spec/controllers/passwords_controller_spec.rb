@@ -8,7 +8,6 @@ describe PasswordsController do
         post :email, params: { email: "example@example.com" }
         email = ActionMailer::Base.deliveries.last
         user = User.find_by(email: "example@example.com")
-        # binding.pry
         expect(email.body.raw_source).to include(user.reload.token)
       end
 
@@ -47,7 +46,6 @@ describe PasswordsController do
   describe "GET show_reset" do
     it "assigns @token" do
       user = Fabricate(:user)
-      user.generate_token!
       token = user.token
       get :show_reset, token: token
       expect(assigns(:token)).to eq(token)
@@ -63,7 +61,6 @@ describe PasswordsController do
       it "redirect to log in page" do
         user = Fabricate(:user)
         new_password = 'password1'
-        user.generate_token!
         token = user.token
         post :update, params: { password: new_password, token: token }
         expect(response).to redirect_to log_in_path
@@ -72,7 +69,6 @@ describe PasswordsController do
       it "saves a new user password" do
         user = Fabricate(:user)
         new_password = 'password1'
-        user.generate_token!
         token = user.token
         post :update, params: { password: new_password, token: token }
         expect(user.reload.authenticate(new_password)).to eq(user)
@@ -81,7 +77,6 @@ describe PasswordsController do
       it "should clear the token field for a user" do
         user = Fabricate(:user)
         new_password = 'password1'
-        user.generate_token!
         token = user.token
         post :update, params: { password: new_password, token: token }
         expect(user.reload.token).to be_nil
@@ -90,7 +85,6 @@ describe PasswordsController do
       it "should set a flash message on successful password change" do
         user = Fabricate(:user)
         new_password = 'password1'
-        user.generate_token!
         token = user.token
         post :update, params: { password: new_password, token: token }
         is_expected.to set_flash[:success]

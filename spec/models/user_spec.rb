@@ -74,9 +74,9 @@ describe User do
 
   describe '#generate_token!' do
     it "updates the user's token field" do
-      user = Fabricate(:user)
+      user = Fabricate.build(:user)
       expect(user.token).to_not be
-      user.generate_token!
+      user.save
       expect(user.reload.token).to be
     end
 

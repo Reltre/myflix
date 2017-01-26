@@ -1,7 +1,11 @@
 module Tokenable
   extend ActiveSupport::Concern
 
-  def generate_token!
-    update_attribute(:token, SecureRandom.urlsafe_base64)
+  included do
+    before_validation :generate_token!
+
+    def generate_token!
+      self.token = SecureRandom.urlsafe_base64
+    end
   end
 end

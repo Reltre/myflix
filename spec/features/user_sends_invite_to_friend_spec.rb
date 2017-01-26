@@ -11,7 +11,7 @@ feature 'User sends invite to friend' do
     click_button "Send Invitation"
     open_email("jennytime@example.com")
     current_email.click_link('MyFlix - Signup')
-    expect(page).to have_xpath ("//input[@value='jennytime@example.com']")
+    expect(page).to have_xpath("//input[@value='jennytime@example.com']")
     fill_in 'Password', with: '12345'
     fill_in 'Full Name', with: 'Jenny Anders'
     click_button 'Sign Up'
