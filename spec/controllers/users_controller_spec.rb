@@ -80,10 +80,6 @@ describe UsersController do
       let(:new_user) { User.second }
       let(:invitation) { Fabricate(:invitation, inviter: existing_user, token: "token") }
 
-      before do
-        existing_user.generate_token!
-      end
-
       it "sets new user to as a follower of the existing user" do
         post :create, params: { user: user_params, token: invitation.token }
         expect(new_user.follows? existing_user).to be

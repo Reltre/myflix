@@ -83,7 +83,6 @@ describe User do
     it "creates a valid URL safe UUID" do
       uuid_regex = /[a-zA-Z0-9\-\_]/
       user = Fabricate(:user)
-      user.generate_token!
       expect(user.reload.token).to match(uuid_regex)
     end
   end
