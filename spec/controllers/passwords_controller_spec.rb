@@ -4,9 +4,11 @@ describe PasswordsController do
   describe "POST email" do
     context "with valid email address" do
       it "should send an email with the correct token" do
-        user = Fabricate(:user)
-        post :email, params: { email: user.email }
+        Fabricate(:user, email: "example@example.com")
+        post :email, params: { email: "example@example.com" }
         email = ActionMailer::Base.deliveries.last
+        user = User.find_by(email: "example@example.com")
+        # binding.pry
         expect(email.body.raw_source).to include(user.reload.token)
       end
 
@@ -51,9 +53,8 @@ describe PasswordsController do
       expect(assigns(:token)).to eq(token)
     end
 
-    it "redirects to expired token page when token is invalid" do
-      get :show_reset, params: { token: "hfkldsfHD4384vb" }
-      expect(response).to redirect_to expired_token_path
+    it_behaves_like "require_token" do
+      let(:action) { get :show_reset, params: { token: "hfkldsfHD4384vb" } }
     end
   end
 
@@ -96,11 +97,8 @@ describe PasswordsController do
       end
     end
 
-    context "wit invalid token" do
-      it "redirects to expired token page" do
-        get :update, params: { token: "hfkldsfHD4384vb", password: 'password1' }
-        expect(response).to redirect_to expired_token_path
-      end
+    it_behaves_like "require_token" do
+      let(:action) { get :update, params: { token: "hfkldsfHD4384vb", password: 'password1' } }
     end
   end
 end

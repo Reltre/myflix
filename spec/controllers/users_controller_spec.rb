@@ -96,7 +96,7 @@ describe UsersController do
 
       it "deletes token from existing user" do
         post :create, params: { user: user_params, token: invitation.token }
-        expect(existing_user.reload.token).to be_nil
+        expect(invitation.reload.token).to be_nil
       end
 
       it "sets a flash message notifying the newly registered user that they are following their friend" do
@@ -107,6 +107,10 @@ describe UsersController do
       it "redirects to expired token page with invalid token" do
         post :create, params: { user: user_params, token: "bad_token" }
         expect(response).to redirect_to expired_token_path
+      end
+
+      it_behaves_like "require_token" do
+        let(:action) { post :create, params: { user: user_params, token: "bad_token" } }
       end
     end
 

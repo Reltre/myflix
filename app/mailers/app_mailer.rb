@@ -7,6 +7,7 @@ class AppMailer < ActionMailer::Base
   end
 
   def send_password_reset_email(user)
+    user.generate_token!
     @token = user.token
     mail from: ENV['GMAIL_USERNAME'],
          to: user.email,
