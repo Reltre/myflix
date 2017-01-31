@@ -1,17 +1,22 @@
 %section.register.container
   .row
-    .col-sm-10.col-sm-offset-1
-      = bootstrap_form_for @user,
-                           layout: :horizontal,
-                           label_col: 'col-sm-2',
-                           control_col: 'col-sm-10' do |f|
-        %header
-          %h1 Register
-        %fieldset
-          - if @token
-            = f.hidden_field :token, value: @token
-          = f.email_field :email, value: @email, label: "Email Address"
-          = f.password_field :password
-          = f.text_field :full_name,label: "Full Name"
-          = f.form_group do
-            = f.submit "Sign Up"
+    = form_for @user,layout: :horizontal do |f|
+      %header
+        %h1 Register
+      %fieldset
+        - if @token
+          = f.hidden_field :token, value: @token
+        .form-group.row
+          = f.label :email, "Email Address", class: 'col-form-label col-sm-2'
+          .col-sm-6
+            = f.email_field :email, value: @email, class: 'form-control'
+        .form-group.row
+          = f.label :password, "Password", class: 'col-form-label col-sm-2'
+          .col-sm-6
+            = f.password_field :password, class: 'form-control'
+        .form-group.row
+          = f.label :full_name, "Full Name", class: 'col-form-label col-sm-2'
+          .col-sm-6
+            = f.text_field :full_name, class: 'form-control'
+        .form_group
+          = f.submit "Sign Up", class: 'btn'

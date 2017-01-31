@@ -16,7 +16,7 @@ feature "User resets their password" do
 
     fill_in "New Password", with: "12345"
     click_button "Reset Password"
-    expect(page).to have_text("Sign in")
+    expect(page).to have_text("Log in")
 
     fill_in "Email Address", with: 'example@example.com'
     fill_in "Password", with: '12345'
