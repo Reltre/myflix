@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def new
     @token = params[:token]
-    redirect_to root_path unless @token && Invitation.find_by(token: @token)
+    redirect_to root_path if @token && !Invitation.find_by(token: @token)
 
     @email = params[:email]
     @user = User.new
