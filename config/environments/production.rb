@@ -26,6 +26,5 @@ Myflix::Application.configure do
     :domain         => 'yourapp.heroku.com',
     :authentication => :plain
   }
-
   config.action_mailer.delivery_method = :smtp
 end
