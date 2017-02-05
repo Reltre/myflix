@@ -4,10 +4,10 @@ describe PasswordsController do
   describe "POST email" do
     context "with valid email address" do
       it "should send an email with the correct token" do
-        Fabricate(:user, email: "example@example.com")
-        post :email, params: { email: "example@example.com" }
+        user = Fabricate(:user)
+        post :email, params: { email: user.email }
         email = ActionMailer::Base.deliveries.last
-        user = User.find_by(email: "example@example.com")
+        user = User.find_by(email: user.email)
         expect(email.body.raw_source).to include(user.reload.token)
       end
 

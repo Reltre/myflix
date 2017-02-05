@@ -11,6 +11,6 @@
         = label_tag :password, "Password", class: 'col-form-label col-sm-2'
         .col-sm-6
           = password_field_tag :password, nil, class: 'form-control'
-      .form_group.row
+      .form_group
         = submit_tag "Log In", class: 'btn'
         = link_to "Forgot Password?", forgot_password_path, id: 'forgot_password'

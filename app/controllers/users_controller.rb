@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def create
     invitation = Invitation.find_by(token: params[:token])
 
-    @user = User.new(users_params)
+    @user = User.new(user_params)
     if @user.save
       if invitation
         @user.following_relationships <<
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
 
   private
 
-  def users_params
+  def user_params
     params.require(:user).permit(:email, :password, :full_name)
   end
 end

@@ -33,8 +33,7 @@ class PasswordsController < ApplicationController
     user = User.find_by(token: params[:token])
     if user
       flash[:success] = "Your password has been changed. Please log in."
-      user.update_attribute(:password, params[:password])
-      user.update_attribute(:token, nil)
+      user.update_attributes(password: params[:password], token: nil)
       redirect_to log_in_path
     else
       redirect_to :expired_token

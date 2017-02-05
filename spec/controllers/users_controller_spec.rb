@@ -96,7 +96,7 @@ describe UsersController do
         expect(invitation.reload.token).to be_nil
       end
 
-      it "sets a flash message notifying the newly registered user that they are following their friend" do
+      it "sets flash message success" do
         post :create, params: { user: user_params, token: invitation.token }
         is_expected.to set_flash[:success]
       end

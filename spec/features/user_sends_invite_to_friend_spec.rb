@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'User sends invite to friend' do
   scenario "friend signs up for myflix" do
-    user = Fabricate(:user, email: "example@example.com", password: '54321')
+    user = Fabricate(:user, password: '54321')
     log_in(user)
     click_link "Invite a Friend!"
     fill_in "Friend's Name", with: "Jenny Anders"

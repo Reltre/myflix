@@ -58,7 +58,7 @@ describe InvitationsController do
     end
 
     context "with blank email address" do
-      it "shows a flash message about how the email cannot be blank" do
+      it "sets error flash message" do
         user = Fabricate(:user)
         friend = Fabricate(:user)
         message = "This app is awesome! You should really try it out."
