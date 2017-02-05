@@ -1,0 +1,8 @@
+!!! 5
+
+%html
+  %body
+    %p
+      = @message
+    %p Follow the link below to register with us!
+    = link_to "MyFlix - Signup", register_url(email: @email, token: @token)

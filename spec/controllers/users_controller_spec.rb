@@ -8,6 +8,14 @@ describe UsersController do
       get :new
       expect(assigns(:user)).to be_a_new(User)
     end
+
+    context "new user registers through myflix invitation" do
+      it "redirects to the front page when there is an invalid token" do
+        Fabricate(:invitation, token: "token")
+        get :new, token: "bad_token"
+        expect(response).to redirect_to root_path
+      end
+    end
   end
 
   describe "POST create" do
@@ -41,7 +49,7 @@ describe UsersController do
       after { ActionMailer::Base.deliveries.clear }
 
       it "sends the email" do
-        post :create, params: { user: Fabricate.attributes_for(:user) }
+        post :create, params: { user: Fabricate.attributes_for(:user), token: "token" }
         expect(ActionMailer::Base.deliveries.size).to_not eq(0)
       end
 
@@ -64,6 +72,42 @@ describe UsersController do
         user_params = { email: "test12@email.com" }
         post :create, params: { user: user_params }
         expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end
+
+    context "recommended by existing user" do
+      let(:existing_user) { Fabricate(:user) }
+      let(:user_params) { Fabricate.attributes_for(:user) }
+      let(:new_user) { User.second }
+      let(:invitation) { Fabricate(:invitation, inviter: existing_user, token: "token") }
+
+      it "sets new user to as a follower of the existing user" do
+        post :create, params: { user: user_params, token: invitation.token }
+        expect(new_user.follows? existing_user).to be
+      end
+
+      it "sets existing user as a follower of the new user" do
+        post :create, params: { user: user_params, token: invitation.token }
+        expect(existing_user.follows? new_user).to be
+      end
+
+      it "deletes token from existing user" do
+        post :create, params: { user: user_params, token: invitation.token }
+        expect(invitation.reload.token).to be_nil
+      end
+
+      it "sets flash message success" do
+        post :create, params: { user: user_params, token: invitation.token }
+        is_expected.to set_flash[:success]
+      end
+
+      it "redirects to expired token page with invalid token" do
+        post :create, params: { user: user_params, token: "bad_token" }
+        expect(response).to redirect_to expired_token_path
+      end
+
+      it_behaves_like "require_token" do
+        let(:action) { post :create, params: { user: user_params, token: "bad_token" } }
       end
     end
 

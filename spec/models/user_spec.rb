@@ -74,16 +74,15 @@ describe User do
 
   describe '#generate_token!' do
     it "updates the user's token field" do
-      user = Fabricate(:user)
+      user = Fabricate.build(:user)
       expect(user.token).to_not be
-      user.generate_token!
+      user.save
       expect(user.reload.token).to be
     end
 
     it "creates a valid URL safe UUID" do
       uuid_regex = /[a-zA-Z0-9\-\_]/
       user = Fabricate(:user)
-      user.generate_token!
       expect(user.reload.token).to match(uuid_regex)
     end
   end

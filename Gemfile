@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
 
-gem 'bootstrap-sass'
+gem 'bootstrap', '~> 4.0.0.alpha5'
+gem 'sprockets-rails'
 gem 'bootstrap_form'
 gem 'coffee-rails'
 gem 'rails', '5.0.0'
@@ -34,6 +35,7 @@ group :test do
   gem 'shoulda-matchers', '~> 3.1'
   gem 'capybara'
   gem 'capybara-webkit'
+  gem 'capybara-email'
   gem 'launchy'
 end
 

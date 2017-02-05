@@ -7,7 +7,6 @@ class PasswordsController < ApplicationController
     email = params[:email]
     user = User.find_by(email: email)
     if user
-      user.generate_token!
       AppMailer.send_password_reset_email(user).deliver
       redirect_to confirm_password_reset_path
     else

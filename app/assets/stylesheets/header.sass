@@ -4,10 +4,14 @@ section#top-header
   margin-bottom: 20px
   padding: 12px 0
   border-radius: 5px
-  a
-    color: white
+  color: white
+  #my_options
+    a
+      color: white
   h1
     font-size: 20px
+    a
+      color: white
   > ul
     padding-top: 12px
     li
@@ -20,25 +24,19 @@ section#top-header
     padding-top: 6px
     margin: 0
     input[type="text"]
-      width: 320px
+      width: 300px
       float: left
     input[type="submit"]
       margin-left: 10px
       float: left
   #user_links
+    float: right
     padding-top: 8px
-    > ul
-      > li
-        float: left
-        width: 200px
+    .dropdown-menu
+      width: 50px
+      .dropdown-item
+        &.open &:hover
+          background: red
         a
-          margin: 0 10px
-          b
-            border-top-color: white
-        > ul
-          > li
-            &.open &:hover
-              background: red
-            a
-              color: black
-              margin: 0
+          color: black
+          margin: 0

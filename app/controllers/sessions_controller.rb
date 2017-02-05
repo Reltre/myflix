@@ -3,6 +3,7 @@ class SessionsController < ApplicationController
 
   def new
     redirect_to home_path if logged_in?
+    @email = params[:email]
   end
 
   def create
