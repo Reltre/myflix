@@ -11,7 +11,7 @@ class InvitationsController < ApplicationController
     message = params[:message]
     invitation = Invitation.new(email: email, message: message, inviter: current_user)
     if invitation.save
-      AppMailer.send_invite_email(invitation, name).deliver
+      AppMailer.send_invite_email(invitation.id, name).deliver_later
       flash[:success] = "You successfully sent your invite!"
     else
       flash[:danger] = "You must provide a valid email address"

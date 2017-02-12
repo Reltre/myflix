@@ -9,6 +9,7 @@ require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/email/rspec'
 require 'database_cleaner'
+require 'sidekiq/testing/inline'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 

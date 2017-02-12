@@ -12,6 +12,7 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem 'pg'
 gem 'bcrypt'
+gem 'sidekiq'
 
 
 group :development do

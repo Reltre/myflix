@@ -35,7 +35,7 @@ describe ReviewsController do
         it "sets video" do
           review = Fabricate.build(:review)
           post :create, params:
-            { video_id: video.id, review: {rating: review.rating} }
+            { video_id: video.id, review: { rating: review.rating} }
           expect(assigns(:video)).to eq(video)
         end
 

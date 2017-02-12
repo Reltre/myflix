@@ -22,7 +22,7 @@ class UsersController < ApplicationController
         invitation.update_attribute(:token, nil)
         flash[:success] = "You are now following #{invitation.inviter.full_name}."
       end
-      AppMailer.send_welcome_email(@user).deliver
+      AppMailer.send_welcome_email(@user.id).deliver_later
       if params[:token] && !invitation
         redirect_to expired_token_path
       else
