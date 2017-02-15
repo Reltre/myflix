@@ -13,6 +13,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'bcrypt'
 gem 'sidekiq'
+gem 'unicorn'
 
 
 group :development do
