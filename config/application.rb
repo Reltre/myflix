@@ -18,6 +18,8 @@ module Myflix
       g.template_engine :haml
     end
 
+    # Sidekiq.configure_client
+    #
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
       if File.exist? env_file
