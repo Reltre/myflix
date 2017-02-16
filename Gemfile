@@ -15,8 +15,8 @@ gem 'bcrypt'
 gem 'sidekiq'
 gem 'unicorn'
 
-require 'sidekiq/web'
-mount Sidekiq::Web => '/sidekiq'
+
+# mount Sidekiq::Web => '/sidekiq'
 
 
 group :development do
