@@ -18,14 +18,6 @@ module Myflix
       g.template_engine :haml
     end
 
-    Sidekiq.configure_server do |config|
-      config.redis = { url: 'redis://redistogo:454ab082d5659fd2272503b3d0dc9845@koi.redistogo.com:11185/' }
-    end
-
-    Sidekiq.configure_client do |config|
-      config.redis = { url: 'redis://redistogo:454ab082d5659fd2272503b3d0dc9845@koi.redistogo.com:11185/' }
-    end
-
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
       if File.exist? env_file

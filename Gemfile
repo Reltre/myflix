@@ -14,9 +14,8 @@ gem 'pg'
 gem 'bcrypt'
 gem 'sidekiq'
 gem 'unicorn'
+gem 'foreman'
 
-
-# mount Sidekiq::Web => '/sidekiq'
 
 
 group :development do
