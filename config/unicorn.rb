@@ -17,9 +17,4 @@ after_fork do |server, worker|
   end
 
   defined?(ActiveRecord::Base) and ActiveRecord::Base.establish_connection
-  if defined?(Sidekiq)
-    Sidekiq.configure_client do |config|
-      config.redis = { :size => 1 }
-    end
-  end
 end
