@@ -9,13 +9,17 @@ module Myflix
     config.encoding = "utf-8"
     config.filter_parameters += [:password]
     config.active_support.escape_html_entities_in_json = true
-
+    config.action_dispatch.show_exceptions = false
     config.active_job.queue_adapter = :sidekiq
     config.assets.enabled = true
     config.autoload_paths << "#{Rails.root}/lib"
     config.generators do |g|
       g.orm :active_record
       g.template_engine :haml
+    end
+
+    Raven.configure do |config|
+      config.environments = ['staging', 'production']
     end
 
     config.before_configuration do
