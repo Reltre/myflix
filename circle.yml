@@ -1,4 +1,23 @@
+machine:
+  ruby:
+    version: 2.4.0
 dependencies:
   pre:
     - echo "export rvm_ignore_gemsets_flag=1" >> ~/.rvmrc
     - gem install bundler
+deployment:
+  production:
+    branch: master
+    commands:
+      - heroku maintenance:on --app myflix-reltre
+      - heroku pg:backups capture --app myflix-reltre
+      - git push git@heroku.com:myflix-reltre.git $CIRCLE_SHA1:refs/heads/master
+      - heroku run rake db:migrate --app myflix-reltre
+      - heroku maintenance:off --app myflix-reltre
+  staging:
+    branch: staging
+    commands:
+      - heroku maintenance:on --app myflix-reltre-staging
+      - git push git@heroku.com:myflix-reltre-staging.git $CIRCLE_SHA1:refs/heads/master
+      - heroku run rake db:migrate --app myflix-reltre-staging
+      - heroku maintenance:off --app myflix-reltre-staging
