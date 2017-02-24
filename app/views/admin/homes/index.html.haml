@@ -1,0 +1,16 @@
+%section.admin_home
+  .container
+    .row
+      .col-md-10.col-md-offset-1
+        %ul.nav.nav-tabs
+          %li.nav-item
+            %a.nav-link(href="#recent_payments" data-toggle="tab" role="tab") Recent Payments
+          %li.nav-item
+            %a.nav-link.active(href="#add_video" data-toggle="tab" role="tab") Add a New Video
+        %br
+
+        .tab-content
+          .tab-pane#recent_payments(role="tabpanel")
+            = render "payments"
+          .tab-pane.active#add_video(role="tabpanel")
+            = render "add_video"

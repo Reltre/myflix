@@ -1,0 +1,29 @@
+= form_tag admin_videos_path do
+  .form-group.row
+    = label_tag 'Title', nil, class: "col-sm-2 col-form-label", for: "title_field"
+    .col-sm-10
+      = text_field_tag :title, nil, class: "form-control", id: "title_field"
+  .form-group.row
+    = label_tag 'Category', nil, class: "col-form-label col-sm-2", for: 'category_field'
+    .col-sm-10
+      = select_tag :category, options_from_collection_for_select(@categories, 'id', 'name'), include_blank: true, class: 'form-control', id: 'category_field'
+  .form-group.row
+    = label_tag 'Description', nil, class: 'col-form-label col-sm-2', for: 'description_field'
+    .col-sm-10
+      = text_area_tag :description, '', rows: 8, class: 'form-control', id: 'description_field'
+  .form-group.row
+    = label_tag 'Large Cover', nil, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = label_tag '', nil, class: 'custom-file', for: 'large_cover_field' do
+        = file_field_tag 'Large Cover', id: 'large_cover_field', class: 'custom-file-input'
+        %span.custom-file-control
+  .form-group.row
+    = label_tag 'Small Cover', nil, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = label_tag '', nil, class: 'custom-file', for: 'small_cover_field' do
+        = file_field_tag 'Small Cover', id: 'small_cover_field', class: 'custom-file-input'
+        %span.custom-file-control
+
+  .actions.form-group.row
+    .col-sm-6.col-md-offset-2
+      = submit_tag "Add Video", class:"btn btn-default"
