@@ -18,10 +18,6 @@ module Myflix
       g.template_engine :haml
     end
 
-    Raven.configure do |config|
-      config.environments = ['staging', 'production']
-    end
-
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
       if File.exist? env_file
