@@ -7,6 +7,14 @@ module SharedExamples
     end
   end
 
+  shared_examples "require_admin" do
+    it "redirects to home path" do
+      set_current_user
+      action
+      expect(response).to redirect_to home_path
+    end
+  end
+
   shared_examples "require_token" do
     it "redirects to the expired token page" do
       action

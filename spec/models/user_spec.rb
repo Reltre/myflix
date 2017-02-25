@@ -31,6 +31,13 @@ describe User do
     end
   end
 
+  describe "#admin?" do
+    it "returns true if the current user is an admin" do
+      user = Fabricate(:user, admin: true)
+      expect(user.admin?).to be
+    end
+  end
+
   describe '#can_follow?' do
     it "returns false if the current user is equal to the user" do
       current_user = Fabricate(:user)

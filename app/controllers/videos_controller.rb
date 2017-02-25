@@ -1,6 +1,4 @@
-class VideosController < ApplicationController
-  before_action :require_login
-
+class VideosController < AuthenticatedController
   def index
     @categories = Category.all
   end

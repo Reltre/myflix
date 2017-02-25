@@ -4,6 +4,11 @@ module ControllerMacros
     session[:user_id] = user.id
   end
 
+  def set_current_admin(admin = nil)
+    admin = admin || Fabricate(:admin)
+    session[:user_id] = admin.id
+  end
+
   def current_user
     @user ||= User.find(session[:user_id])
   end

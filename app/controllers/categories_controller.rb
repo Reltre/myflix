@@ -1,6 +1,4 @@
-class CategoriesController < ApplicationController
-  before_action :require_login
-
+class CategoriesController < AuthenticatedController
   def create; end
 
   def show

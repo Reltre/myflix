@@ -1,5 +1,4 @@
-class QueueItemsController < ApplicationController
-  before_action :require_login
+class QueueItemsController < AuthenticatedController
   before_action :set_items, only: [:index, :update_queue, :destroy]
 
   def index

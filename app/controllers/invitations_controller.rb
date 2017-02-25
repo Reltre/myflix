@@ -1,6 +1,4 @@
-class InvitationsController < ApplicationController
-  before_action :require_login
-
+class InvitationsController < AuthenticatedController
   def new
     @invitation = Invitation.new
   end
