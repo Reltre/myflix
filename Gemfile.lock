@@ -42,6 +42,14 @@ GEM
     arel (7.1.4)
     autoprefixer-rails (6.5.3.1)
       execjs
+    aws-sdk (2.7.16)
+      aws-sdk-resources (= 2.7.16)
+    aws-sdk-core (2.7.16)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-resources (2.7.16)
+      aws-sdk-core (= 2.7.16)
+    aws-sigv4 (1.0.0)
     bcrypt (3.1.11)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -68,6 +76,13 @@ GEM
     capybara-webkit (1.11.1)
       capybara (>= 2.3.0, < 2.8.0)
       json
+    carrierwave (1.0.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
+    carrierwave-aws (1.1.0)
+      aws-sdk (~> 2.0)
+      carrierwave (>= 0.7, < 2.0)
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
@@ -108,6 +123,7 @@ GEM
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
     i18n (0.8.1)
+    jmespath (1.3.1)
     jquery-rails (4.2.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -256,6 +272,7 @@ DEPENDENCIES
   capybara
   capybara-email
   capybara-webkit
+  carrierwave-aws
   coffee-rails
   database_cleaner
   fabrication
