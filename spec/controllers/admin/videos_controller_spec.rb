@@ -12,9 +12,10 @@ describe Admin::VideosController do
 
   it "permits the correct video attributes" do
     set_current_admin
-    video_params = Fabricate.attributes_for(:video)
+    video_params = { video: Fabricate.attributes_for(:video) }
     is_expected
       .to permit(:title, :description, :category_id, :small_cover, :large_cover)
+      .on(:video)
       .for(:create, params: video_params)
   end
 
@@ -23,21 +24,21 @@ describe Admin::VideosController do
       it "creates a new video" do
         set_current_admin
         video_params = Fabricate.attributes_for(:video)
-        post :create, params:  video_params
+        post :create, params: { video: video_params }
         expect(Video.count).to eq 1
       end
 
       it "sets a success flash" do
         set_current_admin
         video_params = Fabricate.attributes_for(:video)
-        post :create, params:  video_params
+        post :create, params:  { video: video_params }
         is_expected.to set_flash[:success].to be
       end
 
       it "redirects to the admin home page" do
         set_current_admin
         video_params = Fabricate.attributes_for(:video)
-        post :create, params: video_params
+        post :create, params: { video: video_params }
         expect(response).to redirect_to admin_homes_path
       end
     end
@@ -46,15 +47,15 @@ describe Admin::VideosController do
       it "does not create a video" do
         set_current_admin
         video_params = Fabricate.attributes_for(:video, title: nil, description: nil)
-        post :create, params: video_params
+        post :create, params: { video: video_params }
         expect(Video.count).to eq 0
       end
 
       it "sets an error flash message" do
         set_current_admin
         video_params = Fabricate.attributes_for(:video, title: nil, description: nil)
-        post :create, params: video_params
-        is_expected.to set_flash[:danger].to be
+        post :create, params: { video: video_params }
+        is_expected.to set_flash[:danger].to be_present
       end
     end
   end

@@ -6,7 +6,7 @@ class Admin::VideosController < AdminsController
       redirect_to admin_homes_path
     else
       @categories = Category.all
-      flash.now[:danger] = "There was a problem creating your video."
+      flash[:danger] = "There was a problem creating your video."
       render "admin/homes/index"
     end
   end

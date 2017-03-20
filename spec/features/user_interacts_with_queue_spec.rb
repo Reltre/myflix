@@ -2,9 +2,9 @@ require 'rails_helper'
 
 feature "User interacts with the queue" do
   given(:category) { Fabricate(:category, name: "TV Comedies") }
-  given!(:futurama) { Fabricate(:video, category: category, title: 'Futurama') }
-  given!(:family_guy) { Fabricate(:video, category: category, title: 'Family Guy') }
-  given!(:south_park) { Fabricate(:video, category: category, title: 'South Park') }
+  given!(:futurama) { Fabricate(:video, category_id: category.id, title: 'Futurama') }
+  given!(:family_guy) { Fabricate(:video, category_id: category.id, title: 'Family Guy') }
+  given!(:south_park) { Fabricate(:video, category_id: category.id, title: 'South Park') }
 
   scenario "user adds and reorders videos in the queue" do
     log_in

@@ -5,7 +5,7 @@ feature "User navigates to the people page" do
     another_user = Fabricate(:user)
     user = Fabricate(:user)
     category = Fabricate(:category)
-    video = Fabricate(:video, category: category, title: "Adventure Time")
+    video = Fabricate(:video, category_id: category.id, title: "Adventure Time")
     Fabricate(:review, user: another_user, video: video)
 
     log_in(user)
