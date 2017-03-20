@@ -2,26 +2,26 @@
   .form-group.row
     = label_tag 'Title', nil, class: "col-sm-2 col-form-label", for: "title_field"
     .col-sm-10
-      = text_field_tag :title, nil, class: "form-control", id: "title_field"
+      = text_field_tag :title, nil, name: 'video[title]', class: "form-control", id: "title_field"
   .form-group.row
     = label_tag 'Category', nil, class: "col-form-label col-sm-2", for: 'category_field'
     .col-sm-10
-      = select_tag :category, options_from_collection_for_select(@categories, 'id', 'name'), include_blank: true, class: 'form-control', id: 'category_field'
+      = select_tag :category_id, options_from_collection_for_select(@categories, 'id', 'name'), include_blank: true, name: 'video[category_id]', class: 'form-control', id: 'category_field'
   .form-group.row
     = label_tag 'Description', nil, class: 'col-form-label col-sm-2', for: 'description_field'
     .col-sm-10
-      = text_area_tag :description, '', rows: 8, class: 'form-control', id: 'description_field'
+      = text_area_tag :description, '', rows: 8, class: 'form-control',name: 'video[description]', id: 'description_field'
   .form-group.row
     = label_tag 'Large Cover', nil, class: 'col-sm-2 col-form-label'
     .col-sm-10
       = label_tag '', nil, class: 'custom-file', for: 'large_cover_field' do
-        = file_field_tag 'Large Cover', id: 'large_cover_field', class: 'custom-file-input'
+        = file_field_tag 'Large Cover', name: 'video[large_cover]', id: 'large_cover_field', class: 'custom-file-input'
         %span.custom-file-control
   .form-group.row
     = label_tag 'Small Cover', nil, class: 'col-sm-2 col-form-label'
     .col-sm-10
       = label_tag '', nil, class: 'custom-file', for: 'small_cover_field' do
-        = file_field_tag 'Small Cover', id: 'small_cover_field', class: 'custom-file-input'
+        = file_field_tag 'Small Cover', name: 'video[small_cover]', id: 'small_cover_field', class: 'custom-file-input'
         %span.custom-file-control
 
   .actions.form-group.row

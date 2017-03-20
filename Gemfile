@@ -16,6 +16,8 @@ gem 'sidekiq'
 gem 'unicorn'
 gem 'foreman'
 gem 'sentry-raven'
+gem 'mini_magick'
+gem 'carrierwave-aws'
 
 group :development do
   gem 'thin'
@@ -43,6 +45,5 @@ group :test do
 end
 
 group :production do
-  gem 'carrierwave-aws'
   gem 'rails_12factor'
 end
