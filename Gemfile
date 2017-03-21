@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.4.0'
 
-gem 'bootstrap', '~> 4.0.0.alpha5'
+gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'sprockets-rails'
 gem 'bootstrap_form'
 gem 'coffee-rails'
