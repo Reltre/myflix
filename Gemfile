@@ -19,6 +19,10 @@ gem 'sentry-raven'
 gem 'mini_magick'
 gem 'carrierwave-aws'
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.3.3'
+end
+
 group :development do
   gem 'thin'
   gem "better_errors"

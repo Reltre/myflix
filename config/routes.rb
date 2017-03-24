@@ -1,4 +1,6 @@
 Myflix::Application.routes.draw do
+
+  root 'pages#front'
   Dir.new('app/views/ui').each do |action|
     next if %w(. ..).include? action
     action = action[/\w+(?=\.html\.haml)/]
@@ -6,6 +8,7 @@ Myflix::Application.routes.draw do
   end
 
   get 'home', to: 'videos#index'
+
 
   resources :videos, only: [:show] do
     collection do
@@ -33,7 +36,7 @@ Myflix::Application.routes.draw do
   get 'log_out', to: 'sessions#destroy'
   get 'register', to: 'users#new'
   post 'log_in', to: 'sessions#create'
-  root 'pages#front'
+
 
   get '/forgot_password', to: 'passwords#forgot'
   get '/confirm_password_reset', to: 'passwords#confirm_reset'

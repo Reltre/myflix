@@ -12,7 +12,6 @@ Category.create!(name:'Reality TV')
 Video.create!(title:'South Park',description: "going down to...", small_cover: '/tmp/south_park.jpg', category: comedy)
 Video.create!(title:'Family Guy',description: "family fun", small_cover: '/tmp/family_guy.jpg', category: comedy)
 Video.create!(title:'Monk',description: "detective", small_cover: '/tmp/monk.jpg', category: drama)
-# Video.create!(title:'South Park',description: "going down to...", small_cover_url: '/tmp/south_park.jpg', category: comedy)
 futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover: '/tmp/futurama.jpg', category: comedy)
 
 

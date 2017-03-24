@@ -1,7 +1,7 @@
 class Admin::VideosController < AdminsController
   def create
     video = Video.new(admin_video_params)
-    if video.save
+    if video.save!
       flash[:success] = "Your video, #{video.title} was created."
       redirect_to admin_homes_path
     else
