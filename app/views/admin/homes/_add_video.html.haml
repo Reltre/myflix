@@ -23,7 +23,10 @@
       = label_tag '', nil, class: 'custom-file', for: 'small_cover_field' do
         = file_field_tag 'Small Cover', name: 'video[small_cover]', id: 'small_cover_field', class: 'custom-file-input'
         %span.custom-file-control
-
+  .form-group.row
+    = label_tag 'Video URL', nil, class: 'col-form-label col-sm-2', for: 'url_field'
+    .col-sm-10
+      = text_field_tag :url, nil, class: 'form-control',name: 'video[url]', id: 'url_field'
   .actions.form-group.row
     .col-sm-6.col-md-offset-2
       = submit_tag "Add Video", class:"btn btn-default"

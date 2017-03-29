@@ -6,4 +6,12 @@ module FeatureMacros
     fill_in "Password", with: user.password
     click_button "Log In"
   end
+
+  def admin_log_in(user = nil)
+    user ||= Fabricate(:user, admin: true)
+    visit(log_in_path)
+    fill_in "Email Address", with: user.email
+    fill_in "Password", with: user.password
+    click_button "Log In"
+  end
 end
