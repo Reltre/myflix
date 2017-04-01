@@ -11,4 +11,12 @@ class VideosController < AuthenticatedController
   def search
     @videos = Video.search_by_title params[:q]
   end
+
+  def play
+    @video = Video.find(params[:id])
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
+    end
+  end
 end

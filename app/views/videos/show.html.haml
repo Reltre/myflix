@@ -9,11 +9,11 @@
     %br
     .row
       .video_large_cover.col-sm-7.col-sm-offset-1
-        %img(src="http://dummyimage.com/665x375/000000/00a2ff")
+        %img(src="http://dummyimage.com/665x375/000000/00a2ff" id="play_video")
         %br
         %br
         .actions
-          %a.btn.btn-primary(href="") Watch Now
+          = link_to "Watch Now", play_video_path, remote: true, class: 'btn btn-primary'
           - unless current_user.has_already_queued?(@video)
             = link_to "+ My Queue",
               queue_items_path(video_id: @video.id),
