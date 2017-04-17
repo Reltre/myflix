@@ -37,15 +37,18 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rails-controller-testing'
+
   gem 'fabrication'
   gem 'faker'
-  gem 'database_cleaner'
-  gem 'shoulda-matchers', '~> 3.1'
   gem 'capybara'
+  gem 'database_cleaner'
+
+  gem 'shoulda-matchers', '~> 3.1'
   gem 'capybara-webkit'
   gem 'capybara-email'
   gem 'launchy'
+  # gem 'poltergeist'
+  gem 'rails-controller-testing'
 end
 
 group :production do

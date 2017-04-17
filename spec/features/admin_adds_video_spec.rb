@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature "Admins Adds Video", js: true do
-  scenario "video loads video on show page" do
+feature "Admins Adds Video" do
+  scenario "video loads video on show page", js: true do
     category = Fabricate(:category)
     admin_log_in
     expect(current_path).to eq home_path
@@ -18,10 +18,16 @@ feature "Admins Adds Video", js: true do
 
     expect(page).to have_text "Your video, Test Video was created."
 
-    click_link "MyFLiX"
-    click_link "Test Video"
+    log_out
+    log_in
+
+    within "article.video_category" do
+      click_link "Test Video"
+    end
     expect(page).to have_text "Test Video"
+    expect(page).to have_css("img[src='tmp/test_large.jpg']")
+
     click_link "Watch Now"
-    expect(page).to have_selector(:xpath, ".//video[@src='www.example-video.com']")
+    expect(page).to have_css("video")
   end
 end

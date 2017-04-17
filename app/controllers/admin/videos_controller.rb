@@ -1,6 +1,8 @@
 class Admin::VideosController < AdminsController
   def create
     video = Video.new(admin_video_params)
+    video.small_cover = File.new("#{Rails.root}/public/tmp/#{params[:video][:small_cover]}")
+    video.large_cover = File.new("#{Rails.root}/public/tmp/#{params[:video][:small_cover]}")
     if video.save!
       flash[:success] = "Your video, #{video.title} was created."
       redirect_to admin_homes_path
@@ -18,7 +20,6 @@ class Admin::VideosController < AdminsController
           .permit(:title,
                   :category_id,
                   :description,
-                  :large_cover,
-                  :small_cover)
+                  :url)
   end
 end
