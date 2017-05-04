@@ -11,6 +11,7 @@ feature "User resets their password" do
     click_button "Send Email"
 
     open_email(user.email)
+    binding.pry
     current_email.click_link("link")
     expect(page).to have_content "Reset Your Password"
 

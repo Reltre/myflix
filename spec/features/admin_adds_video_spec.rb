@@ -17,15 +17,13 @@ feature "Admins Adds Video" do
     click_button "Add Video"
 
     expect(page).to have_text "Your video, Test Video was created."
-
     log_out
     log_in
 
-    within "article.video_category" do
-      click_link "Test Video"
-    end
+    click_link alt: "Test Video"
+
     expect(page).to have_text "Test Video"
-    expect(page).to have_css("img[src='tmp/test_large.jpg']")
+    expect(page).to have_css("img[src='#{Rails.root}/public/tmp/test_large.jpg']")
 
     click_link "Watch Now"
     expect(page).to have_css("video")

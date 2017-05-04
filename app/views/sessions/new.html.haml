@@ -1,16 +1,18 @@
 %section.sign_in.container
-  .row
-    = form_tag log_in_path, class: 'log_in' do
-      %header
-        %h1 Log in
-      .form-group.row
-        = label_tag :email, "Email Address", class: 'col-form-label col-sm-2'
-        .col-sm-6
-          = email_field_tag :email, @email, class: 'form-control'
-      .form-group.row
-        = label_tag :password, "Password", class: 'col-form-label col-sm-2'
-        .col-sm-6
-          = password_field_tag :password, nil, class: 'form-control'
-      .form_group
-        = submit_tag "Log In", class: 'btn'
-        = link_to "Forgot Password?", forgot_password_path, id: 'forgot_password'
+  = form_tag log_in_path, class: 'log_in' do
+    %header
+      %h1 Log in
+      %br
+    .form-group.row
+      .col-sm-2
+        = label_tag :email, "Email Address", class: 'col-form-label'
+      .col-sm-6
+        = email_field_tag :email, @email, class: 'form-control'
+    .form-group.row
+      .col-sm-2
+        = label_tag :password, "Password", class: 'col-form-label'
+      .col-sm-6
+        = password_field_tag :password, nil, class: 'form-control'
+    .form_group
+      = submit_tag "Log In", class: 'btn'
+      = link_to "Forgot Password?", forgot_password_path, id: 'forgot_password'

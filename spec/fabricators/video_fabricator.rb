@@ -1,7 +1,6 @@
 Fabricator(:video) do
   title { Faker::Lorem.sentence }
   description { Faker::Lorem.paragraphs(2).join(" ") }
-  category_id { 3 }
-  small_cover { "/tmp/test_small.png" }
-  large_cover { "/tmp/test_large.png" }
+  small_cover { File.open(File.join(Rails.root,"public/tmp/test_small.jpg")) }
+  large_cover { File.open(File.join(Rails.root,"public/tmp/test_small.jpg")) }
 end

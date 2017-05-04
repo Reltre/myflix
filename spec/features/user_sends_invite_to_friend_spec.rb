@@ -9,6 +9,7 @@ feature 'User sends invite to friend' do
     fill_in "Friend's Email Address", with: "jennytime@example.com"
     fill_in "Invitation Message", with: "Hey, check out this great movie site, it's amazing!"
     click_button "Send Invitation"
+    log_out
     open_email("jennytime@example.com")
     current_email.click_link('MyFlix - Signup')
     expect(page).to have_xpath("//input[@value='jennytime@example.com']")
