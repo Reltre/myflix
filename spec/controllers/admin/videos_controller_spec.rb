@@ -46,14 +46,14 @@ describe Admin::VideosController do
     context "invalid inputs" do
       it "does not create a video" do
         set_current_admin
-        video_params = Fabricate.attributes_for(:video, title: nil, description: nil)
+        video_params = Fabricate.attributes_for(:video, title: "", description: "")
         post :create, params: { video: video_params }
         expect(Video.count).to eq 0
       end
 
       it "sets an error flash message" do
         set_current_admin
-        video_params = Fabricate.attributes_for(:video, title: nil, description: nil)
+        video_params = Fabricate.attributes_for(:video, title: "", description: "")
         post :create, params: { video: video_params }
         is_expected.to set_flash[:danger].to be_present
       end
