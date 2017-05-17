@@ -7,7 +7,4 @@
       - category.recent_videos.each do |video|
         .video.col-md-3
           = link_to video do
-            - if Rails.env.development?
-              = image_tag video.small_cover, alt: video.title
-            - else
-              = image_tag video.small_cover.current_path, alt: video.title
+            = image_tag video.small_cover.url, alt: video.title

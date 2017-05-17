@@ -33,15 +33,16 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
-Capybara.register_driver :selenium_chrome do |app|
-  Capybara::Selenium::Driver.new(app, :browser => :chrome)
-end
+# Capybara.register_driver :selenium_chrome do |app|
+#   Capybara::Selenium::Driver.new(app, :browser => :chrome)
+# end
 Selenium::WebDriver::Firefox::Binary.path = '//Applications/FireFoxDeveloperEdition.app/Contents/MacOS/firefox'
-
+# driver = Selenium::WebDriver.for :firefox
+# driver.manage.timeouts.implicit_wait = 5
 Capybara.default_driver = :selenium
-Capybara.server_port = 3000
-Capybara.app_host = 'http://localhost:3000'
-
+Capybara.server_port = 3001
+Capybara.app_host = 'http://localhost:3001'
+Capybara.default_max_wait_time = 5
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -129,7 +130,7 @@ end
 #   # config.block_url("example.com")
 #
 #   # Timeout if requests take longer than 5 seconds
-#   # config.timeout = 10
+#   config.timeout = 10
 #
 #   # Don't raise errors when SSL certificates can't be validated
 #   config.ignore_ssl_errors

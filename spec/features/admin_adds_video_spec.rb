@@ -4,6 +4,7 @@ feature "Admins Adds Video" do
   scenario "video loads video on show page", js: true do
     category = Fabricate(:category)
     admin_log_in
+    expect(page).to have_text "You are signed in, enjoy!"
     expect(current_path).to eq home_path
     visit (admin_homes_path)
     expect(page).to have_text "Add a New Video"
@@ -18,8 +19,9 @@ feature "Admins Adds Video" do
 
     expect(page).to have_text "Your video, Test Video was created."
     log_out
+    expect(page).to have_text 'You are signed out.'
     log_in
-
+    expect(page).to have_text "You are signed in, enjoy!"
     click_link alt: "Test Video"
 
     expect(page).to have_text "Test Video"
