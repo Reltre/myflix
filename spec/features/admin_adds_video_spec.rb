@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Admins Adds Video" do
+feature "Admins Adds Video", js: true do
   scenario "video loads video on show page", js: true do
     category = Fabricate(:category)
     admin_log_in
@@ -14,7 +14,7 @@ feature "Admins Adds Video" do
     fill_in "Description", with: "Test One Two"
     attach_file "large_cover_field", "#{Rails.root}/public/tmp/test_large.jpg"
     attach_file "small_cover_field", "#{Rails.root}/public/tmp/test_small.jpg"
-    fill_in "Video url", with: "www.example-video.com"
+    fill_in "Video url", with: ENV['SAMPLE_VIDEO']
     click_button "Add Video"
 
     expect(page).to have_text "Your video, Test Video was created."
@@ -25,7 +25,7 @@ feature "Admins Adds Video" do
     click_link alt: "Test Video"
 
     expect(page).to have_text "Test Video"
-    expect(page).to have_css("img[src='#{Rails.root}/public/tmp/test_large.jpg']")
+    expect(page).to have_css("img[src='/uploads/video/large_cover/1/test_large.jpg']")
 
     click_link "Watch Now"
     expect(page).to have_css("video")
