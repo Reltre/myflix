@@ -12,6 +12,7 @@ class RelationshipsController < AuthenticatedController
   end
 
   def destroy
+    binding.pry
     following_relationship = Relationship.find(params[:id])
     if current_user.id == following_relationship.follower_id
       following_relationship.destroy

@@ -1,7 +1,7 @@
 Myflix::Application.configure do
   config.cache_classes = true
 
-  config.allow_concurrency = false
+  config.allow_concurrency = true
   config.public_file_server.enabled = true
   config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
   config.eager_load = false

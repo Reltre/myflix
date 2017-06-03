@@ -42,7 +42,7 @@ Selenium::WebDriver::Firefox::Binary.path = '//Applications/FireFoxDeveloperEdit
 Capybara.default_driver = :selenium
 Capybara.server_port = 3001
 Capybara.app_host = 'http://localhost:3001'
-Capybara.default_max_wait_time = 5
+# Capybara.default_max_wait_time =
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
