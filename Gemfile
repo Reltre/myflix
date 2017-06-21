@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
-ruby '2.4.0'
+ruby '2.4.1'
 
 gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'sprockets-rails'
 gem 'bootstrap_form'
 gem 'coffee-rails'
-gem 'rails', '5.0.1'
+gem 'rails', '5.1.1'
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'uglifier'

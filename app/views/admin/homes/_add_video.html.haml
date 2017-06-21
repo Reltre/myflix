@@ -1,4 +1,4 @@
-= form_tag admin_videos_path do
+= form_tag admin_videos_path, multipart: true do
   .form-group.row
     = label_tag 'Title', nil, class: "col-sm-2 col-form-label", for: "title_field"
     .col-sm-10
