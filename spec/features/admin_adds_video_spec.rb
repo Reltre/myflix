@@ -26,7 +26,6 @@ feature "Admins Adds Video", js: true do
     click_link alt: "Test Video"
 
     expect(page).to have_text "Test Video"
-    expect(page).to have_css("img[src='/uploads/video/large_cover/1/test_large.jpg']")
 
     click_link "Watch Now"
     expect(page).to have_css("video")

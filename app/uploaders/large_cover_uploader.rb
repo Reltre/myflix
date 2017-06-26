@@ -5,7 +5,7 @@ class LargeCoverUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  if Rails.env.test?
+  if Rails.env.test? || Rails.env.development?
     storage :file
   elsif Rails.env.staging? || Rails.env.production?
     storage :aws
