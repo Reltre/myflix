@@ -13,6 +13,8 @@ feature "Admins Adds Video", js: true do
     page.select category.name, from: "Category"
     fill_in "Description", with: "Test One Two"
     # binding.pry
+
+    expect(File.exists?("#{Rails.root}/public/tmp/test_small.jpg")).to eq true
     attach_file "large_cover_field", "#{Rails.root}/public/tmp/test_large.jpg"
     attach_file "small_cover_field", "#{Rails.root}/public/tmp/test_small.jpg"
     fill_in "Video url", with: ENV['SAMPLE_VIDEO']
