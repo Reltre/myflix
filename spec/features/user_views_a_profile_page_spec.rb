@@ -5,27 +5,24 @@ feature "user views a profile page" do
   given!(:comedy) { Fabricate(:category, name: "TV Comedies") }
   given!(:futurama) do
     Fabricate(:video,
-      title: "Futurama",
-      category: comedy,
-      small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg"),
-      large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg")
-    )
+              title: "Futurama",
+              category: comedy,
+              small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg"),
+              large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg"))
   end
   given!(:monk) do
     Fabricate(:video,
-      title: "Monk",
-      category: comedy,
-      small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg"),
-      large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg")
-    )
+              title: "Monk",
+              category: comedy,
+              small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg"),
+              large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg"))
   end
   given!(:family_guy) do
     Fabricate(:video,
-      title: "Family Guy",
-      category: comedy,
-      small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg"),
-      large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg")
-    )
+              title: "Family Guy",
+              category: comedy,
+              small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg"),
+              large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg"))
   end
 
 
