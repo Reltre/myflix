@@ -36,8 +36,8 @@ ActiveRecord::Migration.maintain_test_schema!
 # Capybara.register_driver :selenium_chrome do |app|
 #   Capybara::Selenium::Driver.new(app, :browser => :chrome)
 # end
-Selenium::WebDriver::Firefox::Binary.path = '//Applications/FireFoxDeveloperEdition.app/Contents/MacOS/firefox'
-# driver = Selenium::WebDriver.for :firefox
+# Selenium::WebDriver::Firefox::Binary.path = '//Applications/FireFoxDeveloperEdition.app/Contents/MacOS/firefox'
+driver = Selenium::WebDriver.for :firefox
 # driver.manage.timeouts.implicit_wait = 5
 Capybara.default_driver = :selenium
 Capybara.server_port = 3001
@@ -89,6 +89,12 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    if Rails.env.test?
+      FileUtils.rm_rf(Dir["#{Rails.root}/public/uploads"])
+    end
   end
 
   config.append_after(:each) do

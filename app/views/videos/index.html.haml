@@ -7,4 +7,5 @@
       - category.recent_videos.each do |video|
         .video.col-md-3
           = link_to video do
+            -# - binding.pry
             = image_tag video.small_cover.url, alt: video.title
