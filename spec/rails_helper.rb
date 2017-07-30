@@ -37,7 +37,13 @@ ActiveRecord::Migration.maintain_test_schema!
 #   Capybara::Selenium::Driver.new(app, :browser => :chrome)
 # end
 # Selenium::WebDriver::Firefox::Binary.path = '//Applications/FireFoxDeveloperEdition.app/Contents/MacOS/firefox'
-driver = Selenium::WebDriver.for :firefox
+# Capybara.register_driver :selenium do |app|
+#   Capybara::Selenium::Driver.new(
+#     app,
+#     browser: :firefox,
+#     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false)
+#   )
+# end
 # driver.manage.timeouts.implicit_wait = 5
 Capybara.default_driver = :selenium
 Capybara.server_port = 3001

@@ -1,9 +1,8 @@
 class Admin::VideosController < AdminsController
   def create
     video = Video.new(admin_video_params)
-    # binding.pry
-    video.small_cover = params[:video][:small_cover].tempfile
-    video.large_cover = params[:video][:large_cover].tempfile
+    video.small_cover = admin_video_params[:small_cover].tempfile
+    video.large_cover = admin_video_params[:large_cover].tempfile
     if video.save
       flash[:success] = "Your video, #{video.title} was created."
       redirect_to admin_homes_path
