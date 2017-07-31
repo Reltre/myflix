@@ -9,7 +9,6 @@ feature "User resets their password" do
     click_link "Forgot Password?"
     fill_in "Email", with: user.email
     click_button "Send Email"
-
     open_email(user.email)
     current_email.click_link("link")
     expect(page).to have_content "Reset Your Password"

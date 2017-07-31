@@ -47,7 +47,7 @@ describe PasswordsController do
     it "assigns @token" do
       user = Fabricate(:user)
       token = user.token
-      get :show_reset, token: token
+      get :show_reset, params: { token: token }
       expect(assigns(:token)).to eq(token)
     end
 
