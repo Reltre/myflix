@@ -2,6 +2,7 @@ require 'rails_helper'
 
 feature 'User sends invite to friend' do
   scenario "friend signs up for myflix" do
+    clear_emails
     user = Fabricate(:user, password: '54321')
     log_in(user)
     click_link "Invite a Friend!"
@@ -9,8 +10,11 @@ feature 'User sends invite to friend' do
     fill_in "Friend's Email Address", with: "jennytime@example.com"
     fill_in "Invitation Message", with: "Hey, check out this great movie site, it's amazing!"
     click_button "Send Invitation"
+    log_out
     open_email("jennytime@example.com")
+    # binding.pry
     current_email.click_link('MyFlix - Signup')
+    # binding.pry
     expect(page).to have_xpath("//input[@value='jennytime@example.com']")
     fill_in 'Password', with: '12345'
     fill_in 'Full Name', with: 'Jenny Anders'

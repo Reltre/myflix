@@ -1,10 +1,9 @@
 Myflix::Application.configure do
   config.cache_classes = true
 
-  config.allow_concurrency = false
+  config.allow_concurrency = true
   config.public_file_server.enabled = true
   config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
-
   config.eager_load = false
 
   config.consider_all_requests_local       = true
@@ -15,7 +14,7 @@ Myflix::Application.configure do
   config.action_controller.allow_forgery_protection = false
 
   config.action_mailer.delivery_method = :test
-  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.default_url_options = { host: 'localhost:3001' }
 
   config.active_support.deprecation = :stderr
 end

@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
-ruby '2.4.0'
+ruby '2.4.1'
 
 gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'sprockets-rails'
 gem 'bootstrap_form'
 gem 'coffee-rails'
-gem 'rails', '5.0.1'
+gem 'rails', '5.1.1'
 gem 'haml-rails'
 gem 'sass-rails'
 gem 'uglifier'
@@ -37,15 +37,19 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rails-controller-testing'
+
   gem 'fabrication'
   gem 'faker'
-  gem 'database_cleaner'
-  gem 'shoulda-matchers', '~> 3.1'
   gem 'capybara'
+  gem 'database_cleaner'
+
+  gem 'shoulda-matchers', '~> 3.1'
+  gem 'selenium-webdriver'
   gem 'capybara-webkit'
   gem 'capybara-email'
   gem 'launchy'
+  # gem 'poltergeist'
+  gem 'rails-controller-testing'
 end
 
 group :production do

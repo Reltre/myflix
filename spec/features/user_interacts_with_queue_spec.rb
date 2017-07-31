@@ -2,9 +2,27 @@ require 'rails_helper'
 
 feature "User interacts with the queue" do
   given(:category) { Fabricate(:category, name: "TV Comedies") }
-  given!(:futurama) { Fabricate(:video, category_id: category.id, title: 'Futurama') }
-  given!(:family_guy) { Fabricate(:video, category_id: category.id, title: 'Family Guy') }
-  given!(:south_park) { Fabricate(:video, category_id: category.id, title: 'South Park') }
+  given!(:futurama) do
+    Fabricate(:video,
+              category_id: category.id,
+              title: 'Futurama',
+              small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg"),
+              large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg"))
+  end
+  given!(:family_guy) do
+    Fabricate(:video,
+              category_id: category.id,
+              title: 'Family Guy',
+              small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg"),
+              large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg"))
+  end
+  given!(:south_park) do
+    Fabricate(:video,
+              category_id: category.id,
+              title: 'South Park',
+              small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg"),
+              large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg"))
+  end
 
   scenario "user adds and reorders videos in the queue" do
     log_in

@@ -20,6 +20,7 @@ class PasswordsController < ApplicationController
   end
 
   def show_reset
+    # binding.pry
     user = User.find_by(token: params[:token])
     if user
       @token = params[:token]

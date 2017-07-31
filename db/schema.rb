@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316202943) do
+ActiveRecord::Schema.define(version: 20170331231838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20170316202943) do
     t.integer  "category_id"
     t.string   "small_cover"
     t.string   "large_cover"
+    t.text     "url"
     t.index ["title"], name: "index_videos_on_title", using: :btree
   end
 

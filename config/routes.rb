@@ -14,8 +14,13 @@ Myflix::Application.routes.draw do
     collection do
       get 'search', to: 'videos#search'
     end
+
+    member do
+      get 'play', to: 'videos#play'
+    end
     resources :reviews, only: [:create]
   end
+
 
   namespace :admin do
     resources :videos, only: [:create]

@@ -5,7 +5,11 @@ feature "User navigates to the people page" do
     another_user = Fabricate(:user)
     user = Fabricate(:user)
     category = Fabricate(:category)
-    video = Fabricate(:video, category_id: category.id, title: "Adventure Time")
+    video = Fabricate(:video,
+                      category_id: category.id,
+                      title: "Adventure Time",
+                      small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg")
+                     )
     Fabricate(:review, user: another_user, video: video)
 
     log_in(user)
@@ -28,9 +32,9 @@ feature "User navigates to the people page" do
 
   def unfollow(follower, leader)
     relationship = Relationship.find_by(follower: follower, leader: leader)
-    within("//table/tbody") do
+    within(:xpath, "//table/tbody") do
       page
-        .find(:xpath, ".//tr/td/a[@href='/relationships/#{relationship.id}']")
+        .find(:xpath, ".//tr/td/a[@href='/relationships/#{relationship.id}']/button")
         .click
     end
   end
