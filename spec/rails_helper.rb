@@ -45,7 +45,14 @@ ActiveRecord::Migration.maintain_test_schema!
 #   )
 # end
 # driver.manage.timeouts.implicit_wait = 5
-Capybara.default_driver = :selenium
+
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+
+Capybara.default_driver = :chrome
+Capybara.javascript_driver = :chrome
+
 Capybara.server_port = 3001
 Capybara.app_host = 'http://localhost:3001'
 # Capybara.default_max_wait_time =
