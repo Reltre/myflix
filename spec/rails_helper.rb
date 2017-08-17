@@ -44,7 +44,6 @@ ActiveRecord::Migration.maintain_test_schema!
 #     desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false)
 #   )
 # end
-# driver.manage.timeouts.implicit_wait = 5
 
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, :browser => :chrome)
@@ -55,7 +54,7 @@ Capybara.javascript_driver = :chrome
 
 Capybara.server_port = 3001
 Capybara.app_host = 'http://localhost:3001'
-# Capybara.default_max_wait_time =
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
