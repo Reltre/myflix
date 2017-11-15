@@ -5,6 +5,6 @@
       %h3= link_to category.name, category_path(category)
     .videos.row
       - category.recent_videos.each do |video|
-        .video.col-sm-2
+        .video.col-md-3
           = link_to video do
-            = image_tag video.small_cover, alt: video.title
+            = image_tag video.small_cover.url, alt: video.title

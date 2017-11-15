@@ -12,7 +12,7 @@ describe UsersController do
     context "new user registers through myflix invitation" do
       it "redirects to the front page when there is an invalid token" do
         Fabricate(:invitation, token: "token")
-        get :new, token: "bad_token"
+        get :new, params: { token: "bad_token" }
         expect(response).to redirect_to root_path
       end
     end

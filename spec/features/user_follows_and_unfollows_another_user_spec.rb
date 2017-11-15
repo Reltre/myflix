@@ -5,7 +5,11 @@ feature "User navigates to the people page" do
     another_user = Fabricate(:user)
     user = Fabricate(:user)
     category = Fabricate(:category)
-    video = Fabricate(:video, category_id: category.id, title: "Adventure Time")
+    video = Fabricate(:video,
+                      category_id: category.id,
+                      title: "Adventure Time",
+                      small_cover: File.new("#{Rails.root}/public/tmp/test_small.jpg")
+                     )
     Fabricate(:review, user: another_user, video: video)
 
     log_in(user)
@@ -15,7 +19,7 @@ feature "User navigates to the people page" do
     expect_page_to_show("#{another_user.full_name}'s video collection")
     click_link("Follow")
     unfollow(user, another_user)
-    expect_page_to_now_show(another_user.full_name)
+    expect_page_to_not_show(another_user.full_name)
   end
 
   def navigate_to_video(video)
@@ -28,14 +32,14 @@ feature "User navigates to the people page" do
 
   def unfollow(follower, leader)
     relationship = Relationship.find_by(follower: follower, leader: leader)
-    within("//table/tbody") do
+    within(:xpath, "//table/tbody") do
       page
-        .find(:xpath, ".//tr/td/a[@href='/relationships/#{relationship.id}']")
+        .find(:xpath, ".//tr/td/a[@href='/relationships/#{relationship.id}']/button")
         .click
     end
   end
 
-  def expect_page_to_now_show(text)
+  def expect_page_to_not_show(text)
     expect(page).to have_no_text text
   end
 end

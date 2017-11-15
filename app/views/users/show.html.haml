@@ -19,7 +19,7 @@
                 %td
                   = link_to "#{item.video_title}", video_path(item.video)
                 %td
-                  = link_to "#{item.category_name}", category_path(item.category)
+                  = link_to item.category_name
 
 %section.user_reviews.container
   .row

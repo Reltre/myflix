@@ -1,15 +1,13 @@
 require 'carrierwave/orm/activerecord'
 
 class Video < ActiveRecord::Base
-  unless Rails.env.development?
-    mount_uploader :large_cover, LargeCoverUploader
-    mount_uploader :small_cover, SmallCoverUploader
-  end
+  mount_uploader :large_cover, LargeCoverUploader
+  mount_uploader :small_cover, SmallCoverUploader
 
   belongs_to :category
   has_many :reviews, -> { order("created_at DESC") }
   has_many :queue_items
-  validates_presence_of :title, :description, :small_cover
+  validates_presence_of :title, :description
 
   def self.search_by_title(title)
     return [] if title.blank?

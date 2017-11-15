@@ -9,10 +9,10 @@ comedy = Category.create!(name:'TV Comedies')
 drama = Category.create!(name:'TV Dramas')
 Category.create!(name:'Reality TV')
 
-Video.create!(title:'South Park',description: "going down to...", small_cover: '/tmp/south_park.jpg', category: comedy)
-Video.create!(title:'Family Guy',description: "family fun", small_cover: '/tmp/family_guy.jpg', category: comedy)
-Video.create!(title:'Monk',description: "detective", small_cover: '/tmp/monk.jpg', category: drama)
-futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover: '/tmp/futurama.jpg', category: comedy)
+Video.create!(title:'South Park',description: "going down to...", small_cover: File.new("#{Rails.root}/public/tmp/south_park.jpg"), large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg"), category: comedy, url: ENV['SAMPLE_VIDEO'])
+Video.create!(title:'Family Guy',description: "family fun", small_cover: File.new("#{Rails.root}/public/tmp/family_guy.jpg"), large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg"), category: comedy)
+Video.create!(title:'Monk',description: "detective", small_cover: File.new("#{Rails.root}/public/tmp/monk.jpg"), large_cover: File.new("#{Rails.root}/public/tmp/monk_large.jpg"), category: drama)
+futurama = Video.create!(title:'Futurama',description: "year 3000", small_cover: File.new("#{Rails.root}/public/tmp/futurama.jpg"), large_cover: File.new("#{Rails.root}/public/tmp/test_large.jpg"), category: comedy)
 
 
 # Video.create!(title:'Monk',description: "detective", small_cover_url: '/tmp/monk.jpg', category: drama)
