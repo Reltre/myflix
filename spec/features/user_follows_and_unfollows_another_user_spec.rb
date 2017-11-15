@@ -19,7 +19,7 @@ feature "User navigates to the people page" do
     expect_page_to_show("#{another_user.full_name}'s video collection")
     click_link("Follow")
     unfollow(user, another_user)
-    expect_page_to_now_show(another_user.full_name)
+    expect_page_to_not_show(another_user.full_name)
   end
 
   def navigate_to_video(video)
@@ -39,7 +39,7 @@ feature "User navigates to the people page" do
     end
   end
 
-  def expect_page_to_now_show(text)
+  def expect_page_to_not_show(text)
     expect(page).to have_no_text text
   end
 end
