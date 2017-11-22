@@ -1,0 +1,8 @@
+= form_with url: charges_path do
+  %script(src="https://checkout.stripe.com/checkout.js"
+    class="stripe-button"
+    data-key="pk_test_61yMW8BG4x48Bp4qLMaxPEMA"
+    data-amount="3000"
+    data-name="MyFlix Subscription"
+    data-description="Thanks for subscribing."
+    data-locale="auto")

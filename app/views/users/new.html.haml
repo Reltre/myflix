@@ -1,5 +1,5 @@
 %section.register.container
-  = form_for @user,layout: :horizontal do |f|
+  = form_with model: @user, layout: :horizontal do |f|
     %header
       %h1 Register
     %fieldset
@@ -17,5 +17,22 @@
         = f.label :full_name, "Full Name", class: 'col-form-label col-sm-2'
         .col-sm-6
           = f.text_field :full_name, class: 'form-control'
+      %hr
+      %script(src="https://checkout.stripe.com/checkout.js"
+        data-key="#{Rails.configuration.stripe[:publishable_key]}"
+        data-amount="999"
+        data-locale="auto")
+      .form-group.row
+        = f.label :credit_card_number, "Credit Card Number", class: 'col-form-label col-sm-2'
+        .col-sm-6
+          = f.text_field :credit_card_number, name: 'charge[number]', class: 'form-control'
+      .form-group.row
+        = f.label :security_code, "Security Code", class: 'col-form-label col-sm-2'
+        .col-sm-6
+          = f.text_field :security_code, name: 'charge[code]', class: 'form-control'
+      .form-group.row
+        = f.label :exp_date, "Expiration Date", class: 'col-form-label col-sm-2'
+        .col-sm-6
+          = date_field_tag 'exp_date', '', name: 'charge[exp_date]', class: 'form-control'
       .form_group
         = f.submit "Sign Up", class: 'btn'
