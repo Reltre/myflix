@@ -19,12 +19,13 @@ Myflix::Application.configure do
   config.active_support.deprecation = :notify
 
   config.action_mailer.smtp_settings = {
-    :port           => ENV['MAILGUN_SMTP_PORT'],
-    :address        => ENV['MAILGUN_SMTP_SERVER'],
-    :user_name      => ENV['MAILGUN_SMTP_LOGIN'],
-    :password       => ENV['MAILGUN_SMTP_PASSWORD'],
-    :domain         => 'vast-plateau-32340.herokuapp.com',
-    :authentication => :plain
+    :port           => ENV['SENDINBLUE_SMTP_PORT'],
+    :address        => ENV['SENDINBLUE_SMTP_SERVER'],
+    :user_name      => ENV['SENDINBLUE_SMTP_LOGIN'],
+    :password       => ENV['SENDINBLUE_SMTP_PASSWORD'],
+    :domain         => 'myflix-reltre-staging.herokuapp.com/',
+    :authentication => 'login',
+    :enable_starttls_auto => true
   }
   config.action_mailer.delivery_method = :smtp
 end
