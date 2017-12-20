@@ -19,7 +19,7 @@ describe LargeCoverUploader do
 
   context "large cover" do
     it "scales images to 665 by 375" do
-      expect(uploader).to have_dimensions(665, 375)
+      expect(uploader).to have_dimensions(660, 372)
     end
   end
 end
