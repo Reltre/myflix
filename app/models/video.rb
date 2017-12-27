@@ -1,7 +1,6 @@
 require 'carrierwave/orm/activerecord'
 
 class Video < ActiveRecord::Base
-  include Tokenable
   before_create :generate_url_hash
 
   mount_uploader :large_cover, LargeCoverUploader
