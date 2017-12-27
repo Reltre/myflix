@@ -1,4 +1,4 @@
-class MakeReviewsPolymorphic < ActiveRecord::Migration
+class MakeReviewsPolymorphic < ActiveRecord::Migration[5.1]
   def change
     remove_column :reviews, :video_id
     add_column :reviews, :reviewable_type, :string
