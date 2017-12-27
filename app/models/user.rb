@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   end
 
   def to_param
-    self.token
+    self.url_digest
   end
 
   private

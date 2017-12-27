@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:show, :invite]
-  before_create :generate_url_hash
 
   def new
     @token = params[:token]
