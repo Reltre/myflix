@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:show, :invite]
+  before_create :generate_url_hash
 
   def new
     @token = params[:token]
@@ -34,7 +35,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by(url_digest: params[:id])
   end
 
   private

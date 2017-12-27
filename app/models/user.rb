@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   include Tokenable
+  before_create :generate_url_hash
+
 
   has_secure_password validations: false
   has_many :reviews, -> { order("created_at DESC") }
@@ -26,5 +28,15 @@ class User < ActiveRecord::Base
     queue_items.reload.each_with_index do |item, index|
       item.update_attribute(:list_order, index + 1)
     end
+  end
+
+  def to_param
+    self.token
+  end
+
+  private
+
+  def generate_url_hash
+    self.url_digest = SecureRandom.urlsafe_base64(10)
   end
 end

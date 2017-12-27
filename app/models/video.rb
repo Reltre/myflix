@@ -1,6 +1,9 @@
 require 'carrierwave/orm/activerecord'
 
 class Video < ActiveRecord::Base
+  include Tokenable
+  before_create :generate_url_hash
+
   mount_uploader :large_cover, LargeCoverUploader
   mount_uploader :small_cover, SmallCoverUploader
 
@@ -21,5 +24,15 @@ class Video < ActiveRecord::Base
         sum + review.rating
       end
     ( rating / reviews.size.to_f ).round(1)
+  end
+
+  def to_param
+    self.url_digest
+  end
+
+  private
+
+  def generate_url_hash
+    self.url_digest = SecureRandom.urlsafe_base64(10)
   end
 end
