@@ -134,7 +134,7 @@ describe UsersController do
     it "shoud set @user" do
       set_current_user
       user = Fabricate(:user)
-      get :show, params: { id: user.url_digest }
+      get :show, params: { id: user.id }
       expect(assigns(:user)).to eq(user)
     end
   end
