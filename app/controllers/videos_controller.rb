@@ -4,7 +4,7 @@ class VideosController < AuthenticatedController
   end
 
   def show
-    @video = Video.find(params[:id])
+    @video = Video.find_by(url_digest: params[:id])
     @reviews = @video.reviews
   end
 
@@ -13,7 +13,7 @@ class VideosController < AuthenticatedController
   end
 
   def play
-    @video = Video.find(params[:id])
+    @video = Video.find_by(url_digest: params[:id])
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
