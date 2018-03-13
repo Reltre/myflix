@@ -22,3 +22,4 @@ config/local_env.yml
 /steps.txt
 .env
 /public/uploads
+/.tags*
