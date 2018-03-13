@@ -1,3 +1,0 @@
-Admin	/Users/PoliceBox/Development/ruby/rails/myflix/app/controllers/admin/videos_controller.rb	/^class Admin::VideosController < AdminsController$/;"	class	line:1
-create	/Users/PoliceBox/Development/ruby/rails/myflix/app/controllers/admin/videos_controller.rb	/^  def create$/;"	method	line:2	class:Admin
-admin_video_params	/Users/PoliceBox/Development/ruby/rails/myflix/app/controllers/admin/videos_controller.rb	/^  def admin_video_params$/;"	method	line:19	class:Admin
