@@ -28,6 +28,6 @@ feature "Admins Adds Video", js: true do
     expect(page).to have_text "Test Video"
 
     click_link "Watch Now"
-    expect(page).to have_css("video")
+    expect(page).to have_css("iframe")
   end
 end

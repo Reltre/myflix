@@ -1,4 +1,4 @@
-class CreateMyQueue < ActiveRecord::Migration
+class CreateMyQueue < ActiveRecord::Migration[5.1]
   def change
     create_table :my_queues do |t|
       t.integer :list_order

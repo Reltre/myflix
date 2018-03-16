@@ -27,7 +27,7 @@ class LargeCoverUploader < CarrierWave::Uploader::Base
   # end
 
   # Process files as they are uploaded:
-  process resize_to_fit: [665, 375]
+  process resize_to_fit: [665, 372]
   #
   # def scale(width, height)
   #   # do something

@@ -1,4 +1,4 @@
-class AddSmallCoverLargeCover < ActiveRecord::Migration[5.0]
+class AddSmallCoverLargeCover < ActiveRecord::Migration[5.1]
   def change
     add_column :videos, :small_cover, :string
     add_column :videos, :large_cover, :string
