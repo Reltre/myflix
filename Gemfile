@@ -50,8 +50,9 @@ group :test do
   gem 'capybara-webkit'
   gem 'capybara-email'
   gem 'launchy'
-  # gem 'poltergeist'
   gem 'rails-controller-testing'
+  gem 'webmock'
+  gem 'vcr'
 end
 
 group :production do

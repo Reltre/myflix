@@ -1,17 +1,36 @@
 module StripeWrapper
   class Charge
-    def self.create(options={})
-      Stripe::Charge.create(amount: options[:amount],
-                            currency: 'usd',
-                            card: options[:carad])
+    attr_reader :response, :status
+    def initialize(response, status)
+      @response = response
+      @status = status
     end
-  end
 
-  def self.set_api_key
-    Stripe.api_key = if Rails.env.production?
-                       Rails.configuration.stripe[:secret_live_key]
-                     else 
-                       Rails.configuration.stripe[:secret_test_key]
-                     end
+    def self.create(options={})
+      begin
+        response = Stripe::Charge.create(amount: options[:amount],
+                              currency: 'usd',
+                              card: options[:card])
+        new(response, :success)
+      rescue Stripe::CardError => e
+        new(e, :error)
+      end 
+    end
+
+    def successful?
+      status == :success
+    end
+  
+    def error_message
+      response.message
+    end
+  
+    def self.set_api_key
+      Stripe.api_key = if Rails.env.production?
+                         Rails.configuration.stripe[:secret_live_key]
+                       else 
+                         Rails.configuration.stripe[:secret_test_key]
+                       end
+    end
   end
 end

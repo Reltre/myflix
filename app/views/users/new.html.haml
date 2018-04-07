@@ -20,7 +20,6 @@
       %hr
       %script(src="https://checkout.stripe.com/checkout.js"
         data-key="#{Rails.configuration.stripe[:publishable_key]}"
-        data-amount="999"
         data-locale="auto")
       .form-group.row
         = f.label :credit_card_number, "Credit Card Number", class: 'col-form-label col-sm-2'
