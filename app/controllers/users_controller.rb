@@ -10,24 +10,17 @@ class UsersController < ApplicationController
   end
 
   def create
-    invitation = Invitation.find_by(token: params[:token])
-
     @user = User.new(user_params)
     if @user.save
-      if invitation
-        @user.following_relationships <<
-          Relationship.new(leader: invitation.inviter, follower: @user)
-        @user.leading_relationships <<
-          Relationship.new(leader: @user, follower: invitation.inviter)
-        invitation.update_attribute(:token, nil)
-        flash[:success] = "You are now following #{invitation.inviter.full_name}."
-      end
+      handle_invitation
+      StripeWrapper::Charge.create(
+        :amount      => 999,
+        :description => "Sign up charge for #{@user.email}",
+        :currency    => 'usd',
+        :card        => params[:stripeToken]
+      )
       AppMailer.send_welcome_email(@user.id).deliver_later
-      if params[:token] && !invitation
-        redirect_to expired_token_path
-      else
-        redirect_to log_in_path
-      end
+      redirect_to log_in_path
     else
       render :new
     end
@@ -41,5 +34,17 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :full_name)
+  end
+
+  def handle_invitation
+    invitation = Invitation.find_by(token: params[:token])
+    return unless invitation
+    redirect_to expired_token_path if params[:token] && !invitation
+    @user.following_relationships <<
+      Relationship.new(leader: invitation.inviter, follower: @user)
+    @user.leading_relationships <<
+      Relationship.new(leader: @user, follower: invitation.inviter)
+    invitation.update_attribute(:token, nil)
+    flash[:success] = "You are now following #{invitation.inviter.full_name}."
   end
 end
