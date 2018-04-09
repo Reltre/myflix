@@ -20,6 +20,7 @@ gem 'mini_magick'
 gem 'carrierwave-aws'
 gem 'stripe'
 gem 'sendinblue'
+gem 'loofah', '~> 2.2.1' 
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'
