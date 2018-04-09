@@ -8,9 +8,12 @@ module StripeWrapper
 
     def self.create(options={})
       begin
-        response = Stripe::Charge.create(amount: options[:amount],
-                              currency: 'usd',
-                              card: options[:card])
+        response = Stripe::Charge.create(
+          amount: options[:amount],
+          currency: 'usd',
+          description: options[:description],
+          card: options[:card]
+        )
         new(response, :success)
       rescue Stripe::CardError => e
         new(e, :error)
@@ -19,6 +22,14 @@ module StripeWrapper
 
     def successful?
       status == :success
+    end
+
+    def amount
+      @response[:amount]
+    end
+
+    def currency
+      @response[:currency]
     end
   
     def error_message

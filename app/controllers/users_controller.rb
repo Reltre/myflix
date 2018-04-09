@@ -16,7 +16,6 @@ class UsersController < ApplicationController
       StripeWrapper::Charge.create(
         :amount      => 999,
         :description => "Sign up charge for #{@user.email}",
-        :currency    => 'usd',
         :card        => params[:stripeToken]
       )
       AppMailer.send_welcome_email(@user.id).deliver_later
