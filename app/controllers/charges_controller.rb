@@ -7,13 +7,12 @@ class ChargesController < ApplicationController
       
 
     charge = StripeWrapper::Charge.create(
-      :customer    => customer.id,
       :amount      => @amount,
       :description => 'Rails Stripe customer',
       :currency    => 'usd'
     )
     if (charge.successful?)
-      flash[:sucess] = "Thank you for your generous support."
+      flash[:success] = "Thank you for your generous support!"
       redirect_to new_charge_path
     else
       flash[:error] = charge.error_message

@@ -58,6 +58,7 @@ Capybara.app_host = 'http://localhost:3001'
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
@@ -121,6 +122,7 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
 
 # Capybara::Webkit.configure do |config|
 #   # Enable debug mode. Prints a log of everything the driver is doing.
