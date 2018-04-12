@@ -13,14 +13,11 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       handle_invitation
-      StripeWrapper::Charge.create(
-        :amount      => 999,
-        :description => "Sign up charge for #{@user.email}",
-        :card        => params[:stripeToken]
-      )
+      handle_charge
       AppMailer.send_welcome_email(@user.id).deliver_later
       redirect_to log_in_path
     else
+      # flash[:error] = @user.errors.full_messages.join("\n")
       render :new
     end
   end
@@ -33,6 +30,25 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :full_name)
+  end
+
+  def handle_charge
+    begin
+      customer = Stripe::Customer.create(
+        :email   => @user.email,
+        :source  => params[:stripeToken]
+      )
+
+      charge = StripeWrapper::Charge.create(
+        :amount      => 999,
+        :customer    => customer.id,
+        :description => "Sign up charge for #{@user.email}",
+        :card        => params[:stripeToken]
+      )
+    rescue Stripe::CardError => e
+      flash[:error] = chare.error_message
+      render :new
+    end
   end
 
   def handle_invitation
