@@ -12,9 +12,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      handle_invitation
+      # handle_invitation
       handle_charge
-      AppMailer.send_welcome_email(@user.id).deliver_later
+      # AppMailer.send_welcome_email(@user.id).deliver_later
       redirect_to log_in_path
     else
       # flash[:error] = @user.errors.full_messages.join("\n")
@@ -33,12 +33,13 @@ class UsersController < ApplicationController
   end
 
   def handle_charge
+    # binding.pry
     begin
       customer = Stripe::Customer.create(
         :email   => @user.email,
         :source  => params[:stripeToken]
       )
-
+      
       charge = StripeWrapper::Charge.create(
         :amount      => 999,
         :customer    => customer.id,
