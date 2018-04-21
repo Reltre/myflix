@@ -15,7 +15,10 @@ class UsersController < ApplicationController
       # handle_invitation
       handle_charge
       # AppMailer.send_welcome_email(@user.id).deliver_later
-      redirect_to log_in_path
+      respond_to do |format|
+        format.html { redirect_to log_in_path }
+        format.js { render js: "window.location.assign('#{log_in_url}')" }
+      end
     else
       # flash[:error] = @user.errors.full_messages.join("\n")
       render :new
@@ -63,4 +66,6 @@ class UsersController < ApplicationController
     invitation.update_attribute(:token, nil)
     flash[:success] = "You are now following #{invitation.inviter.full_name}."
   end
+
+  
 end

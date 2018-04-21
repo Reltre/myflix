@@ -8,6 +8,7 @@ var cardExp = elements.create('cardExpiry');
 var cardCvc = elements.create('cardCvc');
 
 $(document).ready(function() {
+  if (window.location.pathname !== '/register') return; 
   cardNumber.mount('#card-number');
   cardExp.mount('#card-exp');
   cardCvc.mount('#card-cvc');
@@ -64,7 +65,7 @@ $(document).ready(function() {
     form.appendChild(hiddenInput);
   
     // Submit the form
-    form.submit();
+    $(form).submit();
   }
 });
 
