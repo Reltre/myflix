@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    binding.pry
     if @user.save
       # handle_invitation
       handle_charge
@@ -36,19 +37,17 @@ class UsersController < ApplicationController
   end
 
   def handle_charge
-    # binding.pry
     begin
-      customer = Stripe::Customer.create(
+      customer = Stripe::Customer.create({
         :email   => @user.email,
-        :source  => params[:stripeToken]
-      )
-      
-      charge = StripeWrapper::Charge.create(
+        :card  => params[:stripeToken]
+      })
+      binding.pry
+      charge = StripeWrapper::Charge.create({
         :amount      => 999,
         :customer    => customer.id,
-        :description => "Sign up charge for #{@user.email}",
-        :card        => params[:stripeToken]
-      )
+        :description => "Sign up charge for #{@user.email}"
+      })
     rescue Stripe::CardError => e
       flash[:error] = chare.error_message
       render :new

@@ -1,5 +1,5 @@
 %section.register.container
-  = form_with model: @user, method: :post, layout: :horizontal, id: "registration-form", remote: true do |f|
+  = form_with model: @user, method: :post, layout: :horizontal, id: "registration-form" do |f|
     %header
       %h1 Register
     %fieldset
@@ -21,16 +21,16 @@
       .form-group.row
         = content_tag(:div, nil, id: "card-errors", role: "alert")
       .form-group.row
-        = f.label :credit_card_number, "Credit Card Number", class: 'col-form-label col-sm-2'
+        = f.label :credit_card_number, "Credit Card Number", class: 'col-form-label col-sm-2', for: 'card-number'
         .col-sm-6
           = content_tag(:div, nil, id: 'card-number', class: 'form-control')
       .form-group.row
-        = f.label :security_code, "Security Code", class: 'col-form-label col-sm-2'
+        = f.label :security_code, "Security Code", class: 'col-form-label col-sm-2', for: "card-cvc"
         .col-sm-6
           = content_tag(:div, nil, id: 'card-cvc', class: 'form-control')
       .form-group.row
-        = f.label :exp_date, "Expiration Date", class: 'col-form-label col-sm-2'
+        = f.label :exp_date, "Expiration Date", class: 'col-form-label col-sm-2', for: "card-exp"
         .col-sm-6
           = content_tag(:div, nil, id: 'card-exp', class: 'form-control')
       .form_group
-        = f.submit "Sign Up", class: 'btn', id: 'sign-up-button'
+        = f.submit "Sign Up", class: 'btn', id: 'sign-up-button', :disabled_with => "Processing..."
