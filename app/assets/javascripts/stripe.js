@@ -68,7 +68,7 @@ $(document).ready(function() {
     // Submit the form
     $(form).submit();
     submit.setAttribute('disabled', true);
-    return false;
+    return false;q
   }
 });
 

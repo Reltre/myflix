@@ -1,5 +1,5 @@
 %section.register.container
-  = form_with model: @user, method: :post, layout: :horizontal, id: "registration-form" do |f|
+  = form_with model: @user, method: :post, layout: :horizontal, id: "registration-form", local: true do |f|
     %header
       %h1 Register
     %fieldset

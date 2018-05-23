@@ -11,7 +11,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    binding.pry
     if @user.save
       # handle_invitation
       handle_charge
@@ -42,7 +41,6 @@ class UsersController < ApplicationController
         :email   => @user.email,
         :card  => params[:stripeToken]
       })
-      binding.pry
       charge = StripeWrapper::Charge.create({
         :amount      => 999,
         :customer    => customer.id,
